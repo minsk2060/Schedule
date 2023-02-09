@@ -34,3 +34,4 @@ PYTHON:
 Задать приемлемый интервал для чтения файла расписания
 Разобраться с UserWarning: Data Validation extension is not supported and will be removed  warn(msg)
 Не поднимается браузер при вызове расписания , вместо этого ctrl+W срабатывает в EXCEL
+Сделать фокус на окне браузера
