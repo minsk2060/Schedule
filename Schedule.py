@@ -3,8 +3,8 @@ from pyautogui import hotkey
 from openpyxl import load_workbook
 
 
-schedule_book="C:/Users/BMS/projects/schedules/Расписание.xlsm"
-#schedule_book="C:/Users/Ev/Documents/Python/Sauter/Sauter_excel/Расписание.xlsm"
+#schedule_book="C:/Users/BMS/projects/schedules/Расписание.xlsm"
+schedule_book="C:/Users/Ev/Documents/Python/Sauter/Sauter_excel/schedules/Расписание.xlsm"
 tasks=[]
 single=[]
 
@@ -16,10 +16,10 @@ def refresh():
 
 def turn(get_plant, par):
     PREFX = "http://192.168.250.50/ajaxjson/bac/setValue?pid=85&oid="
-    webbrowser.open(PREFX + get_plant + par, new=0, autoraise= True)
-    time.sleep(3)
-    hotkey('ctrl', 'w')
-    hotkey('ctrl', 'ц')
+    webbrowser.open_new_tab(PREFX + get_plant + par)
+    time.sleep(7)
+    # hotkey('ctrl', 'w')
+    # hotkey('ctrl', 'ц')
 
 # Reading the schedule and matching the list of them
 def runschedule():
@@ -55,7 +55,8 @@ def runschedule():
     schedule.clear()
     for i in range(len(cleartasks)):
         exec(f"""schedule.every().{cleartasks[i][1]}.at('{cleartasks[i][2]}').do(turn, '{(cleartasks[i][0])}','&vid=17&value={cleartasks[i][3]}')""")
-    schedule.every(10).minutes.do(runschedule)
+    #schedule.every(10).minutes.do(runschedule)
+    schedule.every(10).seconds.do(runschedule)
     cleartasks.clear()
     tasks.clear()
     alljobs = schedule.get_jobs()
