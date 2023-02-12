@@ -3,6 +3,7 @@ from pyautogui import hotkey
 from openpyxl import load_workbook
 from pywinauto.application import Application
 
+print("РАБОТАЕТ УПРАВЛЕНИЕ ОБОРУДОВАНИЕМ ПО РАСПИСАНИЮ, НЕ ЗАКРЫВАЙТЕ ЭТО ОКНО")
 
 #schedule_book="C:/Users/BMS/projects/schedules/Расписание.xlsm"
 schedule_book="C://Users/BMS/projects/schedules/Расписание.xlsm"
@@ -24,7 +25,7 @@ def turn(get_plant, par):
     time.sleep(2)
     hotkey('ctrl', 'w')
     # hotkey('ctrl', 'w')
-    hotkey('ctrl', 'ц')
+    # hotkey('ctrl', 'ц')
     # hotkey('ctrl', 'ц')
 
 # Reading the schedule and matching the list of them
@@ -75,8 +76,8 @@ def runschedule():
     schedule.every(10).seconds.do(runschedule)
     cleartasks.clear()
     tasks.clear()
-    alljobs = schedule.get_jobs()
-    print(alljobs)
+    # alljobs = schedule.get_jobs()
+    # print(alljobs)
 
 runschedule()
 
