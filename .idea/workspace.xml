@@ -10,8 +10,12 @@
       <change beforePath="$PROJECT_DIR$/Try.py" beforeDir="false" afterPath="$PROJECT_DIR$/Try.py" afterDir="false" />
 =======
       <change beforePath="$PROJECT_DIR$/Schedule.py" beforeDir="false" afterPath="$PROJECT_DIR$/Schedule.py" afterDir="false" />
+<<<<<<< HEAD
       <change beforePath="$PROJECT_DIR$/Расписание.xlsm" beforeDir="false" afterPath="$PROJECT_DIR$/Расписание.xlsm" afterDir="false" />
 >>>>>>> 959af604c6349ea70d198c7b8b52af3d16d2c5f8
+=======
+      <change beforePath="$PROJECT_DIR$/Расписание.xlsm" beforeDir="false" />
+>>>>>>> b31eb8e5ec455cd3489ff41954d8b025d89ef4cb
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
