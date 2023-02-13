@@ -17,14 +17,14 @@ def refresh():
 
 def turn(get_plant, par):
     PREFX = "http://192.168.250.50/ajaxjson/bac/setValue?pid=85&oid="
-    app = Application(backend="uia").connect(title_re=u".*Microsoft\u200b Edge", timeout=10)
+    app = Application(backend="uia").connect(title_re=".*Microsoft\u200b Edge", timeout=10)
     app.window().set_focus()
     webbrowser.open_new_tab(PREFX + get_plant + par)
     time.sleep(1)
     hotkey('ctrl', 'w')
     # hotkey('alt', 'shift')
     # time.sleep(1)
-    # hotkey('ctrl', 'w')
+    hotkey('ctrl', 'ц')
 
 
 # Reading the schedule and matching the list of them
