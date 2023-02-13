@@ -39,6 +39,10 @@ ECXEL:
 PYTHON:
 Задать приемлемый интервал для чтения файла расписания
 Разобраться с UserWarning: Data Validation extension is not supported and will be removed  warn(msg)
+Для этого изменил код библиотеки openxl файл _reader.py добавил код
+328     if ext_type == "Data Validation":
+329     	continue
+
 Сделать папку GIT репозиторием
 Сделать репозиторий на Github
 Наладить связь с двух компов
