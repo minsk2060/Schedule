@@ -7,6 +7,7 @@
     <list default="true" id="2d8583bb-4acd-4ce4-b1d7-e78d22ce0c62" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Schedule.py" beforeDir="false" afterPath="$PROJECT_DIR$/Schedule.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Steps.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Steps.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Расписание.xlsm" beforeDir="false" afterPath="$PROJECT_DIR$/Расписание.xlsm" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

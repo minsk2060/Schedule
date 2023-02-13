@@ -1,6 +1,7 @@
 import webbrowser, schedule, time
 from pyautogui import hotkey
 from openpyxl import load_workbook
+from pywinauto.application import Application
 
 print("РАБОТАЕТ УПРАВЛЕНИЕ ОБОРУДОВАНИЕМ ПО РАСПИСАНИЮ, НЕ ЗАКРЫВАЙТЕ ЭТО ОКНО")
 
@@ -16,12 +17,15 @@ def refresh():
 
 def turn(get_plant, par):
     PREFX = "http://192.168.250.50/ajaxjson/bac/setValue?pid=85&oid="
+    app = Application(backend="uia").connect(title_re=u".*Microsoft\u200b Edge", timeout=10)
+    app.window().set_focus()
     webbrowser.open_new_tab(PREFX + get_plant + par)
-    time.sleep(2)
+    time.sleep(1)
     hotkey('ctrl', 'w')
+    # hotkey('alt', 'shift')
+    # time.sleep(1)
     # hotkey('ctrl', 'w')
-    hotkey('ctrl', 'ц')
-    # hotkey('ctrl', 'ц')
+
 
 # Reading the schedule and matching the list of them
 def runschedule():
@@ -68,7 +72,7 @@ def runschedule():
     schedule.clear()
     for i in range(len(cleartasks)):
         exec(f"""schedule.every().{cleartasks[i][1]}.at('{cleartasks[i][2]}').do(turn, '{(cleartasks[i][0])}','&vid=17&value={cleartasks[i][3]}')""")
-    schedule.every(10).minutes.do(runschedule)
+    schedule.every(10).seconds.do(runschedule)
     cleartasks.clear()
     tasks.clear()
     # alljobs = schedule.get_jobs()
