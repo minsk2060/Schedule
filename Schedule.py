@@ -22,8 +22,6 @@ def turn(get_plant, par):
     webbrowser.open_new_tab(PREFX + get_plant + par)
     time.sleep(1)
     hotkey('ctrl', 'w')
-    # hotkey('alt', 'shift')
-    # time.sleep(1)
     hotkey('ctrl', 'ц')
 
 
@@ -72,7 +70,7 @@ def runschedule():
     schedule.clear()
     for i in range(len(cleartasks)):
         exec(f"""schedule.every().{cleartasks[i][1]}.at('{cleartasks[i][2]}').do(turn, '{(cleartasks[i][0])}','&vid=17&value={cleartasks[i][3]}')""")
-    schedule.every(10).seconds.do(runschedule)
+    schedule.every(10).minutes.do(runschedule)
     cleartasks.clear()
     tasks.clear()
     # alljobs = schedule.get_jobs()
