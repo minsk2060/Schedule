@@ -20,9 +20,10 @@ def turn(get_plant, par):
     app = Application(backend="uia").connect(title_re=".*Microsoft\u200b Edge", timeout=10)
     app.window().set_focus()
     webbrowser.open_new_tab(PREFX + get_plant + par)
-    time.sleep(1)
+    time.sleep(3)
     hotkey('ctrl', 'w')
-    hotkey('ctrl', 'ц')
+    #hotkey('alt', 'shift')
+    #hotkey('ctrl', 'ц')
 
 
 # Reading the schedule and matching the list of them
