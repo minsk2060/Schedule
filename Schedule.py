@@ -22,9 +22,7 @@ def turn(get_plant, par):
     webbrowser.open_new_tab(PREFX + get_plant + par)
     time.sleep(3)
     hotkey('ctrl', 'w')
-    #hotkey('alt', 'shift')
-    #hotkey('ctrl', 'ц')
-
+    
 
 # Reading the schedule and matching the list of them
 def runschedule():
