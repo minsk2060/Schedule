@@ -2,12 +2,21 @@ import webbrowser, schedule, time
 from pyautogui import hotkey
 from openpyxl import load_workbook
 from pywinauto.application import Application
+import ctypes
 
 print("РАБОТАЕТ УПРАВЛЕНИЕ ОБОРУДОВАНИЕМ ПО РАСПИСАНИЮ, НЕ ЗАКРЫВАЙТЕ ЭТО ОКНО")
 
 schedule_book="C://Users/BMS/projects/schedules/Расписание.xlsm"
 tasks=[]
 single=[]
+
+def keyboard():
+    u = ctypes.windll.LoadLibrary("user32.dll")
+    pf = getattr(u, "GetKeyboardLayout")
+    if hex(pf(0)) == '0x4190419':
+        return 'ru'
+    if hex(pf(0)) == '0x4090409':
+        return 'en'
 
 # Refreshing the list
 def refresh():
@@ -20,7 +29,9 @@ def turn(get_plant, par):
     app = Application(backend="uia").connect(title_re=".*Microsoft\u200b Edge", timeout=10)
     app.window().set_focus()
     webbrowser.open_new_tab(PREFX + get_plant + par)
-    time.sleep(3)
+    time.sleep(2)
+    if keyboard() == "ru":
+        hotkey ("alt", "shift")
     hotkey('ctrl', 'w')
     
 
