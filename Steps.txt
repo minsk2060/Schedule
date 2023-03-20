@@ -1,11 +1,17 @@
 
+<<<<<<< HEAD
 PYTHON:
 Задать приемлемый интервал для чтения файла расписания
 Разобраться с UserWarning: Data Validation extension is not supported and will be removed  warn(msg)
 Для этого изменил код библиотеки openxl файл _reader.py добавил код
+=======
+
+
+!Внес изменения в библиоткеку: 
+Сообщение: UserWarning: Data Validation extension is not supported and will be removed  warn(msg)
+Чтобы его убрать изменил код библиотеки openxl файл _reader.py 
+добавил код:
+>>>>>>> 580feb9cd2c6a3e0d22c6e14de2dcc5a6cfac395
 328     if ext_type == "Data Validation":
 329     	continue
 
-
-Не поднимается браузер при вызове расписания , вместо этого ctrl+W срабатывает в EXCEL
-Сделать фокус на окне браузера 

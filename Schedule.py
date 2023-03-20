@@ -30,11 +30,7 @@ def turn(get_plant, par):
     app.window().set_focus()
     webbrowser.open_new_tab(PREFX + get_plant + par)
     time.sleep(2)
-    keyboard()
-    if keyboard() == "ru":
-        hotkey("alt", "shift")
-    hotkey('ctrl', 'w')
-    
+
 
 # Reading the schedule and matching the list of them
 def runschedule():
@@ -77,15 +73,18 @@ def runschedule():
     for t in range(len(tasks)):
         if tasks[t][2] == "None":
             cleartasks.remove(tasks[t])
-    # schedule.clear()
     schedule.clear()
+
+    keyboard()
+    if keyboard() == "ru":
+        hotkey("alt", "shift")
+
     for i in range(len(cleartasks)):
         exec(f"""schedule.every().{cleartasks[i][1]}.at('{cleartasks[i][2]}').do(turn, '{(cleartasks[i][0])}','&vid=17&value={cleartasks[i][3]}')""")
+        hotkey("ctrl", "w")
     schedule.every(10).minutes.do(runschedule)
     cleartasks.clear()
     tasks.clear()
-    # alljobs = schedule.get_jobs()
-    # print(alljobs)
 
 runschedule()
 
