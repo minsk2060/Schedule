@@ -30,8 +30,9 @@ def turn(get_plant, par):
     app.window().set_focus()
     webbrowser.open_new_tab(PREFX + get_plant + par)
     time.sleep(2)
+    keyboard()
     if keyboard() == "ru":
-        hotkey ("alt", "shift")
+        hotkey("alt", "shift")
     hotkey('ctrl', 'w')
     
 

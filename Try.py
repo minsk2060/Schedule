@@ -28,3 +28,4 @@ def keyboard():
         return 'en'
 
 print(keyboard())
+print(type(keyboard()))
