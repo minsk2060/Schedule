@@ -15,3 +15,6 @@ PYTHON:
 328     if ext_type == "Data Validation":
 329     	continue
 
+
+Добавить тайп хинты по функциям
+Сократить код
