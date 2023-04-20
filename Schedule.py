@@ -6,7 +6,7 @@ import ctypes
 
 print("РАБОТАЕТ УПРАВЛЕНИЕ ОБОРУДОВАНИЕМ ПО РАСПИСАНИЮ, НЕ ЗАКРЫВАЙТЕ ЭТО ОКНО")
 
-schedule_book="C://Users/Ev/PycharmProjects/schedules/Расписание.xlsm"
+schedule_book="C://Users/BMS/projects/schedules/Расписание.xlsm"
 tasks=[]
 single=[]
 
@@ -16,7 +16,6 @@ def refresh():
     copysingle = single.copy()
     tasks.append(copysingle)
     single.clear()
-
 def turn(get_plant, par):
     # u = ctypes.windll.LoadLibrary("user32.dll")
     # pf = getattr(u, "GetKeyboardLayout")
