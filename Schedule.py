@@ -6,7 +6,7 @@ import ctypes
 
 print("РАБОТАЕТ УПРАВЛЕНИЕ ОБОРУДОВАНИЕМ ПО РАСПИСАНИЮ, НЕ ЗАКРЫВАЙТЕ ЭТО ОКНО")
 
-schedule_book="C://Users/BMS/projects/files/schedules/Расписание.xlsm"
+schedule_book="C://Users/Ev/PycharmProjects/schedules/Расписание.xlsm"
 tasks=[]
 single=[]
 
