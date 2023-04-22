@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "driveapi12345-383204",
+  "private_key_id": "d2cc756ea1d408d09517e758d80633bb86da174d",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDB1XF4jUB6JBDk\nQYPtxTn6NUJyKp4A72oXmL/jtXLqR6yDmJpYK/LknY1ALiYlVUMo+dMdpF+e1OUm\noWZ5FAHVSHRmrB/aJwQ3U6eUN2z5XKVHItj/Cz93QQpK3ROfxlXgG/wfr1nJdxA+\nFjm7T8+NKzklMEBDgw+s5MIenjeLN9qNrzDBrAwRJ2RZ2RJ6XCOmvZTiqi2iU1P5\nHXYVErUXAjHyDmWXNiCzSXnlUXGhfpYl5F74dnf5DOuTLa2R+o/D23ZZIuOuB7hM\npwa4bQhhWOjYQyswwWXALSXraL5hY0i1Gy8mS41T5Q7F4ISPJhe6KTD3Rcu/z0Uu\nXLz40HldAgMBAAECggEAGyQw1x1KS8AMmHWfDFZ7U5CNHRDgHofnrmWuautvq6P9\nIVEnPZTr1jzEeFnt7/jUJmLy/5nSZNpxOttLTsVxK0URvYW5ERI5Cik91Ch9qx4g\nq4kS4wWXbbKvBwQVWSBLyo2InIQweaAhJ1xz2YlnqeAFSLKMsRdjRMWkc+aaJvVc\nrqVP38P/uWg+h4+vYfxaauxdVq4sRM4OAqD2ltX/QRazrYEpodmAEtxkQTwWCnGj\nxnfNOKkUwPBkTHQu+7H7nzelFpoV4F+Fkxv4REjr7XBvsw1Nd8XjAGu766Hibgct\nNzZTLAjM4Y0bW3rXv0i5xf6R+wP8KenOGqb5bs75aQKBgQD5TnOI6QoNRt/oOK58\nUm0E6ewu5mk9NWXkb/I6oF4CaQGNuYsOGUpjkwaX1nXLj8xP7vwbW3qSY2mV1/3b\n7DsRKLutW44yDVgy+fC4aSuPs9uPGpWNCIYNgP/RFRdjQX1oDyGqqp76JUozhbld\nFXsmzTm+z+AoK7SGXMBLInzteQKBgQDHCbat1bic2tY0oQnPQzQP7Hp3Hp1uhMiz\nd0KPyTAxkmgzO9ut8WxICntiZIv7eUOvo8AqGlQvV7CJi+N9GKXlxqDgAVzqTP3i\nPjMuc5mI9ZB0skLvCML00JTaY4rwk3asyOLZCNwJTqwggihcgpajROzvmHEiZGxQ\nhFJJRIcGBQKBgQDE4Ako8y828ONdFXXlQ4pIORqEpvwwk/yU+zqExaO3r4jEjOOd\nDKfMHo00Vu3LBRHJheadDA6tj8gPxvP4OoMit9INwqF2MUeXaf2JA7Sc1OHsDohP\nSY3jGB3s1QUVIuCPznM9vWOyEsSYD2AkfBQ2vhZ98tcHogv7lz9bli6lsQKBgHGK\nF/x4A1Tu/OyOxLLH6kX/JykWfMYT1w2RRZYSNXzBwNEhH0LNinBaEmJhavzsAvGJ\nntAlrspG4nzEIOQ2kERQF2tRO7iobNeHldi0tuvK8TmwisAiplvTNGaUDCkKZdNQ\n0R7vj917VHNC7FVBZT8DzYkr07XDxYn0wZ/sCH4lAoGAfhCNB/sjaSuAj4FLXUoW\nIsE9GETUEFgGtWD7Q6Cpju0dVgBGERZ/H3j9CGEChMSpzeHNVrFvVpFqbCHW9HQ3\nwPqOnIjVwmUXdyd7W1J0+xNXRPS9BrknuiPYiE+DCU0LvTx7Ih+R7uV5h097qXVa\n3eNIxc3uja3cCcniwRzrlbg=\n-----END PRIVATE KEY-----\n",
+  "client_email": "olimpik@driveapi12345-383204.iam.gserviceaccount.com",
+  "client_id": "113911702835914424660",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/olimpik%40driveapi12345-383204.iam.gserviceaccount.com"
+}
