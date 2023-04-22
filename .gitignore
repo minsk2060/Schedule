@@ -1,3 +1,4 @@
-Расписание.xlsm
-trying
+# Ignore all of the files and folders
+
+*.xlsm
 auxiliary
