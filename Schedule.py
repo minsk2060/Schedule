@@ -25,7 +25,11 @@ def turn(get_plant, par):
     #     return 'en'
 
     PREFX = "http://192.168.250.50/ajaxjson/bac/setValue?pid=85&oid="
-    app = Application(backend="uia").connect(title_re=".*Microsoft\u200b Edge", timeout=10)
+    app = Application(backend="uia")
+    try:
+        app.connect(title_re=".*Microsoft\u200b Edge", timeout=10)
+    except:
+        pass
     app.window().set_focus()
     webbrowser.open_new_tab(PREFX + get_plant + par)
     time.sleep(3)

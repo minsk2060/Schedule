@@ -1,5 +1,4 @@
-Расписание.xlsm
-Try_2.py
-TryGoogleApi.py
-msedgedriver.exe
-1251.zip
+# Ignore all of the files and folders
+
+*.xlsm
+auxiliary
