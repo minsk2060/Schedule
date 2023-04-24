@@ -1,15 +1,11 @@
 from openpyxl import load_workbook
 
 schedule_book="./excel/Расписание.xlsm"
-# tasks=[]
 single=[]
 
-
 def refresh(tasks):
-    copysingle = single.copy()
-    tasks.append(copysingle)
+    tasks.append(single.copy())
     single.clear()
-
 
 def readschedule(tasks):
     workbook = load_workbook(schedule_book)
@@ -46,24 +42,3 @@ def readschedule(tasks):
             driers = ""
             refresh(tasks)
     return tasks
-    # Deleting empty tasks
-    # cleartasks = tasks.copy()
-
-    # for t in range(len(tasks)):
-    #     if tasks[t][2] == "None":
-    #         cleartasks.remove(tasks[t])
-    # # schedule.clear()
-    #
-    # for i in range(len(cleartasks)):
-    #     exec(f"""schedule.every().{cleartasks[i][1]}\
-    #     .at('{cleartasks[i][2]}').do(turn, '{(cleartasks[i][0])}\
-    #     ','&vid=17&value={cleartasks[i][3]}')""")
-    # schedule.every(10).seconds.do(runschedule)
-    # for i in cleartasks:
-    #     print(i)
-
-    # cleartasks.clear()
-    # tasks.clear()
-
-
-# readschedule()
