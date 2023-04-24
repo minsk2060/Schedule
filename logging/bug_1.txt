@@ -1,0 +1,12 @@
+Cообщение о предупреждении:
+UserWarning: Data Validation extension is not supported and will be removed  warn(msg)
+
+Решение:
+Изменен код библиотеки openxl файл _reader.py 
+добавлен код:
+328     if ext_type == "Data Validation":
+329     	continue
+
+
+
+

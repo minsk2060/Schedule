@@ -6,7 +6,7 @@ from pywinauto.application import Application
 
 print("РАБОТАЕТ УПРАВЛЕНИЕ ОБОРУДОВАНИЕМ ПО РАСПИСАНИЮ, НЕ ЗАКРЫВАЙТЕ ЭТО ОКНО")
 
-schedule_book="C://Users/BMS/projects/schedules/Расписание.xlsm"
+schedule_book="../excel/Расписание.xlsm"
 tasks=[]  # Список tasks сотоит из списков single и содержит все прочитанные расписания, даже пустые
 single=[] # Список single содержит одну строку расписания: установка такая-то сделать то-то в такое-то время
 
@@ -34,19 +34,16 @@ def runschedule():
         for k in range(7):                                                       # Цикл чтения по строкам
             single.append(str(workbook.active.cell(row=j,     column=4).value))  # Читать код установки для запроса
 
-
             # Читать значения для "старт" из первого массива расписаний
             single.append(str(workbook.active.cell(row=j+1+k, column=2).value))  # Читать день недели
             single.append(str(workbook.active.cell(row=j+1+k, column=5).value))  # Читать время действия старт
             single.append(str(workbook.active.cell(row=j+1+k, column=3).value))  # Читать само действие
             refresh()                                                            # Очистить список single и пополнить список списков tasks
 
-
             # Читать значения для "стоп" из первого массива расписаний
             single.append(str(workbook.active.cell(row=j,     column=4).value))  # Читать код устнановки для запроса
             single.append(str(workbook.active.cell(row=j+1+k, column=2).value))  # Читать действие
             single.append(str(workbook.active.cell(row=j+1+k, column=6).value))  # Читать время действия стоп
-
 
             # Отдельная проверка для расписаний больших вентустановок ПВ-1.1, ПВ-2.1
             driers = str(workbook.active.cell(row=j, column=4).value)            # Читать код установки
