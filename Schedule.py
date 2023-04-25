@@ -31,9 +31,6 @@ def runschedule():
     for t in range(len(tasks)):
         if tasks[t][2] == "None":
             cleartasks.remove(tasks[t])
-    #
-    # for i in cleartasks:
-    #     print (i)
 
     schedule.clear()
 
@@ -41,7 +38,7 @@ def runschedule():
         exec(f"""schedule.every().{cleartasks[i][1]}\
         .at('{cleartasks[i][2]}').do(turn, '{(cleartasks[i][0])}\
         ','&vid=17&value={cleartasks[i][3]}')""")
-    schedule.every(10).seconds.do(runschedule)
+    schedule.every(10).minutes.do(runschedule)
 
     cleartasks.clear()
     tasks.clear()

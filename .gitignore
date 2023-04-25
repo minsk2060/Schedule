@@ -1,15 +1,5 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
 # Ignore all of the files and folders
-
-*.xlsm
-=======
-Расписание.xlsm
-trying
->>>>>>> e696221aeaa5470df0ffc2fda319e1213c3cf9f6
-auxiliary
-=======
-#Ignore the folowing folders:
+gnore the folowing folders:
 adding
 excel
->>>>>>> 03f0e32faa94ef1466758d573e4f47ca48451e62
+
