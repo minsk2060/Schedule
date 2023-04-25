@@ -1,11 +1,12 @@
 from openpyxl import load_workbook
 
 schedule_book="./excel/Расписание.xlsm"
-single=[]
+single=[] # This list contains a single schedule: the plant, the day, what to do, when to do.
 
+# Clear the single[] list and pop up the tasks[] list
 def refresh(tasks):
-    tasks.append(single.copy())
-    single.clear()
+    tasks.append(single.copy())                                                               # Append single[] list to the end of the tasks[] list
+    single.clear()                                                                            # Clear the list
 
 def readschedule(tasks):
     workbook = load_workbook(schedule_book)

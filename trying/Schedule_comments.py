@@ -1,33 +1,4 @@
-import webbrowser, schedule, time
-from pyautogui import hotkey
-from openpyxl import load_workbook
-from pywinauto.application import Application
 
-
-print("РАБОТАЕТ УПРАВЛЕНИЕ ОБОРУДОВАНИЕМ ПО РАСПИСАНИЮ, НЕ ЗАКРЫВАЙТЕ ЭТО ОКНО")
-
-schedule_book="../excel/Расписание.xlsm"
-tasks=[]  # Список tasks сотоит из списков single и содержит все прочитанные расписания, даже пустые
-single=[] # Список single содержит одну строку расписания: установка такая-то сделать то-то в такое-то время
-
-
-# Очистка списка single и пополнение списка tasks
-def refresh():
-    copysingle = single.copy()   # Создать копию списка single
-    tasks.append(copysingle)     # Добавить в конец списка tasks эту копию
-    single.clear()               # Очистить список single
-
-# Отправка запроса в браузер
-def turn(get_plant, par):
-    PREFX = "http://192.168.250.50/ajaxjson/bac/setValue?pid=85&oid="
-    app = Application(backend="uia").connect(title_re=".*Microsoft\u200b Edge", timeout=10)
-    app.window().set_focus()
-    webbrowser.open_new_tab(PREFX + get_plant + par)
-    time.sleep(3)
-    hotkey("ctrl", "w")
-
-
-# Reading the schedules and matching the list of them
 def runschedule():
     workbook = load_workbook(schedule_book)
     for j in range(53, 383, 10):                                                 # Цикл чтения всех значений с 53 до 383 строки с шагом 10

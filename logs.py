@@ -1,3 +1,4 @@
+# The script makes a log of sent actions
 from datetime import datetime
 from plants import plant
 

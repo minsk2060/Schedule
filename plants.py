@@ -1,3 +1,4 @@
+## DO NOT DELETE THE COMMENTED PIECE !!!
 ## Reading plants names from  excel
 # from openpyxl import load_workbook
 # schedule_book="./excel/Расписание.xlsm"
