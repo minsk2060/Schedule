@@ -50,16 +50,6 @@ def runschedule():
             refresh() # Очистить список single и пополнить список списков tasks
 
 
-    # Удаление пустых строк из списка расписаний tasks
-    cleartasks = tasks.copy()          # Сделать копию списка tasks, который сейчас содержит все строки расписаний
-    for t in range(len(tasks)):        # Пройтись в цикле по всем компонентам списка списков
-        if tasks[t][2] == "None":      # Если время не задано
-            cleartasks.remove(tasks[t])# Удалить воженный пустой список
-    schedule.clear()                   # Очистить предыдущее расписание
-
-    # keyboard()
-    # if keyboard() == "ru":
-    #     hotkey("alt", "shift")
 
     for i in range(len(cleartasks)):
         # выполнить распсиание из всего списка , где:
@@ -69,16 +59,6 @@ def runschedule():
         # cleartasks[i][3]   - действие
         exec(f"""schedule.every().{cleartasks[i][1]}.at('{cleartasks[i][2]}').do(turn, '{(cleartasks[i][0])}','&vid=17&value={cleartasks[i][3]}')""")
 
-    schedule.every(10).minutes.do(runschedule) # Каждые 10 минут читать расписание
-    cleartasks.clear()                         # Очистить список списков с расписаниями, где нет пустых строк
-    tasks.clear()                              # Очистить список списков с расписаниями, где есть пустые строки
-
-runschedule() # Запуск функции для старта программы
-
-
-while True:
-    schedule.run_pending()
-    time.sleep(1)
 
 
 

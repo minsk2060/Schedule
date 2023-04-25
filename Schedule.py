@@ -27,10 +27,10 @@ def turn(get_plant, par):
 # Reading the schedules and matching the list of them
 def runschedule():                                                                # Call the function to start the process
     cleartasks = readschedule(tasks).copy()                                       # Call the function to read excel. Make a copy of the result list
-    for t in range(len(tasks)):
-        if tasks[t][2] == "None":
-            cleartasks.remove(tasks[t])
-    schedule.clear()                                                              # Clear all of the previous schedules, cause they might been changed
+    for t in range(len(tasks)):                                                   # Run through the list of all of the lists
+        if tasks[t][2] == "None":                                                 # If there is no data in it
+            cleartasks.remove(tasks[t])                                           # Delete a nested empty list
+    schedule.clear()                                                              # Clear the previous schedule, cause it might been changed
     # Execute all the schedules
     for i in range(len(cleartasks)):
         exec(f"""schedule.every().{cleartasks[i][1]}\
