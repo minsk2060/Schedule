@@ -39,8 +39,7 @@ def runschedule():
 
     for i in range(len(cleartasks)):
         exec(f"""schedule.every().{cleartasks[i][1]}\
-        .at('{cleartasks[i][2]}').do(turn, '{(cleartasks[i][0])}\
-        ','&vid=17&value={cleartasks[i][3]}')""")
+        .at('{cleartasks[i][2]}').do(turn, '{(cleartasks[i][0])}','&vid=17&value={cleartasks[i][3]}')""")
     schedule.every(10).seconds.do(runschedule)
 
     cleartasks.clear()
