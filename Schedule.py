@@ -34,9 +34,8 @@ def runschedule():                                                              
     # Execute all the schedules
     for i in range(len(cleartasks)):
         exec(f"""schedule.every().{cleartasks[i][1]}\
-        .at('{cleartasks[i][2]}').do(turn, '{(cleartasks[i][0])}\
-        ','&vid=17&value={cleartasks[i][3]}')""")
-    schedule.every(10).minutes.do(runschedule)                                    # Repeat reading The schedule
+        .at('{cleartasks[i][2]}').do(turn, '{(cleartasks[i][0])}','&vid=17&value={cleartasks[i][3]}')""")
+    schedule.every(10).seconds.do(runschedule)                                    # Repeat reading The schedule
     cleartasks.clear()                                                            # Clear the list of no empty lines
     tasks.clear()                                                                 # Clear the list of all the lines
 

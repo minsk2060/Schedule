@@ -1,12 +1,26 @@
 # The script makes a log of sent actions
-from datetime import datetime
+from datetime import datetime, timedelta
 from plants import plant
+
+logs =[]
+
+current_time = datetime.now()
+#print(current_time)
+#earlier_time =     (current_time).days -10
+
+
 
 def logging(get_plant, par):
     current_time = datetime.now()
+    # earlier_time = int(current_time).days - earlier_time).days
     plant_log = get_plant.replace(" ", "")
     f = open("./logging/log_scheduling.txt", "a")
     log = (current_time.strftime("%d.%m.%Y  %H:%M  "), plant[f"{plant_log}"], acting(plant_log, par))
+    logs.append(log)
+    # print(logs)
+    #for i in logs:
+     #   print(i[0][:10])
+
     f.write(f"{''.join(log)}\n")
     f.close()
 
