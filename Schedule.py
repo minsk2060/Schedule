@@ -16,7 +16,7 @@ def turn(get_plant, par):
     try:                                                                          # Cause any number of objects may be connected
         app.connect(title_re=".*Microsoft\u200b Edge", timeout=10)                # Connect to the first of them, doesn't matter
     except:
-        pass                                                                      # Pass if there are more than one object
+        pass                                                                      # Pass if there is more than one object
     app.window().set_focus()                                                      # Set focus on the browser window
     webbrowser.open_new_tab(PREFX + get_plant + par)                              # Make a request
     time.sleep(3)
@@ -33,11 +33,17 @@ def runschedule():                                                              
     schedule.clear()                                                              # Clear the previous schedule, cause it might been changed
     # Execute all the schedules
     for i in range(len(cleartasks)):
+
         exec(f"""schedule.every().{cleartasks[i][1]}\
         .at('{cleartasks[i][2]}').do(turn, '{(cleartasks[i][0])}','&vid=17&value={cleartasks[i][3]}')""")
     schedule.every(10).seconds.do(runschedule)                                    # Repeat reading The schedule
+
+    exec(f"""schedule.every().{cleartasks[i][1]}.at('{cleartasks[i][2]}').do(turn,'{(cleartasks[i][0])}','&vid=17&value={cleartasks[i][3]}')""")
+    schedule.every(10).seconds.do(runschedule)                                    # Repeat reading The schedule
+
     cleartasks.clear()                                                            # Clear the list of no empty lines
-    tasks.clear()                                                                 # Clear the list of all the lines
+    tasks.clear()
+# Clear the list of all the lines
 
 
 runschedule()
