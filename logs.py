@@ -15,7 +15,7 @@ def logging(get_plant, par):
     # earlier_time = int(current_time).days - earlier_time).days
     plant_log = get_plant.replace(" ", "")
     f = open("./logging/log_scheduling.txt", "a")
-    log = (current_time.strftime("%d.%m.%Y  %H:%M  "), plant[f"{plant_log}"], acting(plant_log, par))
+    log = (current_time.strftime("%d-%m-%Y  %H:%M  "), plant[f"{plant_log}"], acting(plant_log, par))
     logs.append(log)
     # print(logs)
     #for i in logs:
