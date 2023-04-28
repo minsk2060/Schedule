@@ -21,7 +21,7 @@ def turn(get_plant, par):
     webbrowser.open_new_tab(PREFX + get_plant + par)                              # Make a request
     logging(get_plant, par)                                                       # Log this action in a log_scheduling.txt
     time.sleep(3)
-    hotkey("ctrl", "w")                                                           # Close the current browser window
+    #hotkey("ctrl", "w")                                                           # Close the current browser window
 
 
 # Reading the schedules and matching the list of them
