@@ -35,27 +35,12 @@ def runschedule():                                                              
     schedule.clear()                                                              # Clear the previous schedule, cause it might been changed
     # Execute all the schedules
     for i in range(len(cleartasks)):
-<<<<<<< HEAD
-<<<<<<< HEAD
-        exec(f"""schedule.every().{cleartasks[i][1]}\
-        .at('{cleartasks[i][2]}').do(turn, '{(cleartasks[i][0])}','&vid=17&value={cleartasks[i][3]}')""")
-    schedule.every(10).seconds.do(runschedule)
-=======
-        exec(f"""schedule.every().{cleartasks[i][1]}.at('{cleartasks[i][2]}').do(turn, '{(cleartasks[i][0])}','&vid=17&value={cleartasks[i][3]}')""")
-=======
         exec(f"""schedule.every().{cleartasks[i][1]}.at('{cleartasks[i][2]}').do(turn,'{cleartasks[i][0]}','&vid=17&value={cleartasks[i][3]}')""")
->>>>>>> cfd9aa9d16011db517782d501bc378f6c6ec0444
     schedule.every(10).minutes.do(runschedule)                                    # Repeat reading The schedule
 
     cleartasks.clear()                                                            # Clear the list of no empty lines
-<<<<<<< HEAD
-    tasks.clear()                                                                 # Clear the list of all the lines
->>>>>>> ebe18050f6eeb10c993f0f976e2a597415318e6c
-=======
     tasks.clear()
 # Clear the list of all the lines
->>>>>>> cfd9aa9d16011db517782d501bc378f6c6ec0444
-
 
 runschedule()
 
