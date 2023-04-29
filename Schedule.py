@@ -21,7 +21,7 @@ def turn(get_plant, par):
     webbrowser.open_new_tab(PREFX + get_plant + par)                              # Make a request
     logging(get_plant, par)                                                       # Log this action in a log_scheduling.txt
     time.sleep(3)
-    #hotkey("ctrl", "w")                                                           # Close the current browser window
+    #otkey("ctrl", "w")                                                           # Close the current browser window
 
 
 # Reading the schedules and matching the list of them
@@ -30,13 +30,11 @@ def runschedule():                                                              
     for t in range(len(tasks)):                                                   # Run through the list of all of the lists
         if tasks[t][2] == "None":                                                 # If there is no data in it
             cleartasks.remove(tasks[t])                                           # Delete a nested empty list
-    # for i in cleartasks:
-    #     print(i)
     schedule.clear()                                                              # Clear the previous schedule, cause it might been changed
     # Execute all the schedules
     for i in range(len(cleartasks)):
         exec(f"""schedule.every().{cleartasks[i][1]}.at('{cleartasks[i][2]}').do(turn,'{cleartasks[i][0]}','&vid=17&value={cleartasks[i][3]}')""")
-    schedule.every(10).seconds.do(runschedule)                                    # Repeat reading The schedule
+    schedule.every(10).minutes.do(runschedule)                                    # Repeat reading The schedule
 
     cleartasks.clear()                                                            # Clear the list of no empty lines
     tasks.clear()

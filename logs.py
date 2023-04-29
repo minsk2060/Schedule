@@ -6,18 +6,14 @@ logs =[]
 
 
 def logging(plantcode, act):
-    # lastime = (curtime - timedelta(days=3))
+
     logwrite = [datetime.now(), datetime.now().strftime("%d-%m-%Y  %H:%M  "), plant[f"{plantcode}"], acting(plantcode, act)]
     logs.append(logwrite)
     clearlogs = logs.copy()
-    #print("1_clearlogs:", clearlogs)
+
     for i in range(len(logs)):
         if (datetime.now() - timedelta(days = 1)) > logs[i][0]:
             clearlogs.remove(logs[i])
-    #print("2_clearlogs:", clearlogs)
-
-    # for j in range(len(clearlogs)):
-    #     clearlogs[j].remove(clearlogs[j][0])
 
     f = open("./logging/log_scheduling.txt", "w")
     for c in clearlogs:
