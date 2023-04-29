@@ -1,5 +1,5 @@
-# from datetime import datetime
-# current_time = datetime.now()
-# print(current_time.strftime("%Y.%m.%d  %H:%M"))
-import plants
-print(plants.plant)
+
+
+a = 1
+
+if a == 1:print("yes")
