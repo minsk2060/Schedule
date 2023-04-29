@@ -1,5 +1,8 @@
+from datetime import datetime, timedelta
 
+#Вычисление даты трехдневной давности
+curtime = datetime.now()
+lastime = (curtime - timedelta(days=3))
 
-a = 1
-
-if a == 1:print("yes")
+print(curtime.strftime("%d-%m-%Y  %H:%M"))
+print(lastime.strftime("%d-%m-%Y  %H:%M"))
