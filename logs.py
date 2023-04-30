@@ -7,7 +7,10 @@ logs =[]
 
 def logging(plantcode, act):
 
-    logwrite = [datetime.now(), datetime.now().strftime("%d-%m-%Y  %H:%M  "), plant[f"{plantcode}"], acting(plantcode, act)]
+    logwrite = [datetime.now(),
+                datetime.now().strftime("%d-%m-%Y  %H:%M  "),
+                plant[f"{plantcode}"],
+                acting(plantcode, act)]
     logs.append(logwrite)
     clearlogs = logs.copy()
 
@@ -16,9 +19,10 @@ def logging(plantcode, act):
             clearlogs.remove(logs[i])
 
     f = open("./logging/log_scheduling.txt", "w")
+    b=""
     for c in clearlogs:
-        b=c[1:]
-        f.write(f'{"".join(b)}\n')
+        b+=(f'{"".join(c[1:])}\n')
+    f.write(b)
     f.close()
 
 def acting (singlecode, whattodo):
