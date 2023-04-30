@@ -22,6 +22,7 @@ def logging(plantcode, act):
     b=""
     for c in clearlogs:
         b+=(f'{"".join(c[1:])}\n')
+    print(b)
     f.write(b)
     f.close()
 
