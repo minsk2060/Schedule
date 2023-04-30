@@ -1,8 +1,12 @@
-from datetime import datetime, timedelta
-
-#Вычисление даты трехдневной давности
+from datetime import datetime, timedelta, date
+# Р’С‹С‡РёСЃР»РµРЅРёРµ РґР°С‚С‹ С‚СЂРµС…РґРЅРµРІРЅРѕР№ РґР°РІРЅРѕСЃС‚Рё
 curtime = datetime.now()
 lastime = (curtime - timedelta(days=3))
 
-print(curtime.strftime("%d-%m-%Y  %H:%M"))
-print(lastime.strftime("%d-%m-%Y  %H:%M"))
+# print(curtime.strftime("%d-%m-%Y  %H:%M"))
+# print(lastime.strftime("%d-%m-%Y  %H:%M"))
+
+c = datetime(2023,12,12,12,12)
+b = datetime(2022,12,12,12,12)
+
+print(c-b, type(c-b))

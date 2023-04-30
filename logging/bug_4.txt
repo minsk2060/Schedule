@@ -1,0 +1,24 @@
+Traceback (most recent call last):
+  File "C:\Users\Ev\PycharmProjects\schedules\Schedule.py", line 49, in <module>
+    schedule.run_pending()
+  File "C:\Users\Ev\AppData\Local\Programs\Python\Python310\lib\site-packages\schedule\__init__.py", line 780, in run_pending
+    default_scheduler.run_pending()
+  File "C:\Users\Ev\AppData\Local\Programs\Python\Python310\lib\site-packages\schedule\__init__.py", line 100, in run_pending
+    self._run_job(job)
+  File "C:\Users\Ev\AppData\Local\Programs\Python\Python310\lib\site-packages\schedule\__init__.py", line 172, in _run_job
+    ret = job.run()
+  File "C:\Users\Ev\AppData\Local\Programs\Python\Python310\lib\site-packages\schedule\__init__.py", line 661, in run
+    ret = self.job_func()
+  File "C:\Users\Ev\PycharmProjects\schedules\Schedule.py", line 29, in runschedule
+    cleartasks = readschedule(tasks).copy()                                       # Call the function to read excel. Make a copy of the result list
+  File "C:\Users\Ev\PycharmProjects\schedules\excels.py", line 12, in readschedule
+    workbook = load_workbook(schedule_book)
+  File "C:\Users\Ev\AppData\Local\Programs\Python\Python310\lib\site-packages\openpyxl\reader\excel.py", line 315, in load_workbook
+    reader = ExcelReader(filename, read_only, keep_vba,
+  File "C:\Users\Ev\AppData\Local\Programs\Python\Python310\lib\site-packages\openpyxl\reader\excel.py", line 124, in __init__
+    self.archive = _validate_archive(fn)
+  File "C:\Users\Ev\AppData\Local\Programs\Python\Python310\lib\site-packages\openpyxl\reader\excel.py", line 96, in _validate_archive
+    archive = ZipFile(filename, 'r')
+  File "C:\Users\Ev\AppData\Local\Programs\Python\Python310\lib\zipfile.py", line 1249, in __init__
+    self.fp = io.open(file, filemode)
+PermissionError: [Errno 13] Permission denied: './excel/Расписание.xlsm'
