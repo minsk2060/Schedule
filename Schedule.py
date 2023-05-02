@@ -22,7 +22,7 @@ def turn(get_plant, par):
     logging(get_plant, par)                                                       # Log this action in a log_scheduling.txt
     time.sleep(3)
 
-    #hotkey("ctrl", "w")                                                           # Close the current browser window
+    hotkey("ctrl", "w")                                                           # Close the current browser window
 
 
 # Reading the schedules and matching the list of them
