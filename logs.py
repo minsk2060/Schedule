@@ -3,10 +3,16 @@ from datetime import datetime, timedelta
 from plants import plant
 
 logs =[]
+path = "./logging/log_scheduling.txt"
 
+def clear(path):
+    with open(path, "r") as file:
+        text = file.read()
+    with open(path, "w") as file:
+        new_text = text.replace(text,"")
+        file.write(new_text)
 
 def logging(plantcode, act):
-
     logwrite = [datetime.now(),
                 datetime.now().strftime("%d-%m-%Y  %H:%M  "),
                 plant[f"{plantcode}"],
@@ -18,11 +24,12 @@ def logging(plantcode, act):
         if (datetime.now() - timedelta(days = 1)) > logs[i][0]:
             clearlogs.remove(logs[i])
 
-    f = open("./logging/log_scheduling.txt", "w")
+    clear(path)
+    f = open(path, "w")
     b=""
     for c in clearlogs:
         b+=(f'{"".join(c[1:])}\n')
-    print(b)
+    #print(b)
     f.write(b)
     f.close()
 
