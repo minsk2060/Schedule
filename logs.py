@@ -6,6 +6,7 @@ logs =[]
 path = "./logging/log_scheduling.txt"
 
 def clear(path):
+    """Clear the previous text in log_schedule.txt to exclude doubling"""
     with open(path, "r") as file:
         text = file.read()
     with open(path, "w") as file:
