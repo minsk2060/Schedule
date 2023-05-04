@@ -5,13 +5,15 @@ from plants import plant
 logs =[]
 path = "./logging/log_scheduling.txt"
 
-def clear(path):
-    """Clear the previous text in log_schedule.txt to exclude doubling"""
-    with open(path, "r") as file:
-        text = file.read()
-    with open(path, "w") as file:
-        new_text = text.replace(text,"")
-        file.write(new_text)
+# def clear(path):
+#     """Clear the previous text in log_schedule.txt to exclude doubling"""
+#     with open(path, "r") as file:
+#         text = file.read()
+#     return
+    # with open(path, "w") as file:
+    #     new_text = text.replace(text,"")
+    #     file.write(new_text)
+
 
 def logging(plantcode, act):
     logwrite = [datetime.now(),
@@ -22,15 +24,16 @@ def logging(plantcode, act):
     clearlogs = logs.copy()
 
     for i in range(len(logs)):
-        if (datetime.now() - timedelta(days = 1)) > logs[i][0]:
+        if (datetime.now() - timedelta(days = 2)) > logs[i][0]:
             clearlogs.remove(logs[i])
 
-    clear(path)
+    # clear(path)
     f = open(path, "w")
     b=""
     for c in clearlogs:
-        b+=(f'{"".join(c[1:])}\n')
-    #print(b)
+        now = datetime.now()
+        b+=(f'{now} {"".join(c[1:])}\n')
+    print(b)
     f.write(b)
     f.close()
 
