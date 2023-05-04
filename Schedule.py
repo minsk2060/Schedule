@@ -11,18 +11,18 @@ tasks = []                                                                      
 
 # Sending the request to the browser string
 def turn(get_plant, par):
+    logging(get_plant, par)                                                       # Log this action in a log_scheduling.txt
     PREFX = "http://192.168.250.50/ajaxjson/bac/setValue?pid=85&oid="             # The common text in every request string
     app = Application(backend="uia")                                              # Get an object of the class
     try:                                                                          # Cause any number of objects may be connected
         app.connect(title_re=".*Microsoft\u200b Edge", timeout=10)                # Connect to the first of them, doesn't matter
     except:
-        pass                                                                      # Pass if there is more than one object
+        pass
     app.window().set_focus()                                                      # Set focus on the browser window
     webbrowser.open_new_tab(PREFX + get_plant + par)                              # Make a request
-    logging(get_plant, par)                                                       # Log this action in a log_scheduling.txt
     time.sleep(3)
 
-    #hotkey("ctrl", "w")                                                           # Close the current browser window
+    hotkey("ctrl", "w")                                                           # Close the current browser window
 
 
 # Reading the schedules and matching the list of them
