@@ -1,19 +1,17 @@
 # The script makes a log of sent actions
 from datetime import datetime, timedelta
 from plants import plant
-
+from pywinauto.application import Application
 logs =[]
 path = "./logging/log_scheduling.txt"
 
-# def clear(path):
-#     """Clear the previous text in log_schedule.txt to exclude doubling"""
-#     with open(path, "r") as file:
-#         text = file.read()
-#     return
-    # with open(path, "w") as file:
-    #     new_text = text.replace(text,"")
-    #     file.write(new_text)
-
+def closing():
+    ntp = Application()
+    try:
+        ntp.connect(title="log_scheduling.txt-Блокнот")
+        ntp.close()
+    except:
+        pass
 
 def logging(plantcode, act):
     logwrite = [datetime.now(),
@@ -27,14 +25,12 @@ def logging(plantcode, act):
         if (datetime.now() - timedelta(days = 2)) > logs[i][0]:
             clearlogs.remove(logs[i])
 
-    # clear(path)
+    # closing()
     f = open(path, "w")
-    b=""
+    b=[]
     for c in clearlogs:
-        now = datetime.now()
-        b+=(f'{now} {"".join(c[1:])}\n')
-    print(b)
-    f.write(b)
+        b.append(f'{"".join(c[1:])}\n')
+    f.write("".join(b))
     f.close()
 
 def acting (singlecode, whattodo):
