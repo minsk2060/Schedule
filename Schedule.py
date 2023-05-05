@@ -24,7 +24,6 @@ def turn(get_plant, par):
 
     hotkey("ctrl", "w")                                                           # Close the current browser window
 
-
 # Reading the schedules and matching the list of them
 def runschedule():                                                                # Call the function to start the process
     cleartasks = readschedule(tasks).copy()                                       # Call the function to read excel. Make a copy of the result list
