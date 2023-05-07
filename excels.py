@@ -5,7 +5,7 @@ single=[] # This list contains a single schedule: the plant, the day, what to do
 
 # Clear the single[] list and pop up the tasks[] list
 def refresh(tasks):
-    single[0].replace(" ","")
+    #single[0].replace(" ","")
     tasks.append(single.copy())                                                               # Append single[] list to the end of the tasks[] list
     single.clear()                                                                            # Clear the list
 
