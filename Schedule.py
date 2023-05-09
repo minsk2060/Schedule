@@ -24,7 +24,6 @@ def turn(get_plant, par):
 
     hotkey("ctrl", "w")                                                           # Close the current browser window
 
-
 # Reading the schedules and matching the list of them
 def runschedule():                                                                # Call the function to start the process
     cleartasks = readschedule(tasks).copy()                                       # Call the function to read excel. Make a copy of the result list
@@ -35,7 +34,7 @@ def runschedule():                                                              
     # Execute all the schedules
     for i in range(len(cleartasks)):
         exec(f"""schedule.every().{cleartasks[i][1]}.at('{cleartasks[i][2]}').do(turn,'{cleartasks[i][0]}','&vid=17&value={cleartasks[i][3]}')""")
-    schedule.every(9).minutes.do(runschedule)                                    # Repeat reading The schedule
+    schedule.every(1).minutes.do(runschedule)                                    # Repeat reading The schedule
 
     cleartasks.clear()                                                            # Clear the list of no empty lines
     tasks.clear()

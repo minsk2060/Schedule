@@ -20,12 +20,9 @@ def logging(plantcode, act):
                 acting(plantcode, act)]
     logs.append(logwrite)
     clearlogs = logs.copy()
-
     for i in range(len(logs)):
         if (datetime.now() - timedelta(days = 2)) > logs[i][0]:
             clearlogs.remove(logs[i])
-
-    # closing()
     f = open(path, "w")
     b=[]
     for c in clearlogs:
