@@ -5,7 +5,7 @@ single=[] # This list contains a single schedule: the plant, the day, what to do
 
 # Clear the single[] list and pop up the tasks[] list
 def refresh(tasks):
-    #single[0].replace(" ","")
+    single[0].replace(" ","")
     tasks.append(single.copy())                                                               # Append single[] list to the end of the tasks[] list
     single.clear()                                                                            # Clear the list
 
@@ -21,7 +21,7 @@ def readschedule(tasks):
             single.append(str(workbook.active.cell(row=j,         column=4).value))
             single.append(str(workbook.active.cell(row=j + 1 + k, column=2).value))
             single.append(str(workbook.active.cell(row=j + 1 + k, column=6).value))
-            driers = str(workbook.active.cell(row=j, column=4))
+            driers = str(workbook.active.cell(row=j, column=4).value)
             if driers == "79691782&did=33556432" or driers == "79691777&did=33555432":
                 single.append("5")
             else:
