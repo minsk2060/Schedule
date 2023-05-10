@@ -29,10 +29,8 @@ def runschedule():                                                              
     # Execute all the schedules
     for i in range(len(cleartasks)):
         exec(f"""schedule.every().{cleartasks[i][1]}.at('{cleartasks[i][2]}').do(turn,'{cleartasks[i][0]}','&vid=17&value={cleartasks[i][3]}')""")
-<<<<<<< HEAD
-=======
+
     schedule.every(10).minutes.do(runschedule)                                    # Repeat reading The schedule
->>>>>>> a0c2627dc35cd83a0ed3f857ba46c336e8623754
 
 
     # for i in cleartasks:
