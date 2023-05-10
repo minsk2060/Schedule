@@ -17,7 +17,8 @@ def turn(get_plant, par):
     app.window().set_focus()                                                      # Set focus on the browser window
     webbrowser.open_new_tab(PREFX + get_plant + par)                              # Make a request
     time.sleep(3)
-    hotkey("ctrl", "w")                                                           # Close the current browser window
+
+    #hotkey("ctrl", "w")                                                           # Close the current browser window
 
 def runschedule():                                                                # Call the function to start the process
     cleartasks = readschedule(tasks).copy()                                       # Call the function to read excel. Make a copy of the result list
@@ -28,7 +29,14 @@ def runschedule():                                                              
     # Execute all the schedules
     for i in range(len(cleartasks)):
         exec(f"""schedule.every().{cleartasks[i][1]}.at('{cleartasks[i][2]}').do(turn,'{cleartasks[i][0]}','&vid=17&value={cleartasks[i][3]}')""")
+<<<<<<< HEAD
+=======
+    schedule.every(10).minutes.do(runschedule)                                    # Repeat reading The schedule
+>>>>>>> a0c2627dc35cd83a0ed3f857ba46c336e8623754
 
+
+    # for i in cleartasks:
+    #     print(i, len(i[0]), type(i[0]))
     cleartasks.clear()                                                            # Clear the list of no empty lines
     tasks.clear()
 
