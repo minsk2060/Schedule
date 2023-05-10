@@ -14,6 +14,7 @@ def turn(get_plant, par):
     logging(get_plant, par)                                                       # Log this action in a log_scheduling.txt
     PREFX = "http://192.168.250.50/ajaxjson/bac/setValue?pid=85&oid="             # The common text in every request string
     app = Application(backend="uia")                                              # Get an object of the class
+    app.connect(title_re=u".*Microsoft\u200b Edge", timeout=10)
     app.window().set_focus()                                                      # Set focus on the browser window
     webbrowser.open_new_tab(PREFX + get_plant + par)                              # Make a request
     time.sleep(3)

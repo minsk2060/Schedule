@@ -8,12 +8,13 @@ path = "./logging/log_scheduling.txt"
 def closing():
     ntp = Application()
     try:
-        ntp.connect(title="log_scheduling.txt-Блокнот")
-        ntp.close()
+        ntp.connect(title_re="log_scheduling")
+        ntp.window().close()
     except:
         pass
 
 def logging(plantcode, act):
+    closing()
     logwrite = [datetime.now(),
                 datetime.now().strftime("%d-%m-%Y  %H:%M  "),
                 plant[f"{plantcode}"],
