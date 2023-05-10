@@ -11,15 +11,25 @@ tasks = []                                                                      
 
 # Sending the request to the browser string
 def turn(get_plant, par):
-    logging(get_plant, par)                                                       # Log this action in a log_scheduling.txt
-    PREFX = "http://192.168.250.50/ajaxjson/bac/setValue?pid=85&oid="             # The common text in every request string
-    app = Application(backend="uia")                                              # Get an object of the class
+    """
+    turn() - действие (включить, выключить и т.п.)
+    get_plant - код установки для вставки в строку запроса
+    par - параметр ( 0 -стоп, 1 пуск и т.п.)
+    logging() - запись в лог файл
+    PREFX - общий набор в строке запроса
+    app - объект для подключения и установки фокуса на окне браузера Edge
+    webbrowser - отправка запроса в браузер
+    time.sleep() - задержка времени
+    hotkey() - закрытие вкладки браузера с запросом
+    """
+    logging(get_plant, par)
+    PREFX = "http://192.168.250.50/ajaxjson/bac/setValue?pid=85&oid="
+    app = Application(backend="uia")
     app.connect(title_re=u".*Microsoft\u200b Edge", timeout=10)
-    app.window().set_focus()                                                      # Set focus on the browser window
-    webbrowser.open_new_tab(PREFX + get_plant + par)                              # Make a request
+    app.window().set_focus()
+    webbrowser.open_new_tab(PREFX + get_plant + par)
     time.sleep(3)
-
-    #hotkey("ctrl", "w")                                                           # Close the current browser window
+    hotkey("ctrl", "w")
 
 def runschedule():                                                                # Call the function to start the process
     cleartasks = readschedule(tasks).copy()                                       # Call the function to read excel. Make a copy of the result list
