@@ -46,7 +46,7 @@ def runschedule():
 
     """
     cleartasks = readschedule(tasks).copy()
-        for t in range(len(tasks)):
+    for t in range(len(tasks)):
         if tasks[t][2] == "None":
             cleartasks.remove(tasks[t])
     schedule.clear()
