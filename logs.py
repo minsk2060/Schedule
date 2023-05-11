@@ -24,11 +24,16 @@ def logging(plantcode, act):
     for i in range(len(logs)):
         if (datetime.now() - timedelta(days = 2)) > logs[i][0]:
             clearlogs.remove(logs[i])
+
+    f = open(path, "r")
+    current = f.read()
+    f.close()
+
     f = open(path, "w")
     b=[]
     for c in clearlogs:
         b.append(f'{"".join(c[1:])}\n')
-    f.write("".join(b))
+    f.write(current + "".join(b))
     f.close()
 
 def acting (singlecode, whattodo):
