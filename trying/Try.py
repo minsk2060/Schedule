@@ -1,14 +1,14 @@
-import webbrowser, schedule, time
-from selenium import webdriver
-from pywinauto.application import Application
+import datetime
 
-path ="../logging/log_scheduling.txt"
-f = open(path,"r")
-current = f.read()
-f.close()
-f = open(path, "w")
-f.write(current + "456")
-f.close()
+
+str_date = "2019-03-18"
+
+# print(datetime.datetime.today().date())
+
+
+
+print(datetime.datetime.strptime(str_date, '%Y-%m-%d'))
+
 
 
 

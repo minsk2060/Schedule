@@ -1,5 +1,6 @@
 # The script makes a log of sent actions
 from datetime import datetime, timedelta
+import datetime
 from plants import plant
 from pywinauto.application import Application
 logs =[]
@@ -21,19 +22,30 @@ def logging(plantcode, act):
                 acting(plantcode, act)]
     logs.append(logwrite)
     clearlogs = logs.copy()
+
+# Извлечение и обработка существующего лога
+#     f = open(path, "r")
+#     current = f.read().split("\n")
+#     d=[]
+#     for i in current:
+#         c=current[i].split()
+#         d.append(c)
+#     for i in d:
+#         i[0] = datetime.datetime.strptime(i[0], "%d-%m-%Y  %H:%M")
+#     f.close()
+
+
     for i in range(len(logs)):
         if (datetime.now() - timedelta(days = 2)) > logs[i][0]:
             clearlogs.remove(logs[i])
 
-    f = open(path, "r")
-    current = f.read()
-    f.close()
+
 
     f = open(path, "w")
     b=[]
     for c in clearlogs:
         b.append(f'{"".join(c[1:])}\n')
-    f.write(current + "".join(b))
+    # f.write(current + "".join(b))
     f.close()
 
 def acting (singlecode, whattodo):
