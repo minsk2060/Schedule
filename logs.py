@@ -1,6 +1,6 @@
 # The script makes a log of sent actions
 from datetime import datetime, timedelta
-import datetime
+#import datetime
 from plants import plant
 from pywinauto.application import Application
 logs =[]
