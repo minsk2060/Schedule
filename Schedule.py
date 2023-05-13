@@ -28,6 +28,7 @@ def turn(get_plant, par):
     webbrowser   - отправка запроса в браузер
     time.sleep() - задержка времени
     hotkey()     - закрытие вкладки браузера с запросом
+    browsing()
     """
     logging(get_plant, par)
     browsing()
@@ -56,9 +57,7 @@ def runschedule():
     cleartasks.clear()
     tasks.clear()
 
-
 runschedule()
-
 
 while True:
     schedule.run_pending()
