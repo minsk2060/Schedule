@@ -1,5 +1,4 @@
 # The script makes a log of sent actions
-# from datetime import datetime, timedelta
 import datetime
 from plants import plant
 from pywinauto.application import Application
@@ -53,13 +52,15 @@ def acting (singlecode, whattodo):
     return action
 
 
-def partwriting(d):
+def partwriting(parttasks):
     """запись последних заданий в лог файл"""
     f = open(pathcur, "w")
-    b=[]
-    for c in d:
-        b.append(f'{"".join(c)}\n')
-    f.write("".join(b))
+    logtasks=[]
+    for c in range(len(parttasks)):
+        if c >= 1 and datetime.datetime.strptime(parttasks[c][0:16], "%d-%m-%Y  %H:%M") - datetime.timedelta(days=1) == datetime.datetime.strptime(parttasks[c-1][0:16], "%d-%m-%Y  %H:%M"):
+            logtasks.append('\n')
+        logtasks.append(f'{"".join(parttasks[c])}\n')
+    f.write("".join(logtasks))
     f.close()
 
 
@@ -67,9 +68,9 @@ def allwriting():
     """запись всех команд в лог файл"""
     f = open(pathall, "r")
     current = f.read().split("\n")
-    d = []
+    parttasks = []
     for i in range(len(current)-1):
-        if datetime.datetime.now() - datetime.timedelta(days=2) < datetime.datetime.strptime(current[i][0:16], "%d-%m-%Y  %H:%M"):
-            d.append(current[i])
+        if datetime.datetime.now() - datetime.timedelta(days=3) < datetime.datetime.strptime(current[i][0:16], "%d-%m-%Y  %H:%M"):
+            parttasks.append(current[i])
         f.close()
-    partwriting(d)
+    partwriting(parttasks)
