@@ -1,12 +1,19 @@
 # The script makes a log of sent actions
-from datetime import datetime, timedelta
-#import datetime
+# from datetime import datetime, timedelta
+import datetime
 from plants import plant
 from pywinauto.application import Application
 logs =[]
-path = "./logging/log_scheduling.txt"
+pathcur = "./logging/log_scheduling.txt"
+pathall = "./logging/alllogs.txt"
+def logall(logwrite):
+    """запись в лог файл всех отправленных заданий"""
+    logfile = open(pathall,"a")
+    logfile.write("".join(logwrite)+"\n")
+    logfile.close()
 
 def closing():
+    """закрытие лог файла, если на момент записи в него он открыт"""
     ntp = Application()
     try:
         ntp.connect(title_re="log_scheduling")
@@ -14,41 +21,19 @@ def closing():
     except:
         pass
 
+
 def logging(plantcode, act):
     closing()
-    logwrite = [datetime.now(),
-                datetime.now().strftime("%d-%m-%Y  %H:%M  "),
+    logwrite = [datetime.datetime.now().strftime("%d-%m-%Y  %H:%M  "),
                 plant[f"{plantcode}"],
                 acting(plantcode, act)]
+    logall(logwrite)
     logs.append(logwrite)
-    clearlogs = logs.copy()
+    allwriting()
 
-# Извлечение и обработка существующего лога
-#     f = open(path, "r")
-#     current = f.read().split("\n")
-#     d=[]
-#     for i in current:
-#         c=current[i].split()
-#         d.append(c)
-#     for i in d:
-#         i[0] = datetime.datetime.strptime(i[0], "%d-%m-%Y  %H:%M")
-#     f.close()
-
-
-    for i in range(len(logs)):
-        if (datetime.now() - timedelta(days = 2)) > logs[i][0]:
-            clearlogs.remove(logs[i])
-
-
-
-    f = open(path, "w")
-    b=[]
-    for c in clearlogs:
-        b.append(f'{"".join(c[1:])}\n')
-    # f.write(current + "".join(b))
-    f.close()
 
 def acting (singlecode, whattodo):
+    """определение действия"""
     action = ""
     a = whattodo[-1:]
     # If other plants
@@ -66,3 +51,25 @@ def acting (singlecode, whattodo):
         elif a == "1": action = "  Пуск в режиме хоккей"
         elif a == "2": action = "  Пуск в режиме фигурное катание"
     return action
+
+
+def partwriting(d):
+    """запись последних заданий в лог файл"""
+    f = open(pathcur, "w")
+    b=[]
+    for c in d:
+        b.append(f'{"".join(c)}\n')
+    f.write("".join(b))
+    f.close()
+
+
+def allwriting():
+    """запись всех команд в лог файл"""
+    f = open(pathall, "r")
+    current = f.read().split("\n")
+    d = []
+    for i in range(len(current)-1):
+        if datetime.datetime.now() - datetime.timedelta(days=2) < datetime.datetime.strptime(current[i][0:16], "%d-%m-%Y  %H:%M"):
+            d.append(current[i])
+        f.close()
+    partwriting(d)
