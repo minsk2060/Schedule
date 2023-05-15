@@ -1,7 +1,7 @@
 import webbrowser, schedule, time
 from pyautogui import hotkey
 from pywinauto.application import Application
-from logs import logging
+from logs import log
 from excels import readschedule
 
 
@@ -30,7 +30,7 @@ def turn(get_plant, par):
     hotkey()     - закрытие вкладки браузера с запросом
     browsing()
     """
-    logging(get_plant, par)
+    log(get_plant, par)
     browsing()
     webbrowser.open_new_tab("http://192.168.250.50/ajaxjson/bac/setValue?pid=85&oid=" + get_plant + par)
     time.sleep(3)

@@ -2,16 +2,25 @@
 import datetime
 from plants import plant
 from pywinauto.application import Application
+
 logs =[]
 pathcur = "./logging/log_scheduling.txt"
 pathall = "./logging/alllogs.txt"
+
+def log(plantcode, acting):
+    close()
+    logwrite = [datetime.datetime.now().strftime("%d-%m-%Y  %H:%M  "), plant[f"{plantcode}"], act(plantcode, acting)]
+    logall(logwrite)
+    logs.append(logwrite)
+    sort()
+
 def logall(logwrite):
     """запись в лог файл всех отправленных заданий"""
-    logfile = open(pathall,"a")
+    logfile = open(pathall, "a")
     logfile.write("".join(logwrite)+"\n")
     logfile.close()
 
-def closing():
+def close():
     """закрытие лог файла, если на момент записи в него он открыт"""
     ntp = Application()
     try:
@@ -20,18 +29,7 @@ def closing():
     except:
         pass
 
-
-def logging(plantcode, act):
-    closing()
-    logwrite = [datetime.datetime.now().strftime("%d-%m-%Y  %H:%M  "),
-                plant[f"{plantcode}"],
-                acting(plantcode, act)]
-    logall(logwrite)
-    logs.append(logwrite)
-    allwriting()
-
-
-def acting (singlecode, whattodo):
+def act (singlecode, whattodo):
     """определение действия"""
     action = ""
     a = whattodo[-1:]
@@ -51,21 +49,21 @@ def acting (singlecode, whattodo):
         elif a == "2": action = "  Пуск в режиме фигурное катание"
     return action
 
-
-def partwriting(parttasks):
-    """запись последних заданий в лог файл"""
+def writelog(parttasks):
+    """запись в лог файл команд за последние несколько дней"""
     f = open(pathcur, "w")
     logtasks=[]
     for c in range(len(parttasks)):
-        if c >= 1 and datetime.datetime.strptime(parttasks[c][0:16], "%d-%m-%Y  %H:%M") - datetime.timedelta(days=1) == datetime.datetime.strptime(parttasks[c-1][0:16], "%d-%m-%Y  %H:%M"):
-            logtasks.append('\n')
+        if c >= 1 :
+            if int(parttasks[c][0:2])-int(parttasks[c-1][0:2]) >= 1:
+               logtasks.append('\n')
+
         logtasks.append(f'{"".join(parttasks[c])}\n')
     f.write("".join(logtasks))
     f.close()
 
-
-def allwriting():
-    """запись всех команд в лог файл"""
+def sort():
+    """сортировка для записи в лог файл команд за последнее несколько дней"""
     f = open(pathall, "r")
     current = f.read().split("\n")
     parttasks = []
@@ -73,4 +71,9 @@ def allwriting():
         if datetime.datetime.now() - datetime.timedelta(days=3) < datetime.datetime.strptime(current[i][0:16], "%d-%m-%Y  %H:%M"):
             parttasks.append(current[i])
         f.close()
-    partwriting(parttasks)
+    writelog(parttasks)
+
+if __name__ == "__main__":
+    sort()
+    log('8388762&did=33560432',"0")
+    act('8388762&did=33560432',"0")
