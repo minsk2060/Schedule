@@ -52,11 +52,13 @@ def runschedule():
     schedule.clear()
     for i in range(len(cleartasks)):
         exec(f"""schedule.every().{cleartasks[i][1]}.at('{cleartasks[i][2]}').do(turn,'{cleartasks[i][0]}','&vid=17&value={cleartasks[i][3]}')""")
-    schedule.every(20).minutes.do(runschedule)
+    # schedule.every(20).minutes.do(runschedule)
     cleartasks.clear()
     tasks.clear()
 
-runschedule()
+schedule.every(20).minutes.do(runschedule)
+
+# runschedule()
 
 while True:
     schedule.run_pending()
