@@ -49,29 +49,45 @@ def act (singlecode, whattodo):
         elif a == "2": action = "  Пуск в режиме фигурное катание"
     return action
 
-def writelog(parttasks):
-    """запись в лог файл команд за последние несколько дней"""
+def writelog(parttasks, partlogs):
+    """
+    writelog()  - запись в лог файл команд за заданный период
+    logtasks[]  - список для записи в файл log_scheduling.txt
+    alllogs[]   - список для записи в файл alllogs.txt
+    в первом цикле также вставка пустой строки между разными датами
+    """
     f = open(pathcur, "w")
+    d = open(pathall, "w")
     logtasks=[]
+    alllogs =[]
     for c in range(len(parttasks)):
         if c >= 1 :
             if int(parttasks[c][0:2])-int(parttasks[c-1][0:2]) >= 1:
                logtasks.append('\n')
-
         logtasks.append(f'{"".join(parttasks[c])}\n')
+    for c in range(len(partlogs)):
+        alllogs.append(f'{"".join(partlogs[c])}\n')
     f.write("".join(logtasks))
+    d.write("".join(alllogs))
     f.close()
+    d.close()
 
 def sort():
-    """сортировка для записи в лог-файл команд за последнее несколько дней"""
+    """
+    sort()  - сортировка для записи в лог-файл команд за заданный период
+    в цикле проверка на предмет нескольких дней и ограничения всего периода записей"""
     f = open(pathall, "r")
     current = f.read().split("\n")
     parttasks = []
+    partlogs  = []
     for i in range(len(current)-1):
         if datetime.datetime.now() - datetime.timedelta(days=3) < datetime.datetime.strptime(current[i][0:16], "%d-%m-%Y  %H:%M"):
             parttasks.append(current[i])
-        f.close()
-    writelog(parttasks)
+        if datetime.datetime.now() - datetime.timedelta(days=10) < datetime.datetime.strptime(current[i][0:16], "%d-%m-%Y  %H:%M"):
+            partlogs.append(current[i])
+    f.close()
+    writelog(parttasks, partlogs)
+
 
 if __name__ == "__main__":
     sort()
