@@ -81,7 +81,7 @@ def sort():
     parttasks = []
     partlogs  = []
     for i in range(len(current)-1):
-        if datetime.datetime.now() - datetime.timedelta(days=3) <= datetime.datetime.strptime(current[i][0:16], "%d-%m-%Y  %H:%M"):
+        if datetime.datetime.now() - datetime.timedelta(days=2) <= datetime.datetime.strptime(current[i][0:16], "%d-%m-%Y  %H:%M"):
             parttasks.append(current[i])
         if datetime.datetime.now() - datetime.timedelta(days=10) < datetime.datetime.strptime(current[i][0:16], "%d-%m-%Y  %H:%M"):
             partlogs.append(current[i])

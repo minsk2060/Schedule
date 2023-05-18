@@ -11,7 +11,9 @@ tasks = []
 
 def browsing():
     """
-    browsing()  - установка фокуса на окне браузера Edge
+    browsing()   - установка фокуса на окне браузера Edge
+    app          - объект для подключения и установки фокуса на окне браузера Edge
+
     """
     app =Application(backend ="uia")
     app.connect(title_re=u".*Microsoft\u200b Edge", timeout =10)
@@ -23,12 +25,11 @@ def turn(get_plant, par):
     turn()       - выполнение действия (включить, выключить и т.п.)
     get_plant    - код установки для вставки в строку запроса
     par          - параметр ( 0 -стоп, 1 пуск и т.п.)
-    logging()    - запись в лог файл
-    app          - объект для подключения и установки фокуса на окне браузера Edge
+    logging()    - запись в лог файлы
     webbrowser   - отправка запроса в браузер
     time.sleep() - задержка времени
     hotkey()     - закрытие вкладки браузера с запросом
-    browsing()
+    browsing()   - управление браузером
     """
     log(get_plant, par)
     browsing()
@@ -39,11 +40,12 @@ def turn(get_plant, par):
 
 def runschedule():
     """
-    runschedule()  - получение расписания, улаоение пустых значений,
-                     компоновка задач и запуск действий по расписанию.
-    readschedule() - чтение расписания из excel файла
-                     принимает пустой список tasks, возвращает заполненный список
-    cleartasks     - список, где не будет пустых значений
+    runschedule()    - получение расписания, улаоение пустых значений, компоновка задач и запуск действий по расписанию.
+    readschedule()   - чтение расписания из excel файла принимает пустой список tasks, возвращает заполненный список
+    cleartasks       - список, где не будет пустых расписаний
+    tasks            - полный список расписаний, в т.ч. пустых
+    schedule.clear() - очистка предыдущего  schedule, т.к. периодически происходит чтение и его формирование заново
+    exec()           - автоматическая компоновка задачи для shedule
     """
     cleartasks = readschedule(tasks).copy()
     for t in range(len(tasks)):
@@ -56,7 +58,7 @@ def runschedule():
     cleartasks.clear()
     tasks.clear()
 
-schedule.every(20).minutes.do(runschedule)
+schedule.every(1).minutes.do(runschedule)
 
 #runschedule()
 
