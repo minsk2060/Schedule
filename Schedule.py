@@ -69,7 +69,7 @@ def runschedule():
     tasks.clear()
 
 
-schedule.every(10).seconds.do(runschedule)
+schedule.every(10).minutes.do(runschedule)
 
 #runschedule()
 
