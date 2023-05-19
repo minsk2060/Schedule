@@ -11,12 +11,22 @@ tasks = []
 
 def browsing():
     """
-    browsing()   - установка фокуса на окне браузера Edge
+    browsing()   - открытие и установка фокуса на окне браузера Edge
     app          - объект для подключения и установки фокуса на окне браузера Edge
+    try/except:  - проверка на предмет на закрыт ли браузер, открытие
 
     """
     app =Application(backend ="uia")
-    app.connect(title_re=u".*Microsoft\u200b Edge", timeout =10)
+    try:
+        app.connect(title_re=u".*Microsoft\u200b Edge", timeout =10)
+    except:
+        app.start("C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe")
+        app.connect(title_re=u".*Microsoft\u200b Edge", timeout =10)
+        webbrowser.open("http://192.168.250.50/svo/graphic?oid=121634830&did=-1&vid=80")
+        time.sleep(3)
+        hotkey("ctrl", "tab")
+        hotkey("ctrl", "w")
+        time.sleep(3)
     app.window().set_focus()
 
 
@@ -58,7 +68,8 @@ def runschedule():
     cleartasks.clear()
     tasks.clear()
 
-schedule.every(20).minutes.do(runschedule)
+
+schedule.every(10).seconds.do(runschedule)
 
 #runschedule()
 

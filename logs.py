@@ -8,6 +8,12 @@ pathcur = "./logging/log_scheduling.txt"
 pathall = "./logging/alllogs.txt"
 
 def log(plantcode, acting):
+    """
+    log()              -  основеая функция логгирования"
+    :param plantcode:  -  код установки
+    :param acting:     -  действие в читаемом виде
+
+    """
     close()
     logwrite = [datetime.datetime.now().strftime("%d-%m-%Y  %H:%M  "), plant[f"{plantcode}"], act(plantcode, acting)]
     logall(logwrite)
@@ -15,7 +21,10 @@ def log(plantcode, acting):
     sort()
 
 def logall(logwrite):
-    """запись в лог файл всех отправленных заданий"""
+    """
+    logall()    -  запись в лог файл всех отправленных заданий построчно
+    logwrite    -  задание, пример:   [17-05-2023  20:30  ПВ-2.6   Cтоп]
+    """
     logfile = open(pathall, "a")
     logfile.write("".join(logwrite)+"\n")
     logfile.close()
@@ -90,6 +99,7 @@ def sort():
 
 
 if __name__ == "__main__":
-    sort()
-    log('8388762&did=33560432',"0")
-    act('8388762&did=33560432',"0")
+    pass
+    # sort()
+    # log('8388762&did=33560432',"0")
+    # act('8388762&did=33560432',"0")
