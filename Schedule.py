@@ -58,7 +58,7 @@ def runschedule():
     cleartasks.clear()
     tasks.clear()
 
-schedule.every(1).minutes.do(runschedule)
+schedule.every(20).minutes.do(runschedule)
 
 #runschedule()
 
