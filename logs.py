@@ -9,9 +9,9 @@ pathall = "./logging/alllogs.txt"
 
 def log(plantcode, acting):
     """
-    log()              -  основеая функция логгирования"
-    :param plantcode:  -  код установки
-    :param acting:     -  действие в читаемом виде
+    log()       -  основyная функция логгирования"
+    plantcode:  -  код установки
+    acting:     -  действие в читаемом виде
 
     """
     close()
@@ -30,7 +30,8 @@ def logall(logwrite):
     logfile.close()
 
 def close():
-    """закрытие лог файла, если на момент записи в него он открыт"""
+    """
+    close()  - закрытие лог файла, если на момент записи в него он открыт"""
     ntp = Application()
     try:
         ntp.connect(title_re="log_scheduling")
@@ -61,8 +62,8 @@ def act (singlecode, whattodo):
 def writelog(parttasks, partlogs):
     """
     writelog()  - запись в лог файл команд за заданный период
-    logtasks[]  - список для записи в файл log_scheduling.txt
-    alllogs[]   - список для записи в файл alllogs.txt
+    logtasks    - список для записи в файл log_scheduling.txt
+    alllogs     - список для записи в файл alllogs.txt
     в первом цикле также вставка пустой строки между разными датами
     """
     f = open(pathcur, "w")
