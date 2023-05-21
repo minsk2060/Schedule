@@ -1,6 +1,8 @@
 import requests
 
-url = "http://192.168.250.50/api/system/getstatus?_=1684605012603"
+#  В данном скрипте выполняется успешная отправка запроса (пуск ПВ-2.9) не прибегая к библиотеке webbrowser
+
+url = "http://192.168.250.50/ajaxjson/bac/setValue?pid=85&oid=8388815&did=33561432&vid=17&value=1"
 headers = {
     "Accept": "application/json, text/javascript, */*; q=0.01",
     "Accept-Encoding": "gzip, deflate",
@@ -18,8 +20,10 @@ cookies = {
     "BAYEUX_BROWSER": "ec3egd91iy8tb3mjlhulodl01any",
     "uid":            "0"
             }
+
 r = requests.get(url,headers=headers, cookies= cookies )
 print(r.json())
+
 """
 Данные ниже получены из сети
 Общие:
