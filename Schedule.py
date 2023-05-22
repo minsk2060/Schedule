@@ -1,8 +1,11 @@
-import webbrowser, schedule, time
+import webbrowser
+import schedule
+import time
 from pyautogui import hotkey
 from pywinauto.application import Application
 from logs import log
 from excels import readschedule
+from request import switch
 
 
 print("РАБОТАЕТ УПРАВЛЕНИЕ ОБОРУДОВАНИЕМ ПО РАСПИСАНИЮ, НЕ ЗАКРЫВАЙТЕ ЭТО ОКНО")
@@ -42,9 +45,10 @@ def turn(get_plant, par):
     """
     log(get_plant, par)
     browsing()
-    webbrowser.open_new_tab("http://192.168.250.50/ajaxjson/bac/setValue?pid=85&oid=" + get_plant + par)
-    time.sleep(3)
-    hotkey("ctrl", "w")
+    switch(get_plant, par)
+    # webbrowser.open_new_tab("http://192.168.250.50/ajaxjson/bac/setValue?pid=85&oid=" + get_plant + par)
+    # time.sleep(3)
+    # hotkey("ctrl", "w")
 
 
 def runschedule():
