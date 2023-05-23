@@ -12,7 +12,6 @@ def log(plantcode, acting):
     log()       -  основyная функция логгирования"
     plantcode:  -  код установки
     acting:     -  действие в читаемом виде
-
     """
     close()
     logwrite = [datetime.datetime.now().strftime("%d-%m-%Y  %H:%M  "), plant[f"{plantcode}"], act(plantcode, acting)]
