@@ -1,9 +1,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-<style>
-table {border: none;}
-</style>
 </head>
 <body>
 <p>Наименование: Schedules</p>
@@ -15,7 +12,7 @@ table {border: none;}
 Затем выполеняется отправка запроса на сервер при помощи браузера в заданное время.<br>
 </p>
 <p>Файлы и папки:<br>
-<table cellspacing="0">
+<table style = "border: none;">
 <tr>
     <td>adding/</td>    
     <td colspan="2">- сторонные файлы для корректной работы проекта на устройстве:</td>
