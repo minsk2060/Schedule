@@ -1,5 +1,5 @@
 import requests
-
+from headers import header, cookie
 #  В данном скрипте выполняется успешная отправка запроса (пуск ПВ-2.9) не прибегая к библиотеке webbrowser
 
 def switch(get_plant,par):
@@ -11,48 +11,15 @@ def switch(get_plant,par):
     cookies      - ключи
     """
     url = f"http://192.168.250.50/ajaxjson/bac/setValue?pid=85&oid={get_plant}{par}"
-    headers = {
-        "Accept": "application/json, text/javascript, */*; q=0.01",
-        "Accept-Encoding": "gzip, deflate",
-        "Accept-Language": "en-GB,en;q=0.9,en-US;q=0.8",
-        "Connection": "keep-alive",
-        "Host": "192.168.250.50",
-        "Referer": "http://192.168.250.50/svo/graphic?oid=121634830&did=-1&vid=80",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36 Edg/113.0.1774.42",
-        "X-Requested-With": "XMLHttpRequest"
-        }
-    cookies = {
-        "JSESSIONID":     "13reb3vcok495lblc0opr7kkg",
-        "pw":             "73F0CF35AF3850221A1D641803815D686EC21A9316F6CFBFF079AE3B9BFE8DEA",
-        "BAYEUX_BROWSER": "ec3egd91iy8tb3mjlhulodl01any",
-        "uid":            "0"
-        }
-
-    r = requests.get(url, headers=headers, cookies=cookies)
+    r = requests.get(url, headers=header, cookies=cookie)
 
 if __name__ == "__main__":
     # switch('8388858&did=33557432', "&vid=17&value=1")
-    headers = {
-        "Accept": "application/json, text/javascript, */*; q=0.01",
-        "Accept-Encoding": "gzip, deflate",
-        "Accept-Language": "en-GB,en;q=0.9,en-US;q=0.8",
-        "Connection": "keep-alive",
-        "Host": "192.168.250.50",
-        "Referer": "http://192.168.250.50/svo/graphic?oid=121634830&did=-1&vid=80",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36 Edg/113.0.1774.42",
-        "X-Requested-With": "XMLHttpRequest"
-    }
-    cookies = {
-        "JSESSIONID": "13reb3vcok495lblc0opr7kkg",
-        "pw": "73F0CF35AF3850221A1D641803815D686EC21A9316F6CFBFF079AE3B9BFE8DEA",
-        "BAYEUX_BROWSER": "ec3egd91iy8tb3mjlhulodl01any",
-        "uid": "0"
-    }
     #url="http://192.168.250.50/svo/details/?oid=12584036&did=33557432&vid=17"
     url ="http://192.168.250.50/bac/details/update?oid=12584036&did=33557432&vid=17" # ПВ-1.7
     url2="http://192.168.250.50/bac/details/update?oid=12584092&did=33557432&vid=17" # ПВ-1.6
     alarm = "Alarm: true"
-    r = requests.get(url2, headers=headers, cookies=cookies)
+    r = requests.get(url, headers=header, cookies=cookie)
     # print(r.json()["data"]["111"][0])
     # print(r.json()["data"]["111"][0])
     if alarm in r.json()["data"]["111"][0]:
