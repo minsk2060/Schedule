@@ -11,7 +11,8 @@ def log(plantcode, acting):
     """
     log()       -  основyная функция логгирования"
     plantcode:  -  код установки
-    acting:     -  действие в читаемом виде
+    acting      -  действие в читаемом виде
+    close()     -  закрытие лог файла, если на момент записи в него он открыт
     """
     close()
     logwrite = [datetime.datetime.now().strftime("%d-%m-%Y  %H:%M  "), plant[f"{plantcode}"], act(plantcode, acting)]
@@ -71,7 +72,7 @@ def writelog(parttasks, partlogs):
     alllogs =[]
     for c in range(len(parttasks)):
         if c >= 1 :
-            if int(parttasks[c][0:2])-int(parttasks[c-1][0:2]) >= 1:
+            if abs(int(parttasks[c][0:2])-int(parttasks[c-1][0:2])) >= 1:
                logtasks.append('\n')
         logtasks.append(f'{"".join(parttasks[c])}\n')
     for c in range(len(partlogs)):
