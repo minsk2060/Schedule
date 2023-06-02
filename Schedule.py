@@ -65,18 +65,14 @@ def runschedule():
     for t in range(len(tasks)):
         if tasks[t][2] == "None":
             cleartasks.remove(tasks[t])
-    print(cleartasks)
     schedule.clear('cleared')
     for i in range(len(cleartasks)):
         exec(f"schedule.every().{cleartasks[i][1]}.at('{cleartasks[i][2]}').do(turn,'{cleartasks[i][0]}','&vid=17&value={cleartasks[i][3]}').tag('cleared')")
-    # print("point_2", cleartasks)
     cleartasks.clear()
-    # print("point_3", cleartasks)
     tasks.clear()
-    # print("point_4", datetime.now(), cleartasks)
 
 
-schedule.every(10).seconds.do(runschedule)
+schedule.every(10).minutes.do(runschedule)
 
 while True:
     schedule.run_pending()
