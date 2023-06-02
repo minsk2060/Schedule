@@ -1,10 +1,14 @@
+import time
+
 import requests
 from headers import header, cookie
+from plants import alarms_try
 #  В данном скрипте выполняется успешная отправка запроса (пуск ПВ-2.9) не прибегая к библиотеке webbrowser
 
 def switch(get_plant,par):
     """
     switch()     - выполнение запроса на сервер при помощи requests
+
     get_plant    - параметр для формирования url, определяющий код установки
     par          - параметр для формирования url, определяющий действие
     headers      - заголовки запроса
@@ -13,19 +17,49 @@ def switch(get_plant,par):
     url = f"http://192.168.250.50/ajaxjson/bac/setValue?pid=85&oid={get_plant}{par}"
     r = requests.get(url, headers=header, cookies=cookie)
 
+def getalarms():
+        for i,j in alarms_try.items():
+            url=f"http://192.168.250.50/svo/details/update?oid={i}&vid=17"
+            r=requests.get(url, headers=header, cookies=cookie, allow_redirects=False)
+            for s in range(10):
+                if r.status_code == 200:
+                    print (r.status_code)
+                    break
+                else:
+                    time.sleep(1)
+
+
+
+            # # time.sleep(3)
+            # print(r.status_code)
+            # print(r.text)
+            # # if "Alarm: true" in r.text:
+            #     print(f"{j}  in alarm")
+            # elif "Alarm: false" in r.text:
+            #     print("Alarm false")
+            # else :
+            #     print ("No alarms detected!")
+
 if __name__ == "__main__":
     # switch('8388858&did=33557432', "&vid=17&value=1")
-    #url="http://192.168.250.50/svo/details/?oid=12584036&did=33557432&vid=17"
+    # url="http://192.168.250.50/svo/details/?oid=12584036&did=33557432&vid=17"
     url ="http://192.168.250.50/bac/details/update?oid=12584036&did=33557432&vid=17" # ПВ-1.7
-    url2="http://192.168.250.50/bac/details/update?oid=12584092&did=33557432&vid=17" # ПВ-1.6
-    alarm = "Alarm: true"
-    r = requests.get(url, headers=header, cookies=cookie)
+    # url2="http://192.168.250.50/bac/details/update?oid=12584092&did=33557432&vid=17" # ПВ-1.6
+    # alarm = "Alarm: true"
+    #r = requests.get(url, headers=header, cookies=cookie)
+    # print(r.json()["data"]["111"])
     # print(r.json()["data"]["111"][0])
-    # print(r.json()["data"]["111"][0])
-    if alarm in r.json()["data"]["111"][0]:
-      print(alarm)
-    else:
-        print("Alarm: False")
+    # if "Alarm: true" in r.json()["data"]["111"][0]:
+    #     print("Alarm true")
+    # elif "Alarm: false" in r.json()["data"]["111"][0]:
+    #     print("Alarm false")
+    # else:
+    #     print("No data detected")
+    # else:
+    #     print("Alarm: False")
+    getalarms()
+    # for i,j in alarms_try.items():
+    #     print (i,j)
 
 """
 {'data': {   '79': ['Binary Input', ''], 
