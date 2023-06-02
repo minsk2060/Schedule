@@ -62,6 +62,7 @@ def act (singlecode, whattodo):
 def writelog(parttasks, partlogs):
     """
     writelog()  - запись в лог файл команд за заданный период
+    abs()       - необходима для корректной вставки пустой строки при наступлении  нового месяца
     logtasks    - список для записи в файл log_scheduling.txt
     alllogs     - список для записи в файл alllogs.txt
     в первом цикле также вставка пустой строки между разными датами

@@ -49,6 +49,6 @@ def readschedule(tasks):
 if __name__ == "__main__":
     emptytasks=[]
     readschedule(emptytasks)
-    print (tasks)
+    print(tasks)
 
 

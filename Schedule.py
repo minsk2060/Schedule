@@ -6,6 +6,7 @@ from pywinauto.application import Application
 from logs import log
 from excels import readschedule
 from request import switch
+from datetime import datetime
 
 
 print("РАБОТАЕТ УПРАВЛЕНИЕ ОБОРУДОВАНИЕМ ПО РАСПИСАНИЮ, НЕ ЗАКРЫВАЙТЕ ЭТО ОКНО")
@@ -64,15 +65,18 @@ def runschedule():
     for t in range(len(tasks)):
         if tasks[t][2] == "None":
             cleartasks.remove(tasks[t])
-    schedule.clear()
+    print(cleartasks)
+    schedule.clear('cleared')
     for i in range(len(cleartasks)):
-        exec(f"""schedule.every().{cleartasks[i][1]}.at('{cleartasks[i][2]}').do(turn,'{cleartasks[i][0]}','&vid=17&value={cleartasks[i][3]}')""")
+        exec(f"schedule.every().{cleartasks[i][1]}.at('{cleartasks[i][2]}').do(turn,'{cleartasks[i][0]}','&vid=17&value={cleartasks[i][3]}').tag('cleared')")
+    # print("point_2", cleartasks)
     cleartasks.clear()
+    # print("point_3", cleartasks)
     tasks.clear()
+    # print("point_4", datetime.now(), cleartasks)
 
 
 schedule.every(10).seconds.do(runschedule)
-
 
 while True:
     schedule.run_pending()
