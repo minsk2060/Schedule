@@ -1,5 +1,4 @@
 import time
-
 import requests
 from headers import header, cookie
 from plants import alarms_try
