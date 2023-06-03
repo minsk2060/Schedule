@@ -21,6 +21,12 @@ def getalarms():
             time.sleep(15)
             url=f"http://192.168.250.50/svo/details/update?oid={i}&vid=17&mode=cached"
             r=requests.get(url, headers=header_alarm_A, cookies=cookie, allow_redirects=False)
+            if "Alarm: true" in r.text:
+                print(f"{j}  in alarm_A")
+            elif "Alarm: false" in r.text:
+                print(f"{j} is not in alarm")
+            else:
+                print("An error occured in alam request")
             print (r.status_code)
 
 

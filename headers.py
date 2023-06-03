@@ -15,7 +15,7 @@ cookie = {
     "BAYEUX_BROWSER": "ec3egd91iy8tb3mjlhulodl01any",
     "uid": "0"
 }
-#ПВ-2.8
+# взято для ПВ-2.8
 header_alarm_A={
     "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
     "Accept-Encoding": "gzip, deflate",
