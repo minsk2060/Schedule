@@ -1,6 +1,6 @@
 import time
 import requests
-from headers import header, cookie
+from headers import header, header_alarm_A, cookie
 from plants import alarms_try
 #  В данном скрипте выполняется успешная отправка запроса (пуск ПВ-2.9) не прибегая к библиотеке webbrowser
 
@@ -18,10 +18,10 @@ def switch(get_plant,par):
 
 def getalarms():
         for i,j in alarms_try.items():
+            time.sleep(15)
             url=f"http://192.168.250.50/svo/details/update?oid={i}&vid=17&mode=cached"
-            r=requests.get(url, headers=header, cookies=cookie, allow_redirects=False)
+            r=requests.get(url, headers=header_alarm_A, cookies=cookie, allow_redirects=False)
             print (r.status_code)
-
 
 
             # # time.sleep(3)
@@ -37,7 +37,7 @@ def getalarms():
 if __name__ == "__main__":
     # switch('8388858&did=33557432', "&vid=17&value=1")
     # url="http://192.168.250.50/svo/details/?oid=12584036&did=33557432&vid=17"
-    # url ="http://192.168.250.50/bac/details/update?oid=12584036&did=33557432&vid=17&mode=cached" # ПВ-1.7
+    # url ="http://192.168.250.50/bac/details/update?oid=12584036&did=33557432&vid=17" # ПВ-1.7
     # url2="http://192.168.250.50/bac/details/update?oid=12584092&did=33557432&vid=17" # ПВ-1.6
     # alarm = "Alarm: true"
     #r = requests.get(url, headers=header, cookies=cookie)
