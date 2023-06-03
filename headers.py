@@ -5,7 +5,7 @@ header ={
         "Accept-Language": "en-GB,en;q=0.9,en-US;q=0.8",
         "Connection": "keep-alive",
         "Host": "192.168.250.50",
-        "Referer": "http://192.168.250.50/svo/graphic?oid=121634830&did=-1&vid=80",
+        # "Referer": "http://192.168.250.50/svo/graphic?oid=121634830&did=-1&vid=80",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36 Edg/113.0.1774.42",
         "X-Requested-With": "XMLHttpRequest"
     }
