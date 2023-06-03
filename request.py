@@ -19,7 +19,7 @@ def switch(get_plant,par):
 def getalarms():
         for i,j in alarms_try.items():
             url=f"http://192.168.250.50/svo/details/update?oid={i}&vid=17"
-            r=requests.get(url, headers=header, cookies=cookie, allow_redirects=False)
+            r=requests.get(url, headers=header_alarm_A, cookies=cookie, allow_redirects=False)
             for s in range(10):
                 if r.status_code == 200:
                     print (r.status_code)
@@ -42,7 +42,7 @@ def getalarms():
 if __name__ == "__main__":
     # switch('8388858&did=33557432', "&vid=17&value=1")
     # url="http://192.168.250.50/svo/details/?oid=12584036&did=33557432&vid=17"
-    url ="http://192.168.250.50/bac/details/update?oid=12584036&did=33557432&vid=17" # ПВ-1.7
+    # url ="http://192.168.250.50/bac/details/update?oid=12584036&did=33557432&vid=17" # ПВ-1.7
     # url2="http://192.168.250.50/bac/details/update?oid=12584092&did=33557432&vid=17" # ПВ-1.6
     # alarm = "Alarm: true"
     #r = requests.get(url, headers=header, cookies=cookie)
