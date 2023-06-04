@@ -57,10 +57,10 @@ if __name__ == "__main__":
     #     print("No data detected")
     # else:
     #     print("Alarm: False")
-    # getalarms()
+    getalarms()
     # for i,j in alarms_try.items():
     #     print (i,j)
-    writestatus()
+    #writestatus()
 
 """
 {'data': {   '79': ['Binary Input', ''], 
