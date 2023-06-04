@@ -31,7 +31,9 @@ def logall(logwrite):
 
 def close():
     """
-    close()  - закрытие лог файла, если на момент записи в него он открыт"""
+    close()  - закрытие лог файла, если на момент записи в него он открыт
+
+    """
     ntp = Application()
     try:
         ntp.connect(title_re="log_scheduling")
