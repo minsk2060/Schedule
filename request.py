@@ -2,7 +2,7 @@ import datetime
 import time
 import requests
 from headers import header, header_alarm_A, cookie
-from plants import alarms_A
+from plants import alarms_A, alarms_BC
 from excels import writestatus
 #  В данном скрипте выполняется успешная отправка запроса (пуск ПВ-2.9) не прибегая к библиотеке webbrowser
 
@@ -17,26 +17,29 @@ def switch(get_plant,par):
     url = f"http://192.168.250.50/ajaxjson/bac/setValue?pid=85&oid={get_plant}{par}"
     r = requests.get(url, headers=header, cookies=cookie)
 
-def getalarms():
+def getalarms(alarms_dict, column_number, alarm_text):
     """
     getalarms()   - получение данных о наличии аварии установки в данный момент
     alarms_A      - словарь с кодами установок для формирования строки запроса
     alarm_now     - текст записи о наличии-отсутствии аварии
     writestatus() - запись сведений об аварии в Состояние.xlsx
     """
-    for i, j in enumerate(alarms_A.keys()):
+    for i, j in enumerate(alarms_dict.keys()):
         time.sleep(10)
         url=f"http://192.168.250.50/svo/details/update?oid={j}&vid=17&mode=cached"
         r=requests.get(url, headers=header_alarm_A, cookies=cookie, allow_redirects=False)
         if "Alarm: true" in r.text:
-            alarms_now = "Авария класса А"
+            alarms_now = alarm_text
         elif "Alarm: false" in r.text:
             alarms_now = "Нет аварии"
-        writestatus(i, alarms_A[j], alarms_now)
+        else:
+            alarms_now = "Нет ответа об аварии"
+        writestatus(i, alarms_dict[j], alarms_now, column_number)
 
 
 if __name__ == "__main__":
-    getalarms()
+    getalarms(alarms_dict=alarms_BC, column_number=5, alarm_text='Авария класса B,C')
+    #getalarms(alarms_dict=alarms_A,  column_number=4, alarm_text='Авария класса А')
 
 
 """

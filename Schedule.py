@@ -5,7 +5,8 @@ from pyautogui import hotkey
 from pywinauto.application import Application
 from logs import log
 from excels import readschedule
-from request import switch
+from request import switch, getalarms
+from plants import alarms_A, alarms_BC
 from datetime import datetime
 
 
@@ -17,7 +18,9 @@ def browsing():
     """
     browsing()   - открытие и установка фокуса на окне браузера Edge
     app          - объект для подключения и установки фокуса на окне браузера Edge
-    try/except:  - проверка на предмет на закрыт ли браузер, открытие
+    try          - проверка на предмет не закрыт ли браузер, открытие
+    except       - открытие браузера, закрытие лишней страницы
+    set_focus()  - вывод окна браузера на передний план
     """
     app =Application(backend ="uia")
     try:
@@ -54,12 +57,12 @@ def turn(get_plant, par):
 
 def runschedule():
     """
-    runschedule()    - получение расписания, улаоение пустых значений, компоновка задач и запуск действий по расписанию.
+    runschedule()    - получение расписания, удаление пустых значений, компоновка задач и запуск действий по расписанию.
     readschedule()   - чтение расписания из excel файла принимает пустой список tasks, возвращает заполненный список
     cleartasks       - список, где не будет пустых расписаний
     tasks            - полный список расписаний, в т.ч. пустых
-    schedule.clear() - очистка предыдущего  schedule, т.к. периодически происходит чтение и его формирование заново
-    exec()           - автоматическая компоновка задачи для shedule
+    clear('cleared') - очистка предыдущего  schedule c тегом 'cleared', т.к. периодически происходит чтение и его формирование заново
+    exec()           - автоматическая компоновка задачи для функции schedule
     """
     cleartasks = readschedule(tasks).copy()
     for t in range(len(tasks)):
@@ -73,6 +76,8 @@ def runschedule():
 
 
 schedule.every(10).minutes.do(runschedule)
+schedule.every(17).minutes.do(getalarms, alarms_dict=alarms_A,  column_number=4, alarm_text='Авария класса А')
+schedule.every(33).minutes.do(getalarms, alarms_dict=alarms_BC, column_number=5, alarm_text='Авария класса B,C')
 
 while True:
     schedule.run_pending()

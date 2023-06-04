@@ -26,28 +26,3 @@ header_alarm_A={
     "Upgrade-Insecure-Requests": "1",
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36 Edg/113.0.1774.57",
 }
-#
-# """
-# об-2.7
-# Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
-# Accept-Encoding: gzip, deflate
-# Accept-Language: en-GB,en;q=0.9,en-US;q=0.8
-# Connection: keep-alive
-# Cookie: JSESSIONID=1cz6kij7qyzyvkjkekql6inte; uid=0; pw=73F0CF35AF3850221A1D641803815D686EC21A9316F6CFBFF079AE3B9BFE8DEA; BAYEUX_BROWSER=f924-1swhe0fqnhm5alieq2f7r1d7o
-# Host: 192.168.250.50
-# Referer: http://192.168.250.50/svo/simple?oid=121634826&did=-1&vid=80
-# Upgrade-Insecure-Requests: 1
-# User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36 Edg/113.0.1774.57
-#
-#
-# об-2.15
-# Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
-# Accept-Encoding: gzip, deflate
-# Accept-Language: en-GB,en;q=0.9,en-US;q=0.8
-# Connection: keep-alive
-# Cookie: JSESSIONID=1cz6kij7qyzyvkjkekql6inte; uid=0; pw=73F0CF35AF3850221A1D641803815D686EC21A9316F6CFBFF079AE3B9BFE8DEA; BAYEUX_BROWSER=f924-1swhe0fqnhm5alieq2f7r1d7o
-# Host: 192.168.250.50
-# Referer: http://192.168.250.50/svo/simple?oid=121634825&did=-1&vid=80
-# Upgrade-Insecure-Requests: 1
-# User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36 Edg/113.0.1774.57
-# """
