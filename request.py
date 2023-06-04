@@ -20,16 +20,15 @@ def switch(get_plant,par):
 
 def getalarms():
     alarms_A_list={}
-    for i,j in alarms_A.items():
-        time.sleep(15)
+    for i in range(len(alarms_A.keys()):
+        time.sleep(10)
         url=f"http://192.168.250.50/svo/details/update?oid={i}&vid=17&mode=cached"
         r=requests.get(url, headers=header_alarm_A, cookies=cookie, allow_redirects=False)
         if "Alarm: true" in r.text:
             alarms_now="Авария класса А"
         elif "Alarm: false" in r.text:
             alarms_now="Нет аварии"
-        alarms_A_list[j] = alarms_now
-    writestatus(alarms_A_list)
+        writestatus(i,alarms_A.keys()[i], alarms_now)
 
 
             # # time.sleep(3)
