@@ -1,5 +1,6 @@
 from openpyxl import load_workbook
 from datetime import datetime
+from logs import logall, sort
 from plants import alarms_A
 
 schedule_book = "./excel/Расписание.xlsm"
@@ -48,18 +49,34 @@ def readschedule(tasks):
             refresh(tasks)
     return tasks
 
-def writestatus(i,plant, alarm):
+def writestatus(i, plant, alarm, column):
+    """
+    writestatus()  - запись сведений об аварии в файл Состояние.xlsx
+    i              - сдвиг номера строки для внесения записей в файл Состояние.xlsx
+    plant          - имя установки, заносимое в файл Состояние.xlsx (например "ПВ-1.6")
+    alarm          - запись об аварии, заносимая в файл Состояние.xlsx (например "Авария класса А")
+    column         - номер колонки для записи в файл Состояние.xlsx
+    statusbook     - объект для работы с файлом Состояние.xlsx
+    date_now       - текущая дата, заносимая в файл Состояние.xlsx
+    time_now       - текущее время, заносимая в файл Состояние.xlsx
+    alarm_happen   - сторка типа "04-06-2023  11:00  ПВ-2.8   Авария класса А"
+    logall()       - занесение события об аварии в лог файл alllogs.txt
+    sort()         - занесение события об аварии в лог файл log_scheduling.txt
+    """
     statusbook=load_workbook(status_book)
-    statusbook.active.cell(row=3+i, column=1).value = datetime.now().strftime("%d-%m-%Y")
-    statusbook.active.cell(row=3+i, column=2).value = datetime.now().strftime("%H:%M")
+    date_now = datetime.now().strftime("%d-%m-%Y")
+    time_now = datetime.now().strftime("%H:%M")
+    statusbook.active.cell(row=3+i, column=1).value = date_now
+    statusbook.active.cell(row=3+i, column=2).value = time_now
     statusbook.active.cell(row=3+i, column=3).value = plant
-    statusbook.active.cell(row=3+i, column=4).value = alarm
+    a = statusbook.active.cell(row=3+i, column=column).value
+    if a != alarm:
+        alarm_happen = [f"{date_now}  ", f"{time_now}  ", f"{plant}  ",  alarm]
+        logall(alarm_happen)
+        sort()
+        # здесь можно отправить запись об аварии в Telegram
+    statusbook.active.cell(row=3 + i, column=column).value = alarm
     statusbook.save(status_book)
 
 
-if __name__ == "__main__":
-    # emptytasks=[]
-    # readschedule(emptytasks)
-    # print(tasks)
-    writestatus('12583680&did=33560432','123')
 
