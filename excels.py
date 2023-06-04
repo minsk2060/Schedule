@@ -2,8 +2,8 @@ from openpyxl import load_workbook
 from datetime import datetime
 from plants import alarms_A
 
-schedule_book="./excel/Расписание.xlsm"
-status_book="./excel/Состояние.xlsx"
+schedule_book = "./excel/Расписание.xlsm"
+status_book   = "./excel/Cостояние.xlsx"
 single=[] # This list contains a single schedule: the plant, the day, what to do, when to do.
 
 # Clear the single[] list and pop up the tasks[] list
@@ -48,13 +48,13 @@ def readschedule(tasks):
             refresh(tasks)
     return tasks
 
-def writestatus(plant, status):
+def writestatus(alarms_A_list):
     statusbook=load_workbook(status_book)
-    for i in range(len(alarms_A)):
+    for i, j, k in range(len(alarms_A_list)), alarms_A_list:
         statusbook.active.cell(row=3+i, column=1).value = datetime.now().strftime("%d-%m-%Y")
         statusbook.active.cell(row=3+i, column=2).value = datetime.now().strftime("%H:%M")
-        statusbook.active.cell(row=3+i, column=3).value = alarms_A[plant]
-        statusbook.active.cell(row=3+i, column=4).value =status
+        statusbook.active.cell(row=3+i, column=3).value = alarms_A_list[j]
+        statusbook.active.cell(row=3+i, column=4).value = alarms_A_list[k]
     statusbook.save(status_book)
     #statusbook.active.cell(row=3 ,column=1).value=datetime.datetime.now().strftime("%d-%m-%Y")
 
@@ -63,5 +63,5 @@ if __name__ == "__main__":
     # emptytasks=[]
     # readschedule(emptytasks)
     # print(tasks)
-    writestatus()
+    writestatus('12583680&did=33560432','123')
 
