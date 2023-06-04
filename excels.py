@@ -48,15 +48,13 @@ def readschedule(tasks):
             refresh(tasks)
     return tasks
 
-def writestatus(alarms_A_list):
+def writestatus(i,plant, alarm):
     statusbook=load_workbook(status_book)
-    for i, j, k in range(len(alarms_A_list)), alarms_A_list:
-        statusbook.active.cell(row=3+i, column=1).value = datetime.now().strftime("%d-%m-%Y")
-        statusbook.active.cell(row=3+i, column=2).value = datetime.now().strftime("%H:%M")
-        statusbook.active.cell(row=3+i, column=3).value = alarms_A_list[j]
-        statusbook.active.cell(row=3+i, column=4).value = alarms_A_list[k]
+    statusbook.active.cell(row=3+i, column=1).value = datetime.now().strftime("%d-%m-%Y")
+    statusbook.active.cell(row=3+i, column=2).value = datetime.now().strftime("%H:%M")
+    statusbook.active.cell(row=3+i, column=3).value = plant
+    statusbook.active.cell(row=3+i, column=4).value = alarm
     statusbook.save(status_book)
-    #statusbook.active.cell(row=3 ,column=1).value=datetime.datetime.now().strftime("%d-%m-%Y")
 
 
 if __name__ == "__main__":
