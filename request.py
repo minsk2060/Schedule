@@ -8,8 +8,7 @@ from excels import writestatus
 
 def switch(get_plant,par):
     """
-    switch()     - выполнение запроса на сервер при помощи requests
-
+    switch()     - выполнение запроса на сервер при помощи библиотеки requests
     get_plant    - параметр для формирования url, определяющий код установки
     par          - параметр для формирования url, определяющий действие
     headers      - заголовки запроса
@@ -19,48 +18,25 @@ def switch(get_plant,par):
     r = requests.get(url, headers=header, cookies=cookie)
 
 def getalarms():
-    alarms_A_list={}
-    for i in range(len(alarms_A.keys()):
+    """
+    getalarms()   - получение данных о наличии аварии установки в данный момент
+    alarms_A      - словарь с кодами установок для формирования строки запроса
+    alarm_now     - текст записи о наличии-отсутствии аварии
+    writestatus() - запись сведений об аварии в Состояние.xlsx
+    """
+    for i, j in enumerate(alarms_A.keys()):
         time.sleep(10)
-        url=f"http://192.168.250.50/svo/details/update?oid={i}&vid=17&mode=cached"
+        url=f"http://192.168.250.50/svo/details/update?oid={j}&vid=17&mode=cached"
         r=requests.get(url, headers=header_alarm_A, cookies=cookie, allow_redirects=False)
         if "Alarm: true" in r.text:
-            alarms_now="Авария класса А"
+            alarms_now = "Авария класса А"
         elif "Alarm: false" in r.text:
-            alarms_now="Нет аварии"
-        writestatus(i,alarms_A.keys()[i], alarms_now)
+            alarms_now = "Нет аварии"
+        writestatus(i, alarms_A[j], alarms_now)
 
-
-            # # time.sleep(3)
-            # print(r.status_code)
-            # print(r.text)
-            # # if "Alarm: true" in r.text:
-            #     print(f"{j}  in alarm")
-            # elif "Alarm: false" in r.text:
-            #     print("Alarm false")
-            # else :
-            #     print ("No alarms detected!")
 
 if __name__ == "__main__":
-    # switch('8388858&did=33557432', "&vid=17&value=1")
-    # url="http://192.168.250.50/svo/details/?oid=12584036&did=33557432&vid=17"
-    # url ="http://192.168.250.50/bac/details/update?oid=12584036&did=33557432&vid=17" # ПВ-1.7
-    # url2="http://192.168.250.50/bac/details/update?oid=12584092&did=33557432&vid=17" # ПВ-1.6
-    # alarm = "Alarm: true"
-    #r = requests.get(url, headers=header, cookies=cookie)
-    # print(r.json()["data"]["111"])
-    # print(r.json()["data"]["111"][0])
-    # if "Alarm: true" in r.json()["data"]["111"][0]:
-    #     print("Alarm true")
-    # elif "Alarm: false" in r.json()["data"]["111"][0]:
-    #     print("Alarm false")
-    # else:
-    #     print("No data detected")
-    # else:
-    #     print("Alarm: False")
     getalarms()
-    # for i,j in alarms_try.items():
-    #     print (i,j)
 
 
 """

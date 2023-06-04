@@ -3,27 +3,28 @@ import datetime
 from plants import plant
 from pywinauto.application import Application
 
-logs =[]
+# logs =[]
 pathcur = "./logging/log_scheduling.txt"
 pathall = "./logging/alllogs.txt"
 
 def log(plantcode, acting):
     """
     log()       -  основyная функция логгирования"
-    plantcode:  -  код установки
+    plantcode   -  код установки
     acting      -  действие в читаемом виде
     close()     -  закрытие лог файла, если на момент записи в него он открыт
     """
     close()
     logwrite = [datetime.datetime.now().strftime("%d-%m-%Y  %H:%M  "), plant[f"{plantcode}"], act(plantcode, acting)]
     logall(logwrite)
-    logs.append(logwrite)
+    # logs.append(logwrite)
     sort()
 
 def logall(logwrite):
     """
     logall()    -  запись в лог файл всех отправленных заданий построчно
     logwrite    -  задание, пример:   [17-05-2023  20:30  ПВ-2.6   Cтоп]
+    logfile     -  файл alllogs.txt
     """
     logfile = open(pathall, "a")
     logfile.write("".join(logwrite)+"\n")
@@ -32,7 +33,7 @@ def logall(logwrite):
 def close():
     """
     close()  - закрытие лог файла, если на момент записи в него он открыт
-
+    try      - попытка найти открытый файл с заголовком "log_scheduling" и закрыть его
     """
     ntp = Application()
     try:
@@ -64,11 +65,12 @@ def act (singlecode, whattodo):
 def writelog(parttasks, partlogs):
     """
     writelog()  - запись в лог файл команд за заданный период
-
     abs()       - необходима для корректной вставки пустой строки при наступлении  нового месяца
     logtasks    - список для записи в файл log_scheduling.txt
     alllogs     - список для записи в файл alllogs.txt
-    в первом цикле также вставка пустой строки между разными датами
+    parttasks - список списков заданий за короткий заданный период
+    partlogs  - список списков заданий за длинный заданный период
+     в первом цикле также вставка пустой строки между разными датами
     """
     f = open(pathcur, "w")
     d = open(pathall, "w")
@@ -88,8 +90,11 @@ def writelog(parttasks, partlogs):
 
 def sort():
     """
-    sort()  - сортировка для записи в лог-файл команд за заданный период
-    в цикле проверка на предмет нескольких дней и ограничения всего периода записей"""
+    sort()    - сортировка для записи в лог-файл команд за заданный период
+    current   - список из всех записей в alllogs, разделенный по символу переноса
+    parttasks - список списков заданий за короткий заданный период
+    partlogs  - список списков заданий за длинный заданный период
+    в цикле проверка на предмет выдавать записи за несколько дней и ограничение всего периода записей"""
     f = open(pathall, "r")
     current = f.read().split("\n")
     parttasks = []
@@ -101,6 +106,8 @@ def sort():
             partlogs.append(current[i])
     f.close()
     writelog(parttasks, partlogs)
+
+
 
 
 if __name__ == "__main__":
