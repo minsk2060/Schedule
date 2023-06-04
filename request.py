@@ -20,7 +20,7 @@ def switch(get_plant,par):
 
 def getalarms():
     alarms_A_list={}
-    for i in range(len(alarms_A.keys()):
+    for i in range(len(alarms_A.keys())):
         time.sleep(10)
         url=f"http://192.168.250.50/svo/details/update?oid={i}&vid=17&mode=cached"
         r=requests.get(url, headers=header_alarm_A, cookies=cookie, allow_redirects=False)
