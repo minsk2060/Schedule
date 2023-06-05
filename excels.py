@@ -75,7 +75,7 @@ def writestatus(i, plant, alarm, column):
         alarm_happen = [f"{date_now}  ", f"{time_now}  ", f"{plant}  ",  alarm]
         logall(alarm_happen)
         sort()
-        telegram("\n".join(alarm_happen))
+        telegram("  ".join(alarm_happen))
 
         # здесь можно отправить запись об аварии в Telegram
     statusbook.active.cell(row=3 + i, column=column).value = alarm
