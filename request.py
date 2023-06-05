@@ -18,6 +18,11 @@ def switch(get_plant,par):
     url = f"http://192.168.250.50/ajaxjson/bac/setValue?pid=85&oid={get_plant}{par}"
     r = requests.get(url, headers=header, cookies=cookie)
 
+<<<<<<< HEAD
+def getalarms():
+    alarms_A_list={}
+    for i in range(len(alarms_A.keys())):
+=======
 def getalarms(alarms_dict, column_number, alarm_text):
     """
     getalarms()   - получение данных о наличии аварии установки в данный момент
@@ -26,6 +31,7 @@ def getalarms(alarms_dict, column_number, alarm_text):
     writestatus() - запись сведений об аварии в Состояние.xlsx
     """
     for i, j in enumerate(alarms_dict.keys()):
+>>>>>>> 689e9a5de0339715fc2d7046d66b65fa177055d1
         time.sleep(10)
         url=f"http://192.168.250.50/svo/details/update?oid={j}&vid=17&mode=cached"
         r=requests.get(url, headers=header_alarm_A, cookies=cookie, allow_redirects=False)
