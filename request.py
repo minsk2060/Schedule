@@ -1,9 +1,10 @@
 import datetime
 import time
 import requests
-from headers import header, header_alarm_A, cookie
+from headers import header, header_alarm_A
 from plants import alarms_A, alarms_BC
 from excels import writestatus
+from tokens import cookie
 #  В данном скрипте выполняется успешная отправка запроса (пуск ПВ-2.9) не прибегая к библиотеке webbrowser
 
 def switch(get_plant,par):
