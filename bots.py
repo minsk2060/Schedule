@@ -7,6 +7,13 @@ chat_id = {"Mikhail" : "1140621075",
            }
 
 def telegram(msg):
+    """
+    telegram()     - отправка события в мессенджер Telegram
+    msg            - текст сообщения
+    bot            - объект класса TeleBot для работы с Telegram
+    telegramtoken  - токен мессенджера Telegram
+    chat_id        - идентификаторы получателей сообщений в Telegram
+    """
     bot = telebot.TeleBot(telegramtoken)
     for i in chat_id.values():
         bot.send_message(i, msg)
