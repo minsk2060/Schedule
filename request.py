@@ -5,6 +5,7 @@ from headers import header, header_alarm_A
 from plants import alarms_A, alarms_BC
 from excels import writestatus
 from tokens import cookie
+import webbrowser
 #  В данном скрипте выполняется успешная отправка запроса (пуск ПВ-2.9) не прибегая к библиотеке webbrowser
 
 def switch(get_plant,par):
@@ -40,7 +41,8 @@ def getalarms(alarms_dict, column_number, alarm_text):
 
 
 if __name__ == "__main__":
-    getalarms(alarms_dict=alarms_BC, column_number=5, alarm_text='Авария класса B,C')
+    webbrowser.open_new_tab("http://192.168.250.50/ajaxjson/bac/setValue?pid=79691777&did=33555432&vid=17&value=5")
+    #getalarms(alarms_dict=alarms_BC, column_number=5, alarm_text='Авария класса B,C')
     #getalarms(alarms_dict=alarms_A,  column_number=4, alarm_text='Авария класса А')
 
 
