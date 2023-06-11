@@ -1,10 +1,10 @@
 import telebot
 from tokens import telegramtoken, chat_id
 
-chat_id = {"Mikhail" : "1140621075",
-           "Michael" : "5740110040",
-           "Roman"   : "1565146153",
-           }
+# chat_id = {"Mikhail" : "1140621075",
+#            "Michael" : "5740110040",
+#            "Roman"   : "1565146153",
+#            }
 
 def telegram(msg):
     """
