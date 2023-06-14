@@ -17,9 +17,17 @@ Voolfov_2 = datetime.datetime.fromordinal(datetime.datetime.today().toordinal())
 # Клышко   0, 1
 # Басыров  1, 2
 # Федорчук 2, 3
+# Сначала определяем первая полусмена или вторая в зависимости от времени суток
+# Затем находим коэффициент
+# Затем определяем принадлежность коэффициента пользователю
 
 
-dat = datetime.datetime(2023,06,22,12,30)
+dat = datetime.datetime(2023,6,22,2,30)
+#print(datetime.time(8,00))
+if datetime.time().now() < datetime.time(8,00) and dat.time() > datetime.time(0,00):
+    print("Yes")
+else:
+    print("no")
 # a=738683
 #
 #print(datetime.datetime.fromordinal(only_date))
