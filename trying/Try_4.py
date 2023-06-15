@@ -24,15 +24,20 @@ Voolfov_2 = datetime.datetime.fromordinal(datetime.datetime.today().toordinal())
 
 dat = datetime.datetime(2023,6,22,2,30)
 #print(datetime.time(8,00))
-if datetime.time().now() < datetime.time(8,00) and dat.time() > datetime.time(0,00):
-    print("Yes")
-else:
-    print("no")
+# if datetime.time(8,00)< datetime.datetime.now().time() > datetime.time(0,00):
+#     print("Yes")
+# else:
+#     print("no")
 # a=738683
-#
+# t=datetime.datetime.now().time()
+# print(t)
 #print(datetime.datetime.fromordinal(only_date))
 # Период это начало даты минус 16 часов и начало даты плюс 8 часов
-
+a=3
+b=4
+c=6
+if a<b<c:
+    print("True")
 
 # """
 # 12.06.2023 - 738683
