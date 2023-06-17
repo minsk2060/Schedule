@@ -53,4 +53,4 @@ if __name__ =="__main__":
     bot = telebot.TeleBot(telegramtoken)
     msg="Авария класса А - вызывает останов установки. Авария класса B,C - в основном не останавливает оборудование."
 
-    bot.send_message(chat_id["Alexandr"], msg)
+    bot.send_message(chat_id_bosses["Andrey"], msg)
