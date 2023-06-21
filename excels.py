@@ -10,7 +10,7 @@ single=[] # This list contains a single schedule: the plant, the day, what to do
 
 # Clear the single[] list and pop up the tasks[] list
 def refresh(tasks):
-    single[0].replace(" ","")
+    single[0].replace(" ", "")
     tasks.append(single.copy())                                                               # Append single[] list to the end of the tasks[] list
     single.clear()                                                                            # Clear the list
 
@@ -75,7 +75,7 @@ def writestatus(i, plant, alarm, column):
         alarm_happen = [f"{date_now}  ", f"{time_now}  ", f"{plant}  ",  alarm]
         logall(alarm_happen)
         sort()
-        telegram("\n".join(alarm_happen[2:]))
+        #telegram("\n".join(alarm_happen[2:]))
 
         # здесь можно отправить запись об аварии в Telegram
     statusbook.active.cell(row=3 + i, column=column).value = alarm

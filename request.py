@@ -37,7 +37,7 @@ def getalarms(alarms_dict, column_number, alarm_text):
             alarms_now = "Авария снята"
         else:
             alarms_now = "Нет ответа об аварии"
-        writestatus(i, alarms_dict[j], alarms_now, column_number)
+        #writestatus(i, alarms_dict[j], alarms_now, column_number)
 
 
 if __name__ == "__main__":
