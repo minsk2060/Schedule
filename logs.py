@@ -23,7 +23,7 @@ def log(plantcode, acting):
 def logall(logwrite):
     """
     logall()    -  запись в лог файл всех отправленных заданий построчно
-    logwrite    -  задание, пример:   [17-05-2023  20:30  ПВ-2.6   Cтоп]
+    logwrite    -  текст задания, пример:   "17-05-2023  20:30  ПВ-2.6   Cтоп"
     logfile     -  файл alllogs.txt
     """
     logfile = open(pathall, "a")
