@@ -11,9 +11,9 @@ single=[] # This list contains a single schedule: the plant, the day, what to do
 # Clear the single[] list and pop up the tasks[] list
 def refresh(tasks):
     single[0].replace(" ", "")
-    tasks.append(single.copy())                                                               # Append single[] list to the end of the tasks[] list
-    single.clear()                                                                            # Clear the list
-
+    tasks.append(single.copy())
+    single.clear()
+    
 def readschedule(tasks):
     workbook = load_workbook(schedule_book)
     for j in range(53, 383, 10):
@@ -63,8 +63,9 @@ def writestatus(i, plant, alarm, column):
     alarm_happen   - сторка типа "04-06-2023  11:00  ПВ-2.8   Авария класса А"
     logall()       - занесение события об аварии в лог файл alllogs.txt
     sort()         - занесение события об аварии в лог файл log_scheduling.txt
+    telegram()     - отправка текста об аварии в чат бот в Телеграм
     """
-    statusbook=load_workbook(status_book)
+    statusbook = load_workbook(status_book)
     date_now = datetime.now().strftime("%d-%m-%Y")
     time_now = datetime.now().strftime("%H:%M")
     statusbook.active.cell(row=3+i, column=1).value = date_now
@@ -75,9 +76,7 @@ def writestatus(i, plant, alarm, column):
         alarm_happen = [f"{date_now}  ", f"{time_now}  ", f"{plant}  ",  alarm]
         logall(alarm_happen)
         sort()
-        #telegram("\n".join(alarm_happen[2:]))
-
-        # здесь можно отправить запись об аварии в Telegram
+        telegram("\n".join(alarm_happen[2:]))
     statusbook.active.cell(row=3 + i, column=column).value = alarm
     statusbook.save(status_book)
 

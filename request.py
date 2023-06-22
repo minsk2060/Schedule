@@ -8,7 +8,7 @@ from tokens import cookie
 import webbrowser
 #  В данном скрипте выполняется успешная отправка запроса (пуск ПВ-2.9) не прибегая к библиотеке webbrowser
 
-def switch(get_plant,par):
+def switch(get_plant, par):
     """
     switch()     - выполнение запроса на сервер при помощи библиотеки requests
     get_plant    - параметр для формирования url, определяющий код установки
@@ -23,7 +23,7 @@ def switch(get_plant,par):
 def getalarms(alarms_dict, column_number, alarm_text):
     """
     getalarms()   - получение данных о наличии аварии установки в данный момент
-    alarms_A      - словарь с кодами установок для формирования строки запроса
+    alarms_dict   - словарь с кодами установок для формирования строки запроса
     alarm_now     - текст записи о наличии-отсутствии аварии
     writestatus() - запись сведений об аварии в Состояние.xlsx
     """
@@ -37,14 +37,13 @@ def getalarms(alarms_dict, column_number, alarm_text):
             alarms_now = "Авария снята"
         else:
             alarms_now = "Нет ответа об аварии"
-        #writestatus(i, alarms_dict[j], alarms_now, column_number)
+        writestatus(i, alarms_dict[j], alarms_now, column_number)
 
 
 if __name__ == "__main__":
-    pass
-    #webbrowser.open_new_tab("http://192.168.250.50/ajaxjson/bac/setValue?pid=79691777&did=33555432&vid=17&value=5")
-    #getalarms(alarms_dict=alarms_BC, column_number=5, alarm_text='Авария класса B,C')
-    #getalarms(alarms_dict=alarms_A,  column_number=4, alarm_text='Авария класса А')
+    getalarms(alarms_dict=alarms_A, column_number=4, alarm_text='Авария класса А')
+    getalarms(alarms_dict=alarms_BC, column_number=5, alarm_text='Авария класса B,C')
+
 
 
 """

@@ -1,16 +1,3 @@
-# # DO NOT DELETE THE COMMENTED PIECE !!!
-# # This is for reading plants names from  excel
-# from openpyxl import load_workbook
-# schedule_book="./excel/Расписание.xlsm"
-# workbook = load_workbook(schedule_book)
-# plants={}
-# for j in range(53, 383, 10):
-#         plant_name = (str(workbook.active.cell(row=j, column=2).value))
-#         plant_code = (str(workbook.active.cell(row=j, column=4).value))
-#         plants[f"{plant_code}"] = plant_name
-# for i in plants:
-#         print(len(i),type(i),i,plants[i])
-#
 plant = {
         '79691777&did=33555432': 'ПВ-1.1 ',
         '79691782&did=33556432': 'ПВ-2.1 ',
