@@ -2,7 +2,7 @@ from openpyxl import load_workbook
 from datetime import datetime
 from logs import logall, sort
 from plants import alarms_A
-from bots import telegram
+from TelegramBot import telegram
 
 schedule_book = "./excel/Расписание.xlsm"
 status_book   = "./excel/Cостояние.xlsx"
