@@ -3,6 +3,7 @@ from datetime import datetime
 from logs import logall, sort
 from plants import alarms_A
 from TelegramBot import telegram
+from ViberSet import toviber
 
 schedule_book = "./excel/Расписание.xlsm"
 status_book   = "./excel/Cостояние.xlsx"
@@ -76,7 +77,9 @@ def writestatus(i, plant, alarm, column):
         alarm_happen = [f"{date_now}  ", f"{time_now}  ", f"{plant}  ",  alarm]
         logall(alarm_happen)
         sort()
-        telegram("\n".join(alarm_happen[2:]))
+        logmsg="\n".join(alarm_happen[2:])
+        telegram(logmsg)
+        toviber(logmsg)
     statusbook.active.cell(row=3 + i, column=column).value = alarm
     statusbook.save(status_book)
 
