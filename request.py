@@ -4,7 +4,7 @@ import requests
 from headers import header, header_alarm_A
 from plants import alarms_A, alarms_BC
 from excels import writestatus
-from tokens import cookie
+from tokens import sauter_cookie
 import webbrowser
 #  В данном скрипте выполняется успешная отправка запроса (пуск ПВ-2.9) не прибегая к библиотеке webbrowser
 
@@ -17,7 +17,7 @@ def switch(get_plant, par):
     cookies      - ключи
     """
     url = f"http://192.168.250.50/ajaxjson/bac/setValue?pid=85&oid={get_plant}{par}"
-    r = requests.get(url, headers=header, cookies=cookie)
+    r = requests.get(url, headers=header, cookies=sauter_cookie)
 
 
 def getalarms(alarms_dict, column_number, alarm_text):
@@ -30,7 +30,7 @@ def getalarms(alarms_dict, column_number, alarm_text):
     for i, j in enumerate(alarms_dict.keys()):
         time.sleep(10)
         url=f"http://192.168.250.50/svo/details/update?oid={j}&vid=17&mode=cached"
-        r=requests.get(url, headers=header_alarm_A, cookies=cookie, allow_redirects=False)
+        r=requests.get(url, headers=header_alarm_A, cookies=sauter_cookie, allow_redirects=False)
         if "Alarm: true" in r.text and "False: true" not in r.text:
             alarms_now = alarm_text
         elif "Alarm: false" in r.text:
