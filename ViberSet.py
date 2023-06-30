@@ -6,7 +6,7 @@ from ViberBot import viber
 def sethook():
     viber.set_webhook(viberwebhook)
 
-def toviber(msg):
+def to_viber(msg):
     msgtext = TextMessage(text=msg)
     for i in viber_users.values():
         try:

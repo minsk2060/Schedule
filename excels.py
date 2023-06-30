@@ -2,8 +2,8 @@ from openpyxl import load_workbook
 from datetime import datetime
 from logs import logall, sort
 from plants import alarms_A
-from TelegramBot import telegram
-from ViberSet import toviber
+from TelegramBot import to_telegram
+from ViberSet import to_viber
 
 schedule_book = "./excel/Расписание.xlsm"
 status_book   = "./excel/Cостояние.xlsx"
@@ -64,7 +64,8 @@ def writestatus(i, plant, alarm, column):
     alarm_happen   - сторка типа "04-06-2023  11:00  ПВ-2.8   Авария класса А"
     logall()       - занесение события об аварии в лог файл alllogs.txt
     sort()         - занесение события об аварии в лог файл log_scheduling.txt
-    telegram()     - отправка текста об аварии в чат бот в Телеграм
+    to_telegram()  - отправка текста об аварии в чат бот в Телеграм
+    to_viber()     - отправка текста об аварии в чат бот в Viber
     """
     statusbook = load_workbook(status_book)
     date_now = datetime.now().strftime("%d-%m-%Y")
@@ -78,8 +79,8 @@ def writestatus(i, plant, alarm, column):
         logall(alarm_happen)
         sort()
         logmsg="\n".join(alarm_happen[2:])
-        telegram(logmsg)
-        toviber(logmsg)
+        to_telegram(logmsg)
+        to_viber(logmsg)
     statusbook.active.cell(row=3 + i, column=column).value = alarm
     statusbook.save(status_book)
 

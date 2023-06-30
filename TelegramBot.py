@@ -2,7 +2,7 @@ import telebot
 from tokens import telegramtoken, telegram_users
 from duties import onduties
 
-def telegram(msg):
+def to_telegram(msg):
     """
     telegram()     - отправка события в мессенджер Telegram
     msg            - текст сообщения

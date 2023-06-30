@@ -12,7 +12,7 @@ app = Flask(__name__)
 bot_config = BotConfiguration(name=viberbotname, avatar=viberavatar, auth_token=vibertoken)
 viber = Api(bot_config)
 
-@app.route("/", methods={"POST"})
+@app.route("/", methods=["POST"])
 def incoming():
     viber_request = viber.parse_request(request.get_data())
     if isinstance(viber_request, ViberMessageRequest):
