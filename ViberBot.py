@@ -17,14 +17,19 @@ app = Flask(__name__)
 bot_config = BotConfiguration(name="Вентиляция ФСК", avatar="C:/Users/BMS/projects/schedules/logo.jpg", auth_token=vibertoken)
 viber = Api(bot_config)
 
+
 @app.route("/", methods={"POST"})
 def incoming():
     viber_request = viber.parse_request(request.get_data())
+
     if isinstance(viber_request, ViberMessageRequest):
         message = viber_request.message
         viber.send_messages(viber_request.sender.id, [message])
-        print(viber_request.sender.id)
-        print([message.text])
+        # print(viber_request.sender.id)
+        # print([message.text])
+        # print(viber.get_user_details(viber_users["Artur"]))
+
+
     # elif isinstance(viber_request, ViberSubscribedRequest):
     #     viber.send_messages(viber_request.get_user().get_id(), [TextMessage( text ="Спасибо за подписку!")])
     elif isinstance(viber_request, ViberConversationStartedRequest):

@@ -20,4 +20,7 @@ from ViberBot import viber
 def toviber(msg):
     msgtext = TextMessage(text=msg)
     for i in viber_users.values():
-        viber.send_messages(i, [msgtext])
+        try:
+            viber.send_messages(i, [msgtext])
+        except:
+            pass
