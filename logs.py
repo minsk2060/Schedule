@@ -8,7 +8,7 @@ pathall = "./logging/alllogs.txt"
 
 def log(plantcode, acting):
     """
-    log()       -  основyная функция логгирования"
+    log()       -  основная функция логгирования"
     plantcode   -  код установки
     acting      -  действие в читаемом виде
     close()     -  закрытие лог файла, если на момент записи в него он открыт
@@ -68,7 +68,7 @@ def writelog(parttasks, partlogs):
     alllogs     - список для записи в файл alllogs.txt
     parttasks - список списков заданий за короткий заданный период
     partlogs  - список списков заданий за длинный заданный период
-     в первом цикле также вставка пустой строки между разными датами
+    в первом цикле также вставка пустой строки между разными датами
     """
     f = open(pathcur, "w")
     d = open(pathall, "w")
@@ -97,10 +97,12 @@ def sort():
     current = f.read().split("\n")
     parttasks = []
     partlogs  = []
+    rightnow = datetime.datetime.now()
     for i in range(len(current)-1):
-        if datetime.datetime.now() - datetime.timedelta(days=1) <= datetime.datetime.strptime(current[i][0:16], "%d-%m-%Y  %H:%M"):
+        logtime = datetime.datetime.strptime(current[i][0:16], "%d-%m-%Y  %H:%M")
+        if rightnow - datetime.timedelta(days=1) <= logtime:
             parttasks.append(current[i])
-        if datetime.datetime.now() - datetime.timedelta(days=10) < datetime.datetime.strptime(current[i][0:16], "%d-%m-%Y  %H:%M"):
+        if rightnow - datetime.timedelta(days=10) < logtime:
             partlogs.append(current[i])
     f.close()
     writelog(parttasks, partlogs)
