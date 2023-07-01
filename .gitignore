@@ -7,5 +7,4 @@ logging/log_scheduling.txt
 logging/alllogs.txt
 tokens.py
 plants.py
-duties.py
 headers.py

@@ -14,7 +14,7 @@ def to_telegram(msg):
     for i in telegram_users.values():
         bot.send_message(i, msg)
 
-    # выполняя функцию, получаем ключ (имя получателя) для словаря с именами и id
+    # получаем ключ (имя получателя) для словаря с именами и id
     # worker = onduties()
     # отправляем сообщение тому, кто сейчас на смене
     # bot.send_message(chat_id_workers[worker], msg)
