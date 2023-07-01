@@ -42,7 +42,7 @@ def runschedule():
     tasks.clear()
 
 
-schedule.every(15).minutes.do(runschedule)
+schedule.every(10).minutes.do(runschedule)
 schedule.every(13).minutes.do(getalarms, alarms_dict=alarms_A,  column_number=4, alarm_text='Авария класса А')
 schedule.every(23).minutes.do(getalarms, alarms_dict=alarms_BC, column_number=5, alarm_text='Авария класса B,C')
 
