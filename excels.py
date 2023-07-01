@@ -1,7 +1,7 @@
 from openpyxl import load_workbook
 from datetime import datetime
 from logs import logall, sort
-from plants import alarms_A
+#from plants import alarms_A
 from TelegramBot import to_telegram
 from ViberSet import to_viber
 
@@ -11,11 +11,23 @@ single=[] # This list contains a single schedule: the plant, the day, what to do
 
 # Clear the single[] list and pop up the tasks[] list
 def refresh(tasks):
+    """
+    refresh()        - предобработка заданий с расписанием
+    tasks            - полный список расписаний, в т.ч. пустых
+    single           - по итогу список с одной задачей
+    replace()        - исправление не корректного чтения
+    """
     single[0].replace(" ", "")
     tasks.append(single.copy())
     single.clear()
     
 def readschedule(tasks):
+    """
+    readschedule()   - чтение расписания из excel файла принимает пустой список tasks, возвращает заполненный список
+    tasks            - полный список расписаний, в т.ч. пустых
+    workbook         - работа с рабочей книгой excel
+    refresh()        - предобработка заданий с расписанием
+    """
     workbook = load_workbook(schedule_book)
     for j in range(53, 383, 10):
         for k in range(7):
@@ -64,8 +76,8 @@ def writestatus(i, plant, alarm, column):
     alarm_happen   - сторка типа "04-06-2023  11:00  ПВ-2.8   Авария класса А"
     logall()       - занесение события об аварии в лог файл alllogs.txt
     sort()         - занесение события об аварии в лог файл log_scheduling.txt
-    to_telegram()  - отправка текста об аварии в чат бот в Телеграм
-    to_viber()     - отправка текста об аварии в чат бот в Viber
+    to_telegram()  - отправка сообщения об аварии в чат бот в Телеграм
+    to_viber()     - отправка сообщения об аварии в чат бот в Viber
     """
     statusbook = load_workbook(status_book)
     date_now = datetime.now().strftime("%d-%m-%Y")
@@ -78,7 +90,7 @@ def writestatus(i, plant, alarm, column):
         alarm_happen = [f"{date_now}  ", f"{time_now}  ", f"{plant}  ",  alarm]
         logall(alarm_happen)
         sort()
-        logmsg="\n".join(alarm_happen[2:])
+        logmsg = "\n".join(alarm_happen[2:])
         to_telegram(logmsg)
         to_viber(logmsg)
     statusbook.active.cell(row=3 + i, column=column).value = alarm

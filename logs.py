@@ -1,4 +1,3 @@
-# The script makes a log of sent actions
 import datetime
 from plants import plant
 from pywinauto.application import Application
@@ -17,7 +16,6 @@ def log(plantcode, acting):
     close()
     logwrite = [datetime.datetime.now().strftime("%d-%m-%Y  %H:%M  "), plant[f"{plantcode}"], act(plantcode, acting)]
     logall(logwrite)
-    # logs.append(logwrite)
     sort()
 
 def logall(logwrite):
@@ -90,7 +88,7 @@ def writelog(parttasks, partlogs):
 
 def sort():
     """
-    sort()    - сортировка для записи в лог-файл команд за заданный период
+    sort()    - сортировка команд за заданный период для записи в лог-файл
     current   - список из всех записей в alllogs, разделенный по символу переноса
     parttasks - список списков заданий за короткий заданный период
     partlogs  - список списков заданий за длинный заданный период
