@@ -7,6 +7,8 @@ from ViberSet import to_viber
 
 schedule_book = "./excel/Расписание.xlsm"
 status_book   = "./excel/Cостояние.xlsx"
+workbook = load_workbook(schedule_book)
+statusbook = load_workbook(status_book)
 single=[]
 
 
@@ -21,7 +23,17 @@ def refresh(tasks):
     single[0].replace(" ", "")
     tasks.append(single.copy())
     single.clear()
-    
+
+def readcode(row, lis):
+    """
+    readcode()       - чтение кода установки из файла excel
+    row              - номер ряда в файле excel
+    lis              - список single
+    plancod          - прочтенное из файла excel значение кода установки
+    """
+    plancod = (str(workbook.active.cell(row=row, column=4).value))
+    lis.append(plancod)
+    return plancod
 def readschedule(tasks):
     """
     readschedule()   - чтение расписания из excel файла принимает пустой список tasks, возвращает заполненный список
@@ -29,43 +41,33 @@ def readschedule(tasks):
     workbook         - работа с рабочей книгой excel
     refresh()        - предобработка заданий с расписанием
     """
-    workbook = load_workbook(schedule_book)
     for j in range(53, 383, 10):
         for k in range(1, 8):
-            single.append(str(workbook.active.cell(row=j, column=4).value))
+            readcode(j, single)
             for s in [2, 5, 3]:
                 single.append(str(workbook.active.cell(row=j +  k, column=s).value))
-            #single.append(str(workbook.active.cell(row=j + 1 + k, column=5).value))
-            #single.append(str(workbook.active.cell(row=j + 1 + k, column=3).value))
-            #это работает , но можно сократить еще, итерируясь по списку , а не range(7)
             refresh(tasks)
-            single.append(str(workbook.active.cell(row=j + 0, column=4).value))
+            readcode(j, single)
             for s in [2, 6]:
                 single.append(str(workbook.active.cell(row=j + k, column=s).value))
-            #single.append(str(workbook.active.cell(row=j + k, column=6).value))
             driers = str(workbook.active.cell(row=j, column=4).value)
             if driers == "79691782&did=33556432" or driers == "79691777&did=33555432":
                 single.append("5")
             else:
                 single.append("0")
-            #driers = ""
             refresh(tasks)
-            single.append(str(workbook.active.cell(row=j,      column=4).value))
+            readcode(j, single)
             for s in [2, 8, 10]:
                 single.append(str(workbook.active.cell(row=j +  k, column=s).value))
-            #single.append(str(workbook.active.cell(row=j +  k, column=8).value))
-            #single.append(str(workbook.active.cell(row=j +  k, column=10).value))
             refresh(tasks)
-            single.append(str(workbook.active.cell(row=j,      column=4).value))
+            readcode(j, single)
             for s in [2, 9]:
                 single.append(str(workbook.active.cell(row=j +  k, column=s).value))
-            #single.append(str(workbook.active.cell(row=j +  k, column=9).value))
             driers = str(workbook.active.cell(row=j, column=4).value)
             if driers == "79691782&did=33556432" or driers == "79691777&did=33555432":
                 single.append("5")
             else:
                 single.append("0")
-            #driers = ""
             refresh(tasks)
     return tasks
 
@@ -85,7 +87,6 @@ def writestatus(i, plant, alarm, column):
     to_telegram()  - отправка сообщения об аварии в чат бот в Телеграм
     to_viber()     - отправка сообщения об аварии в чат бот в Viber
     """
-    statusbook = load_workbook(status_book)
     date_now = datetime.now().strftime("%d-%m-%Y")
     time_now = datetime.now().strftime("%H:%M")
     statusbook.active.cell(row=3+i, column=1).value = date_now
