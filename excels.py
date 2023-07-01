@@ -7,14 +7,15 @@ from ViberSet import to_viber
 
 schedule_book = "./excel/Расписание.xlsm"
 status_book   = "./excel/Cостояние.xlsx"
-single=[] # This list contains a single schedule: the plant, the day, what to do, when to do.
+single=[]
 
-# Clear the single[] list and pop up the tasks[] list
+
 def refresh(tasks):
     """
-    refresh()        - предобработка заданий с расписанием
+    refresh()        - очистка списка single и пополнение списка tasks
     tasks            - полный список расписаний, в т.ч. пустых
     single           - по итогу список с одной задачей
+                       (установка, день недели, что сделать, во сколько сделать)
     replace()        - исправление не корректного чтения
     """
     single[0].replace(" ", "")
@@ -37,33 +38,33 @@ def readschedule(tasks):
             #single.append(str(workbook.active.cell(row=j + 1 + k, column=5).value))
             #single.append(str(workbook.active.cell(row=j + 1 + k, column=3).value))
             refresh(tasks)
-            for s in [4, 2, 6]:
-                single.append(str(workbook.active.cell(row=j, column=s).value))
-            #single.append(str(workbook.active.cell(row=j + 1 + k, column=2).value))
-            #single.append(str(workbook.active.cell(row=j + 1 + k, column=6).value))
+            #for s in [4, 2, 6]:
+            single.append(str(workbook.active.cell(row=j, column=4).value))
+            single.append(str(workbook.active.cell(row=j + 1 + k, column=2).value))
+            single.append(str(workbook.active.cell(row=j + 1 + k, column=6).value))
             driers = str(workbook.active.cell(row=j, column=4).value)
             if driers == "79691782&did=33556432" or driers == "79691777&did=33555432":
                 single.append("5")
             else:
                 single.append("0")
-            driers = ""
+            #driers = ""
             refresh(tasks)
-            for s in [4, 2, 8, 10]:
-                single.append(str(workbook.active.cell(row=j, column=s).value))
-            #single.append(str(workbook.active.cell(row=j + 1 + k, column=2).value))
-            #single.append(str(workbook.active.cell(row=j + 1 + k, column=8).value))
-            #single.append(str(workbook.active.cell(row=j + 1 + k, column=10).value))
+            #for s in [4, 2, 8, 10]:
+            single.append(str(workbook.active.cell(row=j, column=4).value))
+            single.append(str(workbook.active.cell(row=j + 1 + k, column=2).value))
+            single.append(str(workbook.active.cell(row=j + 1 + k, column=8).value))
+            single.append(str(workbook.active.cell(row=j + 1 + k, column=10).value))
             refresh(tasks)
-            for s in [4, 2, 9]:
-                single.append(str(workbook.active.cell(row=j, column=s).value))
-            #single.append(str(workbook.active.cell(row=j + 1 + k, column=2).value))
-            #single.append(str(workbook.active.cell(row=j + 1 + k, column=9).value))
+            #for s in [4, 2, 9]:
+            single.append(str(workbook.active.cell(row=j, column=4).value))
+            single.append(str(workbook.active.cell(row=j + 1 + k, column=2).value))
+            single.append(str(workbook.active.cell(row=j + 1 + k, column=9).value))
             driers = str(workbook.active.cell(row=j, column=4).value)
             if driers == "79691782&did=33556432" or driers == "79691777&did=33555432":
                 single.append("5")
             else:
                 single.append("0")
-            driers = ""
+            #driers = ""
             refresh(tasks)
     return tasks
 

@@ -1,4 +1,3 @@
-import datetime
 import time
 import requests
 from headers import header, header_alarm_A
@@ -8,7 +7,7 @@ from tokens import sauter_cookie
 
 def switch(get_plant, par):
     """
-    switch()     - выполнение запроса на сервер при помощи библиотеки requests
+    switch()     - выполнение запроса (пуск/стоп) при помощи библиотеки requests
     get_plant    - параметр для формирования url, определяющий код установки
     par          - параметр для формирования url, определяющий действие
     headers      - заголовки запроса
@@ -20,7 +19,7 @@ def switch(get_plant, par):
 
 def getalarms(alarms_dict, column_number, alarm_text):
     """
-    getalarms()   - получение данных о наличии аварии установки в данный момент
+    getalarms()   - выполнение запроса о наличии аварии установки в данный момент
     alarms_dict   - словарь с кодами установок для формирования строки запроса
     alarm_now     - текст записи о наличии/отсутствии аварии
     writestatus() - запись сведений об аварии в Состояние.xlsx
