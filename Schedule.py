@@ -1,9 +1,9 @@
 import schedule
 import time
-from logs import log
+from logs import log, act
 from excels import readschedule
 from request import switch, getalarms
-from plants import alarms_A, alarms_BC
+from plants import alarms_A, alarms_BC, plant
 
 
 print("РАБОТАЕТ УПРАВЛЕНИЕ ОБОРУДОВАНИЕМ ПО РАСПИСАНИЮ, НЕ ЗАКРЫВАЙТЕ ЭТО ОКНО")
@@ -38,11 +38,12 @@ def runschedule():
     schedule.clear('cleared')
     for i in range(len(cleartasks)):
         exec(f"schedule.every().{cleartasks[i][1]}.at('{cleartasks[i][2]}').do(turn,'{cleartasks[i][0]}','&vid=17&value={cleartasks[i][3]}').tag('cleared')")
+    # for i in cleartasks:
+    #     print(plant[i[0]], " ".join(i[1:3]), (act(i[0], i[3])))
     cleartasks.clear()
     tasks.clear()
 
-
-schedule.every(10).minutes.do(runschedule)
+schedule.every(1).minutes.do(runschedule)
 schedule.every(13).minutes.do(getalarms, alarms_dict=alarms_A,  column_number=4, alarm_text='Авария класса А')
 schedule.every(23).minutes.do(getalarms, alarms_dict=alarms_BC, column_number=5, alarm_text='Авария класса B,C')
 
