@@ -31,7 +31,7 @@ def readschedule(tasks):
     """
     workbook = load_workbook(schedule_book)
     for j in range(53, 383, 10):
-        for k in range(1, 7):
+        for k in range(1, 8):
             single.append(str(workbook.active.cell(row=j, column=4).value))
             for s in [2, 5, 3]:
                 single.append(str(workbook.active.cell(row=j +  k, column=s).value))
