@@ -1,6 +1,6 @@
 import schedule
 import time
-from logs import log, act
+from logs import log, act, readlogs
 from excels import readschedule
 from request import switch, getalarms
 from plants import alarms_A, alarms_BC, plant
@@ -31,15 +31,16 @@ def runschedule():
     clear('cleared') - очистка предыдущего  schedule c тегом 'cleared', т.к. периодически происходит чтение и его формирование заново
     exec()           - автоматическая компоновка задачи для функции schedule
     """
-    cleartasks = readschedule(tasks).copy()
+    clearlogs = readschedule(tasks)
+    cleartasks = clearlogs.copy()
+    print("2", tasks)
     for t in range(len(tasks)):
         if tasks[t][2] == "None":
             cleartasks.remove(tasks[t])
     schedule.clear('cleared')
     for i in range(len(cleartasks)):
         exec(f"schedule.every().{cleartasks[i][1]}.at('{cleartasks[i][2]}').do(turn,'{cleartasks[i][0]}','&vid=17&value={cleartasks[i][3]}').tag('cleared')")
-    # for i in cleartasks:
-    #     print(plant[i[0]], " ".join(i[1:3]), (act(i[0], i[3])))
+    #readlogs(cleartasks)
     cleartasks.clear()
     tasks.clear()
 
