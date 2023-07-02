@@ -1,6 +1,6 @@
 import schedule
 import time
-from logs import log, act, readlogs
+from logs import log, readlogs
 from excels import readschedule
 from request import switch, getalarms
 from plants import alarms_A, alarms_BC, plant
@@ -33,14 +33,13 @@ def runschedule():
     """
     clearlogs = readschedule(tasks)
     cleartasks = clearlogs.copy()
-    print("2", tasks)
     for t in range(len(tasks)):
         if tasks[t][2] == "None":
             cleartasks.remove(tasks[t])
     schedule.clear('cleared')
     for i in range(len(cleartasks)):
         exec(f"schedule.every().{cleartasks[i][1]}.at('{cleartasks[i][2]}').do(turn,'{cleartasks[i][0]}','&vid=17&value={cleartasks[i][3]}').tag('cleared')")
-    #readlogs(cleartasks)
+    readlogs(cleartasks)
     cleartasks.clear()
     tasks.clear()
 

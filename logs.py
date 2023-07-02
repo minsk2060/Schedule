@@ -108,14 +108,30 @@ def sort():
     f.close()
     writelog(parttasks, partlogs)
 
+days={   "sunday": "воскресенье",
+         "monday": "понедельник",
+        "tuesday": "вторник    ",
+      "wednesday": "среда      ",
+       "thursday": "четверг    ",
+         "friday": "пятница    ",
+       "saturday": "суббота    "}
+
 def readlogs(logs_read):
-    f = open(readlog, "w")
+    reads = []
+    today = datetime.datetime.today()
     for i in logs_read:
-        print(plant[i[0]], " ".join(i[1:3]), (act(i[0], i[3])))
+        reads.append(f"{plant[i[0]]}   {''.join(days[i[1]])}   {''.join(i[2])} {(act(i[0], i[3]))} \n")
+        #print(reads)
+    r = "".join(reads)
+    f = open(readlog, "w")
+    f.write(r)
+    f.close()
+
 
 
 if __name__ == "__main__":
-    pass
+    # pass
     # sort()
     # log('8388762&did=33560432',"0")
     # act('8388762&did=33560432',"0")
+    print(datetime.datetime.today().today())
