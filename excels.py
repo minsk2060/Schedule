@@ -34,7 +34,14 @@ def refreeze(row, lis, book):
     lis.append(plancod)
     return plancod
 
-def driers(row, lis, book):
+def drier(row, lis, book):
+    """
+    drier()          - проверка на предмет установки с нетиповыми параметрами управления
+    driers           - коды установок, где стопу соответствует параметр "5" , а не "0"
+    row              - номер ряда в файле excel
+    lis              - список single
+    book             - рабочая книга Расписание.xlsm
+    """
     driers = ["79691782&did=33556432", "79691777&did=33555432"]
     dry =str(book.active.cell(row=row, column=4).value)
     if dry in driers:
@@ -49,7 +56,6 @@ def readschedule(tasks):
     tasks            - полный список расписаний, в т.ч. пустых
     workbook         - работа с рабочей книгой excel
     refresh()        - предобработка заданий с расписанием
-    driers           - коды установок, где стопу соответствует параметр "5" , а не "0"
     """
     workbook = load_workbook(schedule_book)
     for j in range(53, 383, 10):
@@ -61,7 +67,7 @@ def readschedule(tasks):
             refreeze(j, single, workbook)
             for s in [2, 6]:
                 single.append(str(workbook.active.cell(row=j + k, column=s).value))
-            driers(j, single, workbook)
+            drier(j, single, workbook)
             # if str(workbook.active.cell(row=j, column=4).value) in driers:
             #     single.append("5")
             # else:
@@ -74,7 +80,7 @@ def readschedule(tasks):
             refreeze(j, single, workbook)
             for s in [2, 9]:
                 single.append(str(workbook.active.cell(row=j + k, column=s).value))
-            driers(j, single, workbook)
+            drier(j, single, workbook)
             # if str(workbook.active.cell(row=j, column=4).value) in driers:
             #     single.append("5")
             # else:
