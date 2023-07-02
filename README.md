@@ -82,7 +82,7 @@
 </tr>
 <tr>
     <td>excels.py</td>
-    <td colspan="2">- работа с excel</td>
+    <td colspan="2">- работа с excel (лучше не читать, там черт ногу сломит)</td>
 </tr>
 <tr>
     <td>Schedule.py</td>

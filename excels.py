@@ -68,10 +68,6 @@ def readschedule(tasks):
             for s in [2, 6]:
                 single.append(str(workbook.active.cell(row=j + k, column=s).value))
             drier(j, single, workbook)
-            # if str(workbook.active.cell(row=j, column=4).value) in driers:
-            #     single.append("5")
-            # else:
-            #     single.append("0")
             refresh(tasks)
             refreeze(j, single, workbook)
             for s in [2, 8, 10]:
@@ -81,10 +77,6 @@ def readschedule(tasks):
             for s in [2, 9]:
                 single.append(str(workbook.active.cell(row=j + k, column=s).value))
             drier(j, single, workbook)
-            # if str(workbook.active.cell(row=j, column=4).value) in driers:
-            #     single.append("5")
-            # else:
-            #     single.append("0")
             refresh(tasks)
     return tasks
 
@@ -110,7 +102,6 @@ def writestatus(i, plant, alarm, column):
     statusbook.active.cell(row=3+i, column=1).value = date_now
     statusbook.active.cell(row=3+i, column=2).value = time_now
     statusbook.active.cell(row=3+i, column=3).value = plant
-    #a = statusbook.active.cell(row=3+i, column=column).value
     if statusbook.active.cell(row=3+i, column=column).value != alarm:
         alarm_happen = [f"{date_now}  ", f"{time_now}  ", f"{plant}  ",  alarm]
         logall(alarm_happen)
