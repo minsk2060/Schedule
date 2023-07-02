@@ -1,13 +1,13 @@
 from openpyxl import load_workbook
 from datetime import datetime
 from logs import logall, sort
-#from plants import alarms_A
+from plants import driers
 from TelegramBot import to_telegram
 from ViberSet import to_viber
 
 schedule_book = "./excel/Расписание.xlsm"
 status_book   = "./excel/Cостояние.xlsx"
-single=[]
+single = []
 
 
 def refresh(tasks):
@@ -42,13 +42,11 @@ def drier(row, lis, book):
     lis              - список single
     book             - рабочая книга Расписание.xlsm
     """
-    driers = ["79691782&did=33556432", "79691777&did=33555432"]
     dry =str(book.active.cell(row=row, column=4).value)
     if dry in driers:
         lis.append("5")
     else:
         lis.append("0")
-
 
 def readschedule(tasks):
     """
