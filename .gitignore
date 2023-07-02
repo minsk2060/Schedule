@@ -5,6 +5,7 @@ adding/
 excel/
 logging/log_scheduling.txt
 logging/alllogs.txt
+logging/readlogs.txt
 tokens.py
 plants.py
 headers.py
