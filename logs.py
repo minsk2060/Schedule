@@ -108,30 +108,46 @@ def sort():
     f.close()
     writelog(parttasks, partlogs)
 
-days={   "sunday": "воскресенье",
-         "monday": "понедельник",
-        "tuesday": "вторник    ",
-      "wednesday": "среда      ",
-       "thursday": "четверг    ",
-         "friday": "пятница    ",
-       "saturday": "суббота    "}
+days={   "sunday": "Воскресенье",
+         "monday": "Понедельник",
+        "tuesday": "Вторник    ",
+      "wednesday": "Среда      ",
+       "thursday": "Четверг    ",
+         "friday": "Пятница    ",
+       "saturday": "Суббота    "}
 
 def readlogs(logs_read):
+    """
+    readlogs()   - запись прочитанных заданий с расписаниями в лог файл readlogs.txt
+    logs_read    - список списков , где нет пустых расписаний
+    reads        - список прочитанных заданий за 7 дней для записи в файл readlogs.txt
+    ttdys        - список прочитанных заданий за 2 дня для записи в файл readlogs.txt
+    today        - текущий день недели в формате одной цифры
+    yrday        - вчерашний день недели в формате одной цифры
+    str_today    - текущий день недели
+    str_yrday    - вчерашний день недели
+    readlog      - путь к файлу readlogs.txt
+    """
     reads = []
-    today = datetime.datetime.today()
+    ttdys = []
+    today = datetime.datetime.now().date()
+    yrday = today - datetime.timedelta(days=1)
+    str_today = today.strftime("%A").lower()
+    str_yrday = yrday.strftime("%A").lower()
     for i in logs_read:
+        if i[1] == str_today or i[1] == str_yrday:
+            ttdys.append(i)
+    for i in ttdys:
         reads.append(f"{plant[i[0]]}   {''.join(days[i[1]])}   {''.join(i[2])} {(act(i[0], i[3]))} \n")
-        #print(reads)
-    r = "".join(reads)
     f = open(readlog, "w")
-    f.write(r)
+    f.write("".join(reads))
     f.close()
 
 
 
 if __name__ == "__main__":
+    pass
     # pass
     # sort()
     # log('8388762&did=33560432',"0")
     # act('8388762&did=33560432',"0")
-    print(datetime.datetime.today().today())
