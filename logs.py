@@ -5,6 +5,7 @@ from pywinauto.application import Application
 # logs =[]
 pathcur = "./logging/log_scheduling.txt"
 pathall = "./logging/alllogs.txt"
+readlog = "./logging/readlogs.txt"
 
 def log(plantcode, acting):
     """
@@ -107,7 +108,10 @@ def sort():
     f.close()
     writelog(parttasks, partlogs)
 
-
+def readlogs(logs_read):
+    f = open(readlog, "w")
+    for i in logs_read:
+        print(plant[i[0]], " ".join(i[1:3]), (act(i[0], i[3])))
 
 
 if __name__ == "__main__":
