@@ -1,6 +1,6 @@
 from openpyxl import load_workbook
 from datetime import datetime
-from logs import  sort, Textjob  , logall
+from logs import sort, Textjob
 from plants import driers
 from TelegramBot import to_telegram
 from ViberSet import to_viber
@@ -89,7 +89,7 @@ def writestatus(i, plant, alarm, column):
     date_now       - текущая дата, заносимая в файл Состояние.xlsx
     time_now       - текущее время, заносимая в файл Состояние.xlsx
     alarm_happen   - сторка типа "04-06-2023  11:00  ПВ-2.8   Авария класса А"
-    logall()       - занесение события об аварии в лог файл alllogs.txt
+    makelog()      - занесение события об аварии в лог файл alllogs.txt
     sort()         - занесение события об аварии в лог файл log_scheduling.txt
     to_telegram()  - отправка сообщения об аварии в чат бот в Телеграм
     to_viber()     - отправка сообщения об аварии в чат бот в Viber

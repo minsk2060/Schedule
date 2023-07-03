@@ -3,7 +3,7 @@ import time
 from logs import log, readlogs
 from excels import readschedule
 from request import switch, getalarms
-from plants import alarms_A, alarms_BC, plant
+from plants import alarms_A, alarms_BC
 
 
 print("РАБОТАЕТ УПРАВЛЕНИЕ ОБОРУДОВАНИЕМ ПО РАСПИСАНИЮ, НЕ ЗАКРЫВАЙТЕ ЭТО ОКНО")
