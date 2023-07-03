@@ -30,20 +30,20 @@ def log(plantcode, acting):
     """
     close()
     logwrite = [datetime.datetime.now().strftime("%d-%m-%Y  %H:%M  "), plant[f"{plantcode}"], act(plantcode, acting)]
-    l = Textjob(Textjob.pathall, "a")     # new
-    l.makelog(f"{logwrite}  \n")  # new
-  #  logall(logwrite)             # old
+    #l = Textjob(Textjob.pathall, "a")     # new
+    #l.makelog(f"{logwrite}  \n")  # new
+    logall(logwrite)             # old
     sort()
 
-# def logall(logwrite):
-#     """
-#     logall()    -  запись в лог файл всех отправленных заданий построчно
-#     logwrite    -  текст задания, пример:   "17-05-2023  20:30  ПВ-2.6   Cтоп"
-#     logfile     -  файл alllogs.txt
-#     """
-#     logfile = open(pathall, "a")
-#     logfile.write("".join(logwrite)+"\n")
-#     logfile.close()
+def logall(logwrite):
+    """
+    logall()    -  запись в лог файл всех отправленных заданий построчно
+    logwrite    -  текст задания, пример:   "17-05-2023  20:30  ПВ-2.6   Cтоп"
+    logfile     -  файл alllogs.txt
+    """
+    logfile = open(pathall, "a")
+    logfile.write("".join(logwrite)+"\n")
+    logfile.close()
 
 def close():
     """
