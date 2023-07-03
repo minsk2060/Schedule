@@ -36,13 +36,14 @@ def refreeze(row, lis, book):
 
 def drier(row, lis, book):
     """
-    drier()          - проверка на предмет установки с нетиповыми параметрами управления
+    drier()          - проверка не является ли установка осушителем
+                       (имеет нетиповые параметры управления)
     driers           - коды установок, где стопу соответствует параметр "5" , а не "0"
     row              - номер ряда в файле excel
     lis              - список single
     book             - рабочая книга Расписание.xlsm
     """
-    dry =str(book.active.cell(row=row, column=4).value)
+    dry = str(book.active.cell(row=row, column=4).value)
     if dry in driers:
         lis.append("5")
     else:

@@ -1,11 +1,11 @@
 import datetime
-from plants import plant, driers
+from plants import plant, driers, swpool
 from pywinauto.application import Application
 
 # logs =[]
-pathcur = "./logging/log_scheduling.txt"
-pathall = "./logging/alllogs.txt"
-readlog = "./logging/readlogs.txt"
+#pathcur = "./logging/log_scheduling.txt"
+#pathall = "./logging/alllogs.txt"
+#readlog = "./logging/readlogs.txt"
 
 class Textjob:
     pathcur = "./logging/log_scheduling.txt"
@@ -57,19 +57,23 @@ def close():
         pass
 
 def act (singlecode, whattodo):
-    """определение действия"""
+    """
+    act()       - определение действия
+    dryers      - список с кодами осушителей
+    swpool      - список с кодом бассейна
+    action      - читаемое действие для записи в лог
+    a           - последний символ запроса (закодированное действие)
+    """
     action = ""
     a = whattodo[-1:]
-    # If other plants
     if   a == "1": action = "  Пуск на низкой скорости"
     elif a == "2": action = "  Пуск на высокой скорости"
     elif a == "0": action = "  Cтоп"
     # If swimming pool
-    if singlecode == "8388883&did=33560432":
+    if singlecode in swpool:
         if   a == "0": action = "  Выключение подсветки"
         elif a == "2": action = "  Включение желтой подсветки"
         elif a == "1": action = "  Включение синей подсветки"
-    # If dryers
     elif singlecode in driers:
         if   a == "5": action = "  Стоп"
         elif a == "1": action = "  Пуск в режиме хоккей"
@@ -113,7 +117,7 @@ def sort():
     parttasks - список списков заданий за короткий заданный период
     partlogs  - список списков заданий за длинный заданный период
     в цикле проверка на предмет выдавать записи за несколько дней и ограничение всего периода записей"""
-    f = open(pathall, "r")
+    f = open(Textjob.pathall, "r")
     current = f.read().split("\n")
     parttasks = []
     partlogs  = []
