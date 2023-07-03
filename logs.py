@@ -14,9 +14,9 @@ class Textjob:
     def __init__(self, path, flag):
         self.path = path
         self.flag = flag
-    def makelog(self, data, n=""):
+    def makelog(self, data, n = ""):
         f = open(self.path, self.flag)
-        f.write("".join(data) + n)
+        f.write("".join(data)+n)
         f.close()
 
 def log(plantcode, acting):
@@ -29,9 +29,9 @@ def log(plantcode, acting):
     """
     close()
     logwrite = [datetime.datetime.now().strftime("%d-%m-%Y  %H:%M  "), plant[f"{plantcode}"], act(plantcode, acting)]
-    #l = Textjob(Textjob.pathall, "a")     # new
-    #l.makelog(f"{logwrite}  \n")          # new
-    logall(logwrite)             # old
+    l = Textjob(Textjob.pathall, "a")     # new
+    l.makelog(logwrite, "\n")          # new
+    #logall(logwrite)             # old
     sort()
 
 def logall(logwrite):
