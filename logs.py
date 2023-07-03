@@ -1,11 +1,24 @@
 import datetime
-from plants import plant
+from plants import plant, driers
 from pywinauto.application import Application
 
 # logs =[]
 pathcur = "./logging/log_scheduling.txt"
 pathall = "./logging/alllogs.txt"
-readlog = "./logging/readlogs.txt"
+#readlog = "./logging/readlogs.txt"
+
+class Textjob:
+    pathcur = "./logging/log_scheduling.txt"
+    pathall = "./logging/alllogs.txt"
+    readlog = "./logging/readlogs.txt"
+    def __init__(self, path, flag):
+        self.path = path
+        self.flag = flag
+        #self.data = data
+    def makelog(self, data):
+        f = open(self.path, self.flag)
+        f.write("".join(data))
+        f.close()
 
 def log(plantcode, acting):
     """
@@ -13,21 +26,24 @@ def log(plantcode, acting):
     plantcode   -  код установки
     acting      -  действие в читаемом виде
     close()     -  закрытие лог файла, если на момент записи в него он открыт
+    logwrite    -  текст задания, пример:   "17-05-2023  20:30  ПВ-2.6   Cтоп"
     """
     close()
     logwrite = [datetime.datetime.now().strftime("%d-%m-%Y  %H:%M  "), plant[f"{plantcode}"], act(plantcode, acting)]
-    logall(logwrite)
+    l = Textjob(Textjob.pathall, "a")     # new
+    l.makelog(f"{logwrite}  \n")  # new
+  #  logall(logwrite)             # old
     sort()
 
-def logall(logwrite):
-    """
-    logall()    -  запись в лог файл всех отправленных заданий построчно
-    logwrite    -  текст задания, пример:   "17-05-2023  20:30  ПВ-2.6   Cтоп"
-    logfile     -  файл alllogs.txt
-    """
-    logfile = open(pathall, "a")
-    logfile.write("".join(logwrite)+"\n")
-    logfile.close()
+# def logall(logwrite):
+#     """
+#     logall()    -  запись в лог файл всех отправленных заданий построчно
+#     logwrite    -  текст задания, пример:   "17-05-2023  20:30  ПВ-2.6   Cтоп"
+#     logfile     -  файл alllogs.txt
+#     """
+#     logfile = open(pathall, "a")
+#     logfile.write("".join(logwrite)+"\n")
+#     logfile.close()
 
 def close():
     """
@@ -55,7 +71,7 @@ def act (singlecode, whattodo):
         elif a == "2": action = "  Включение желтой подсветки"
         elif a == "1": action = "  Включение синей подсветки"
     # If dryers
-    elif singlecode == "79691782&did=33556432" or singlecode == "79691777&did=33555432":
+    elif singlecode in driers:
         if   a == "5": action = "  Стоп"
         elif a == "1": action = "  Пуск в режиме хоккей"
         elif a == "2": action = "  Пуск в режиме фигурное катание"
@@ -67,12 +83,10 @@ def writelog(parttasks, partlogs):
     abs()       - необходима для корректной вставки пустой строки при наступлении  нового месяца
     logtasks    - список для записи в файл log_scheduling.txt
     alllogs     - список для записи в файл alllogs.txt
-    parttasks - список списков заданий за короткий заданный период
-    partlogs  - список списков заданий за длинный заданный период
+    parttasks   - список списков заданий за короткий заданный период
+    partlogs    - список списков заданий за длинный заданный период
     в первом цикле также вставка пустой строки между разными датами
     """
-    f = open(pathcur, "w")
-    d = open(pathall, "w")
     logtasks=[]
     alllogs =[]
     for c in range(len(parttasks)):
@@ -82,10 +96,16 @@ def writelog(parttasks, partlogs):
         logtasks.append(f'{"".join(parttasks[c])}\n')
     for c in range(len(partlogs)):
         alllogs.append(f'{"".join(partlogs[c])}\n')
-    f.write("".join(logtasks))
-    d.write("".join(alllogs))
-    f.close()
-    d.close()
+    f = Textjob(Textjob.pathcur, "w")
+    d = Textjob(Textjob.pathall, "w")
+    d.makelog(alllogs)
+    f.makelog(logtasks)
+    # f = open(pathcur, "w")
+    # f.write("".join(logtasks))
+    # f.close()
+    # d = open(pathall, "w")
+    # d.write("".join(alllogs))
+    # d.close()
 
 def sort():
     """
@@ -139,9 +159,11 @@ def readlogs(logs_read):
             ttdys.append(i)
     for i in ttdys:
         reads.append(f"{plant[i[0]]}   {''.join(days[i[1]])}   {''.join(i[2])} {(act(i[0], i[3]))} \n")
-    f = open(readlog, "w")
-    f.write("".join(reads))
-    f.close()
+    # f = open(readlog, "w")
+    # f.write("".join(reads))
+    # f.close()
+    t = Textjob(Textjob.readlog, "w")
+    t.makelog(reads)
 
 
 

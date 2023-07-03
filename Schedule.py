@@ -30,10 +30,7 @@ def runschedule():
     clear('cleared') - очистка предыдущего  schedule c тегом 'cleared', т.к. периодически происходит чтение и его формирование заново
     exec()           - автоматическая компоновка задачи для функции schedule
     """
-    try:
-        clearlogs = readschedule(tasks)
-    except:
-        pass
+    clearlogs = readschedule(tasks)
     cleartasks = clearlogs.copy()
     for t in range(len(tasks)):
         if tasks[t][2] == "None":
