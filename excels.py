@@ -1,6 +1,6 @@
 from openpyxl import load_workbook
 from datetime import datetime
-from logs import logall, sort, Textjob
+from logs import  sort, Textjob  , logall
 from plants import driers
 from TelegramBot import to_telegram
 from ViberSet import to_viber
