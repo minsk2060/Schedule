@@ -29,12 +29,12 @@ def log(plantcode, acting):
     """
     close()
     logwrite = [datetime.datetime.now().strftime("%d-%m-%Y  %H:%M  "), plant[f"{plantcode}"], act(plantcode, acting)]
-    l = Textjob(Textjob.pathall, "a")     # new
+    l = Textjob(Textjob.pathall, "a")  # new
     l.makelog(logwrite, "\n")          # new
-    #logall(logwrite)             # old
+    #logall(logwrite)                  # old
     sort()
 
-# def logall(logwrite):
+# def logall(logwrite):                 #old
 #     """
 #     logall()    -  запись в лог файл всех отправленных заданий построчно
 #     logwrite    -  текст задания, пример:   "17-05-2023  20:30  ПВ-2.6   Cтоп"
@@ -95,16 +95,16 @@ def writelog(parttasks, partlogs):
         logtasks.append(f'{"".join(parttasks[c])}\n')
     for c in range(len(partlogs)):
         alllogs.append(f'{"".join(partlogs[c])}\n')
-    f = Textjob(Textjob.pathcur, "w")
-    d = Textjob(Textjob.pathall, "w")
-    d.makelog(alllogs)
-    f.makelog(logtasks)
-    # f = open(pathcur, "w")
-    # f.write("".join(logtasks))
-    # f.close()
-    # d = open(pathall, "w")
-    # d.write("".join(alllogs))
-    # d.close()
+    f = Textjob(Textjob.pathcur, "w") #new
+    d = Textjob(Textjob.pathall, "w") #new
+    d.makelog(alllogs)                #new
+    f.makelog(logtasks)               #new
+    # f = open(pathcur, "w")          #old
+    # f.write("".join(logtasks))      #old
+    # f.close()                       #old
+    # d = open(pathall, "w")          #old
+    # d.write("".join(alllogs))       #old
+    # d.close()                       #old
 
 def sort():
     """
@@ -158,11 +158,11 @@ def readlogs(logs_read):
             ttdys.append(i)
     for i in ttdys:
         reads.append(f"{plant[i[0]]}   {''.join(days[i[1]])}   {''.join(i[2])} {(act(i[0], i[3]))} \n")
-    # f = open(readlog, "w")
-    # f.write("".join(reads))
-    # f.close()
-    t = Textjob(Textjob.readlog, "w")
-    t.makelog(reads)
+    # f = open(readlog, "w")           #old
+    # f.write("".join(reads))          #old
+    # f.close()                        #old
+    t = Textjob(Textjob.readlog, "w")  #new
+    t.makelog(reads)                   #new
 
 
 
