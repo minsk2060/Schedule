@@ -16,7 +16,7 @@ class Textjob:
         self.flag = flag
     def makelog(self, data, n = ""):
         f = open(self.path, self.flag)
-        f.write("".join(data)+n)
+        f.write("".join(data) + n)
         f.close()
 
 def log(plantcode, acting):
