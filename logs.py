@@ -14,7 +14,7 @@ class Textjob:
     def __init__(self, path, flag):
         self.path = path
         self.flag = flag
-      def makelog(self, data):
+    def makelog(self, data):
         f = open(self.path, self.flag)
         f.write("".join(data))
         f.close()
