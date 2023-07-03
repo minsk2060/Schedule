@@ -5,7 +5,7 @@ from pywinauto.application import Application
 # logs =[]
 pathcur = "./logging/log_scheduling.txt"
 pathall = "./logging/alllogs.txt"
-#readlog = "./logging/readlogs.txt"
+readlog = "./logging/readlogs.txt"
 
 class Textjob:
     pathcur = "./logging/log_scheduling.txt"
@@ -14,8 +14,7 @@ class Textjob:
     def __init__(self, path, flag):
         self.path = path
         self.flag = flag
-        #self.data = data
-    def makelog(self, data):
+      def makelog(self, data):
         f = open(self.path, self.flag)
         f.write("".join(data))
         f.close()
@@ -31,7 +30,7 @@ def log(plantcode, acting):
     close()
     logwrite = [datetime.datetime.now().strftime("%d-%m-%Y  %H:%M  "), plant[f"{plantcode}"], act(plantcode, acting)]
     #l = Textjob(Textjob.pathall, "a")     # new
-    #l.makelog(f"{logwrite}  \n")  # new
+    #l.makelog(f"{logwrite}  \n")          # new
     logall(logwrite)             # old
     sort()
 
@@ -96,16 +95,16 @@ def writelog(parttasks, partlogs):
         logtasks.append(f'{"".join(parttasks[c])}\n')
     for c in range(len(partlogs)):
         alllogs.append(f'{"".join(partlogs[c])}\n')
-    f = Textjob(Textjob.pathcur, "w")
-    d = Textjob(Textjob.pathall, "w")
-    d.makelog(alllogs)
-    f.makelog(logtasks)
+    # f = Textjob(Textjob.pathcur, "w")
+    # d = Textjob(Textjob.pathall, "w")
+    # d.makelog(alllogs)
+    # f.makelog(logtasks)
     # f = open(pathcur, "w")
-    # f.write("".join(logtasks))
-    # f.close()
-    # d = open(pathall, "w")
-    # d.write("".join(alllogs))
-    # d.close()
+    f.write("".join(logtasks))
+    f.close()
+    d = open(pathall, "w")
+    d.write("".join(alllogs))
+    d.close()
 
 def sort():
     """
@@ -159,9 +158,9 @@ def readlogs(logs_read):
             ttdys.append(i)
     for i in ttdys:
         reads.append(f"{plant[i[0]]}   {''.join(days[i[1]])}   {''.join(i[2])} {(act(i[0], i[3]))} \n")
-    # f = open(readlog, "w")
-    # f.write("".join(reads))
-    # f.close()
+    f = open(readlog, "w")
+    f.write("".join(reads))
+    f.close()
     t = Textjob(Textjob.readlog, "w")
     t.makelog(reads)
 
