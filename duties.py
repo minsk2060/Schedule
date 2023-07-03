@@ -28,3 +28,5 @@ def onduties():
             onduty = "Nikita"
 
     return onduty
+
+factors = [["Yura", 3, 0], ["Zhenia" , 0, 1], ["Alexandr",1 , 2], ["Nikita", 2, 3]]
