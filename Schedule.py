@@ -21,7 +21,6 @@ def turn(get_plant, par):
     log(get_plant, par)
     switch(get_plant, par)
 
-
 def runschedule():
     """
     runschedule()    - получение расписания, удаление пустых значений, компоновка задач и запуск действий по расписанию.
@@ -31,10 +30,7 @@ def runschedule():
     clear('cleared') - очистка предыдущего  schedule c тегом 'cleared', т.к. периодически происходит чтение и его формирование заново
     exec()           - автоматическая компоновка задачи для функции schedule
     """
-    try:
-        clearlogs = readschedule(tasks)
-    except:
-        pass
+    clearlogs = readschedule(tasks)
     cleartasks = clearlogs.copy()
     for t in range(len(tasks)):
         if tasks[t][2] == "None":
@@ -46,9 +42,11 @@ def runschedule():
     cleartasks.clear()
     tasks.clear()
 
+
 schedule.every(10).minutes.do(runschedule)
 schedule.every(13).minutes.do(getalarms, alarms_dict=alarms_A,  column_number=4, alarm_text='Авария класса А')
 schedule.every(23).minutes.do(getalarms, alarms_dict=alarms_BC, column_number=5, alarm_text='Авария класса B,C')
+
 
 while True:
     schedule.run_pending()
