@@ -34,15 +34,15 @@ def log(plantcode, acting):
     #logall(logwrite)             # old
     sort()
 
-def logall(logwrite):
-    """
-    logall()    -  запись в лог файл всех отправленных заданий построчно
-    logwrite    -  текст задания, пример:   "17-05-2023  20:30  ПВ-2.6   Cтоп"
-    logfile     -  файл alllogs.txt
-    """
-    logfile = open(pathall, "a")
-    logfile.write("".join(logwrite)+"\n")
-    logfile.close()
+# def logall(logwrite):
+#     """
+#     logall()    -  запись в лог файл всех отправленных заданий построчно
+#     logwrite    -  текст задания, пример:   "17-05-2023  20:30  ПВ-2.6   Cтоп"
+#     logfile     -  файл alllogs.txt
+#     """
+#     logfile = open(pathall, "a")
+#     logfile.write("".join(logwrite)+"\n")
+#     logfile.close()
 
 def close():
     """

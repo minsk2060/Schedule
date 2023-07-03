@@ -3,7 +3,7 @@ import time
 from logs import log, readlogs
 from excels import readschedule
 from request import switch, getalarms
-from plants import alarms_A, alarms_BC, plant
+from plants import alarms_A, alarms_BC
 
 
 print("РАБОТАЕТ УПРАВЛЕНИЕ ОБОРУДОВАНИЕМ ПО РАСПИСАНИЮ, НЕ ЗАКРЫВАЙТЕ ЭТО ОКНО")
@@ -43,7 +43,7 @@ def runschedule():
     tasks.clear()
 
 
-schedule.every(3).minutes.do(runschedule)
+schedule.every(1).minutes.do(runschedule)
 schedule.every(13).minutes.do(getalarms, alarms_dict=alarms_A,  column_number=4, alarm_text='Авария класса А')
 schedule.every(23).minutes.do(getalarms, alarms_dict=alarms_BC, column_number=5, alarm_text='Авария класса B,C')
 
