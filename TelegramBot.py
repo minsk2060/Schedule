@@ -22,5 +22,6 @@ def to_telegram(msg):
 
 if __name__ =="__main__":
     bot = telebot.TeleBot(telegramtoken)
-    msg="Авария класса А - вызывает останов установки"
-    bot.send_message(telegram_users["Euheny"], msg)
+    msg="Авария на объекте, просьба относиться с пониманием!"
+    for i in telegram_users.values():
+        bot.send_message(i, msg)

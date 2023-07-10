@@ -27,4 +27,11 @@ def to_viber(msg):
 
 
 if __name__ == "__main__":
-    sethook()
+    msg = "Авария на объекте! Просьба относится с пониманием!"
+    msgtext = TextMessage(text=msg)
+    for i in viber_users.values():
+        try:
+            viber.send_messages(i, [msgtext])
+        except:
+            pass
+    #sethook()

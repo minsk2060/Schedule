@@ -18,7 +18,7 @@ def refresh(tasks):
                        (установка, день недели, что сделать, во сколько сделать)
     replace()        - исправление не корректного чтения
     """
-    single[0].replace(" ", "")
+    #single[0].replace(" ", "")
     tasks.append(single.copy())
     single.clear()
 
