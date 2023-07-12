@@ -29,14 +29,12 @@ def getalarms(alarms_dict, column_number, alarm_text):
         url=f"http://192.168.250.50/svo/details/update?oid={j}&vid=17&mode=cached"
         r=requests.get(url, headers=header_alarm_A, cookies=sauter_cookie, allow_redirects=False)
         if "Alarm: true" in r.text:
-            if "Fault: true" in r.text:
-                pass
-            else:
-                alarms_now = alarm_text
+            if 'title="Fault: true"' not in r.text:
+                  alarms_now = alarm_text
         elif "Alarm: false" in r.text:
             alarms_now = "Авария снята"
-        else:
-            alarms_now = "Нет ответа об аварии"
+        # else:
+        #     alarms_now = "Нет ответа об аварии"
         writestatus(i, alarms_dict[j], alarms_now, column_number)
 
 

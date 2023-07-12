@@ -18,7 +18,6 @@ def refresh(tasks):
                        (установка, день недели, что сделать, во сколько сделать)
     replace()        - исправление не корректного чтения
     """
-    #single[0].replace(" ", "")
     tasks.append(single.copy())
     single.clear()
 
@@ -103,9 +102,8 @@ def writestatus(i, plant, alarm, column):
     statusbook.active.cell(row=3+i, column=3).value = plant
     if statusbook.active.cell(row=3+i, column=column).value != alarm:
         alarm_happen = [f"{date_now}  ", f"{time_now}  ", f"{plant}  ",  alarm]
-        m = Textjob(Textjob.pathall, "a")        #new
-        m.makelog(alarm_happen, "\n")            #new
-       # logall(alarm_happen)                    #old
+        m = Textjob(Textjob.pathall, "a")
+        m.makelog(alarm_happen, "\n")
         sort()
         logmsg = "\n".join(alarm_happen[2:])
         to_telegram(logmsg)
