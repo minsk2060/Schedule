@@ -1,12 +1,35 @@
 import telebot
 from telegramtokens import telegramtoken_venthalls
 from telebot import types
+import requests
+import time
+
 
 bot = telebot.TeleBot(telegramtoken_venthalls)
 places = {"Игровой зал": "ПВ-2.7, ПВ-2.8",
           "Раздевалки игрового зала": "ПВ-2.4",
           "Зал хореографии 2015": "ПВ-2.5",
           "Зал хореографии 2041": "ПВ-2.6" }
+
+schedules = {"Расписание  ПВ-2.7, ПВ-2.8":"",
+             "Расписание  ПВ-2.4":"",
+             "Расписание  ПВ-2.5":"",
+             "Расписание  ПВ-2.6":"",}
+
+curstates = {"Состояние  ПВ-2.7, ПВ-2.8":"",
+             "Состояние  ПВ-2.4":"",
+             "Состояние  ПВ-2.5":"",
+             "Состояние  ПВ-2.6":"",}
+
+startplant = {"Запуск  ПВ-2.7, ПВ-2.8": "",
+              "Запуск  ПВ-2.4": "",
+              "Запуск  ПВ-2.5": "",
+              "Запуск  ПВ-2.6": "",}
+
+stopplant = {"Останов  ПВ-2.7, ПВ-2.8": "",
+             "Останов  ПВ-2.4": "",
+             "Останов  ПВ-2.5": "",
+             "Останов  ПВ-2.6": "",}
 
 @bot.message_handler(commands=['start'])
 def start(message):
@@ -15,33 +38,65 @@ def start(message):
     btn2 = types.KeyboardButton("Раздевалки игрового зала")
     btn3 = types.KeyboardButton("Зал хореографии 2015")
     btn4 = types.KeyboardButton("Зал хореографии 2041")
-    markup.add(btn1, btn2)
     markup.add(btn3, btn4)
+    markup.add(btn2)
+    markup.add(btn1)
     bot.send_message(message.chat.id,
                      text="Выберите помещение".format(
                          message.from_user), reply_markup=markup)
+
+def reply(message, place=""):
+    answer = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    button1 = types.KeyboardButton(f"Состояние  {places[place]}")
+    button2 = types.KeyboardButton(f"Расписание  {places[place]}")
+    button3 = types.KeyboardButton(f"Запуск  {places[place]}")
+    button4 = types.KeyboardButton(f"Останов  {places[place]}")
+    button5 = types.KeyboardButton("Главное меню")
+    answer.add(button1, button2)
+    answer.add(button3, button4)
+    answer.add(button5)
+    bot.send_message(message.chat.id, "Выберите действие".format(message.from_user), reply_markup=answer)
 
 
 @bot.message_handler(content_types=['text'])
 def func(message):
     msg = message.text
-    if (msg == "Главное меню"):
+    if msg == "Главное меню":
         start(message)
+
     elif msg in places.keys():
-        bot.send_message(message.chat.id, text=f"{msg}\nобслуживает вентуствновка  {places[msg]}")
+        bot.send_message(message.chat.id, text=f"{msg}\nобслуживает вентустановка  {places[msg]}")
         reply(message, msg)
+
+    elif msg in schedules.keys():
+        bot.send_message(message.chat.id, text=f"Ждите, идет опрос {msg}...")
+        time.sleep(5)
+        #Здесь необходимо вставить код для опроса расписания работы
+        bot.send_message(message.chat.id, text=f"{msg} на ближайшие пару дней:\n...\n...\n...")
+        bot.send_message(message.chat.id, "Выберите действие")
+
+    elif msg in curstates.keys():
+        bot.send_message(message.chat.id, text=f"Ждите, идет опрос {msg}...")
+        time.sleep(5)
+        #Здесь необходимо вставить код для опроса расписания работы
+        bot.send_message(message.chat.id, text=f"Текущее {msg} :\n...\n...\n...")
+        bot.send_message(message.chat.id, "Выберите действие")
+
+    elif msg in startplant.keys():
+        # Здесь код для запуска уствновки
+        bot.send_message(message.chat.id, "Стартуем....")
+        time.sleep(5)
+        bot.send_message(message.chat.id, f"{msg} выполнен успешно")
+
+    elif msg in stopplant.keys():
+        # Здесь код для останова уствновки
+        bot.send_message(message.chat.id, "Останавливаемся....")
+        time.sleep(5)
+        bot.send_message(message.chat.id, f"{msg} выполнен успешно")
+
     else:
-        bot.send_message(message.chat.id, text="Нет такой команды")
-
-
-def reply(message, place=""):
-    answer = types.ReplyKeyboardMarkup(resize_keyboard=True)
-    button1 = types.KeyboardButton(f"Текущее состояние {places[place]}")
-    button2 = types.KeyboardButton(f"Расписание работы {places[place]}")
-    button3 = types.KeyboardButton("Главное меню")
-    answer.add(button1, button2)
-    answer.add(button3)
-    bot.send_message(message.chat.id, "Выберите действие".format(message.from_user), reply_markup=answer)
+        bot.send_message(message.chat.id, text="Нет такой команды, Идем на главную.")
+        start(message)
 
 
 bot.polling(none_stop=True)
