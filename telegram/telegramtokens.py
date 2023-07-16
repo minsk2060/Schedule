@@ -1,2 +1,0 @@
-telegramtoken = "6182428747:AAGYvOlKYXyztjodHQYEaXNxgKsf8p7zFKg"
-telegramtoken_venthalls ="6326141804:AAERJEPnfKQed1afBA35YrVz8WAeDm9Hc1A"

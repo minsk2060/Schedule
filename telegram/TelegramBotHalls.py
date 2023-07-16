@@ -30,19 +30,6 @@ def func(message):
     elif msg in places.keys():
         bot.send_message(message.chat.id, text=f"{msg}\nобслуживает вентуствновка  {places[msg]}")
         reply(message, msg)
-
-    # elif (msg == "Игровой зал"):
-    #     bot.send_message(message.chat.id, text=f"{msg}\nобслуживают вентустановки {places[msg]}")
-    #     reply(message, msg)
-    # elif (msg == "Раздевалки игрового зала"):
-    #     bot.send_message(message.chat.id, text=f"{msg}\nобслуживает вентустановка {places[msg]}")
-    #     reply(message, msg)
-    # elif msg == "Зал хореографии 2015":
-    #     bot.send_message(message.chat.id, text=f"{msg}\nобслуживает вентустановка {places[msg]}")
-    #     reply(message , msg)
-    # elif msg == "Зал хореографии 2041":
-    #     bot.send_message(message.chat.id, text=f"{msg}\nобслуживает вентустановка {places[msg]}")
-    #     reply(message , msg)
     else:
         bot.send_message(message.chat.id, text="Нет такой команды")
 
