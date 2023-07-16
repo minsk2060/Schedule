@@ -3,6 +3,8 @@ from telegramtokens import telegramtoken_venthalls
 from telebot import types
 import requests
 import time
+#from ..request import switch
+#from ..plants import ...
 
 
 bot = telebot.TeleBot(telegramtoken_venthalls)
@@ -55,7 +57,8 @@ def reply(message, place=""):
     answer.add(button1, button2)
     answer.add(button3, button4)
     answer.add(button5)
-    bot.send_message(message.chat.id, "Выберите действие".format(message.from_user), reply_markup=answer)
+    bot.send_message(message.chat.id, "Выберите действие".format(message.from_user),
+                      reply_markup=answer)
 
 
 @bot.message_handler(content_types=['text'])
@@ -65,28 +68,34 @@ def func(message):
         start(message)
 
     elif msg in places.keys():
+        time.sleep(1)
         bot.send_message(message.chat.id, text=f"{msg}\nобслуживает вентустановка  {places[msg]}")
         reply(message, msg)
 
     elif msg in schedules.keys():
-        bot.send_message(message.chat.id, text=f"Ждите, идет опрос {msg}...")
+        bot.send_message(message.chat.id, text=f"Ждите, сейчас узнаем ...")
         time.sleep(5)
         #Здесь необходимо вставить код для опроса расписания работы
         bot.send_message(message.chat.id, text=f"{msg} на ближайшие пару дней:\n...\n...\n...")
         bot.send_message(message.chat.id, "Выберите действие")
 
     elif msg in curstates.keys():
-        bot.send_message(message.chat.id, text=f"Ждите, идет опрос {msg}...")
+        bot.send_message(message.chat.id, text=f"Ждите, идет опрос ...")
         time.sleep(5)
-        #Здесь необходимо вставить код для опроса расписания работы
+        #Здесь необходимо вставить код для опроса состояия вентустановки
         bot.send_message(message.chat.id, text=f"Текущее {msg} :\n...\n...\n...")
         bot.send_message(message.chat.id, "Выберите действие")
 
     elif msg in startplant.keys():
         # Здесь код для запуска уствновки
         bot.send_message(message.chat.id, "Стартуем....")
+        # par = 1
+        # if "Success: true" in (switch(startplant[msg], par)):
+        stmsg = "выполнен успешно"
+        # else:
+        #     stmsg = "не выполнен"
         time.sleep(5)
-        bot.send_message(message.chat.id, f"{msg} выполнен успешно")
+        bot.send_message(message.chat.id, f"{msg} {stmsg}")
 
     elif msg in stopplant.keys():
         # Здесь код для останова уствновки
@@ -95,7 +104,12 @@ def func(message):
         bot.send_message(message.chat.id, f"{msg} выполнен успешно")
 
     else:
-        bot.send_message(message.chat.id, text="Нет такой команды, Идем на главную.")
+        bot.send_message(message.chat.id, text="Что за команда, не понял?")
+        time.sleep(2)
+        bot.send_message(message.chat.id, text="Чувак, здесь не надо набирать текст \nПросто жмем кнопки")
+        time.sleep(3)
+        bot.send_message(message.chat.id, text="Идем на главную")
+        time.sleep(1)
         start(message)
 
 
