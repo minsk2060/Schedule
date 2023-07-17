@@ -1,9 +1,9 @@
 import time
 import requests
-from headers import header, header_alarm_A
+from headers import header, header_alarm_A, sauter_cookie
 from plants import alarms_A, alarms_BC
 from excels import writestatus
-from tokens import sauter_cookie
+#from tokens import sauter_cookie
 
 def switch(get_plant, par):
     """
