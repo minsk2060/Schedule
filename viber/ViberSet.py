@@ -1,7 +1,6 @@
 from viberbot.api.messages.text_message import TextMessage
-from tokens import viberwebhook
-from tokens import viber_users
-from ViberBot import viber
+from viber.vibertokens import viberwebhook, viber_users
+from viber.ViberBot import viber
 
 def sethook():
     """

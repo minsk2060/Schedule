@@ -3,7 +3,7 @@ from viberbot.api.bot_configuration import BotConfiguration
 from viberbot.api.viber_requests import (
     ViberMessageRequest,
     ViberConversationStartedRequest)
-from tokens import viberbotname, vibertoken, viberavatar
+from viber.vibertokens import viberbotname, vibertoken, viberavatar
 from flask import Flask, request, Response
 
 

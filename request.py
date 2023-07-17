@@ -1,9 +1,9 @@
 import time
 import requests
-from headers import header, header_alarm_A
+from headers import header, header_alarm_A, sauter_cookie
 from plants import alarms_A, alarms_BC
 from excels import writestatus
-from tokens import sauter_cookie
+#from tokens import sauter_cookie
 
 def switch(get_plant, par):
     """
@@ -28,6 +28,7 @@ def getalarms(alarms_dict, column_number, alarm_text):
         time.sleep(10)
         url=f"http://192.168.250.50/svo/details/update?oid={j}&vid=17&mode=cached"
         r=requests.get(url, headers=header_alarm_A, cookies=sauter_cookie, allow_redirects=False)
+        alarms_now = "Нет ответа об аварии"
         if "Alarm: true" in r.text:
             if 'title="Fault: true"' not in r.text:
                   alarms_now = alarm_text
@@ -39,6 +40,11 @@ def getalarms(alarms_dict, column_number, alarm_text):
 
 
 if __name__ == "__main__":
-    getalarms(alarms_dict=alarms_A, column_number=4, alarm_text='Авария класса А')
-    getalarms(alarms_dict=alarms_BC, column_number=5, alarm_text='Авария класса B,C')
+    g = "8388808&did=33561432"
+    p = "&vid=17&value=1"
+    url = f"http://192.168.250.50/ajaxjson/bac/setValue?pid=85&oid={g}{p}"
+    r = requests.get(url, headers=header, cookies=sauter_cookie)
+    print(r.text)
+    # getalarms(alarms_dict=alarms_A, column_number=4, alarm_text='Авария класса А')
+    # getalarms(alarms_dict=alarms_BC, column_number=5, alarm_text='Авария класса B,C')
 

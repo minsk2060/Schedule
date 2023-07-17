@@ -6,6 +6,7 @@ excel/
 logging/log_scheduling.txt
 logging/alllogs.txt
 logging/readlogs.txt
-tokens.py
+viber/vibertokens.py
 plants.py
 headers.py
+telegram/telegramtokens.py

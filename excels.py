@@ -2,8 +2,8 @@ from openpyxl import load_workbook
 from datetime import datetime
 from logs import sort, Textjob
 from plants import driers
-from TelegramBot import to_telegram
-from ViberSet import to_viber
+from telegram.TelegramBotAlarms import to_telegram
+from viber.ViberSet import to_viber
 
 schedule_book = "./excel/Расписание.xlsm"
 status_book   = "./excel/Cостояние.xlsx"
