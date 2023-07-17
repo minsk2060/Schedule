@@ -70,6 +70,7 @@ def func(message):
     elif msg in places.keys():
         time.sleep(1)
         bot.send_message(message.chat.id, text=f"{msg}\nобслуживает вентустановка  {places[msg]}")
+        time.sleep(1)
         reply(message, msg)
 
     elif msg in schedules.keys():
