@@ -3,7 +3,7 @@ from telegramtokens import telegramtoken_venthalls
 from telebot import types
 import requests
 import time
-#from ..request import switch
+from request import switch
 #from ..plants import ...
 
 
@@ -24,12 +24,12 @@ curstates = {"Состояние  ПВ-2.7, ПВ-2.8":"",
              "Состояние  ПВ-2.6":"",}
 
 startplant = {"Запуск  ПВ-2.7, ПВ-2.8": "",
-              "Запуск  ПВ-2.4": "",
+              "Запуск  ПВ-2.4": "8388808&did=33561432",
               "Запуск  ПВ-2.5": "",
               "Запуск  ПВ-2.6": "",}
 
 stopplant = {"Останов  ПВ-2.7, ПВ-2.8": "",
-             "Останов  ПВ-2.4": "",
+             "Останов  ПВ-2.4": "8388808&did=33561432",
              "Останов  ПВ-2.5": "",
              "Останов  ПВ-2.6": "",}
 
@@ -43,9 +43,7 @@ def start(message):
     markup.add(btn3, btn4)
     markup.add(btn2)
     markup.add(btn1)
-    bot.send_message(message.chat.id,
-                     text="Выберите помещение".format(
-                         message.from_user), reply_markup=markup)
+    bot.send_message(message.chat.id, text="Выберите помещение".format(message.from_user), reply_markup=markup)
 
 def reply(message, place=""):
     answer = types.ReplyKeyboardMarkup(resize_keyboard=True)
@@ -57,8 +55,7 @@ def reply(message, place=""):
     answer.add(button1, button2)
     answer.add(button3, button4)
     answer.add(button5)
-    bot.send_message(message.chat.id, "Выберите действие".format(message.from_user),
-                      reply_markup=answer)
+    bot.send_message(message.chat.id, "Выберите действие".format(message.from_user),reply_markup=answer)
 
 
 @bot.message_handler(content_types=['text'])
@@ -67,11 +64,13 @@ def func(message):
     if msg == "Главное меню":
         start(message)
 
+
     elif msg in places.keys():
         time.sleep(1)
         bot.send_message(message.chat.id, text=f"{msg}\nобслуживает вентустановка  {places[msg]}")
         time.sleep(1)
         reply(message, msg)
+
 
     elif msg in schedules.keys():
         bot.send_message(message.chat.id, text=f"Ждите, сейчас узнаем ...")
@@ -80,6 +79,7 @@ def func(message):
         bot.send_message(message.chat.id, text=f"{msg} на ближайшие пару дней:\n...\n...\n...")
         bot.send_message(message.chat.id, "Выберите действие")
 
+
     elif msg in curstates.keys():
         bot.send_message(message.chat.id, text=f"Ждите, идет опрос ...")
         time.sleep(5)
@@ -87,10 +87,12 @@ def func(message):
         bot.send_message(message.chat.id, text=f"Текущее {msg} :\n...\n...\n...")
         bot.send_message(message.chat.id, "Выберите действие")
 
+
     elif msg in startplant.keys():
-        # Здесь код для запуска уствновки
+        # Здесь код для запуска установки
         bot.send_message(message.chat.id, "Стартуем....")
-        # par = 1
+        par = "&vid=17&value=1"
+        switch(startplant[msg], par)
         # if "Success: true" in (switch(startplant[msg], par)):
         stmsg = "выполнен успешно"
         # else:
@@ -98,11 +100,15 @@ def func(message):
         time.sleep(5)
         bot.send_message(message.chat.id, f"{msg} {stmsg}")
 
+
     elif msg in stopplant.keys():
         # Здесь код для останова уствновки
         bot.send_message(message.chat.id, "Останавливаемся....")
+        par = "&vid=17&value=0"
+        switch(stopplant[msg], par)
         time.sleep(5)
         bot.send_message(message.chat.id, f"{msg} выполнен успешно")
+
 
     else:
         bot.send_message(message.chat.id, text="Что за команда, не понял?")

@@ -28,6 +28,7 @@ def getalarms(alarms_dict, column_number, alarm_text):
         time.sleep(10)
         url=f"http://192.168.250.50/svo/details/update?oid={j}&vid=17&mode=cached"
         r=requests.get(url, headers=header_alarm_A, cookies=sauter_cookie, allow_redirects=False)
+        alarms_now = "Нет ответа об аварии"
         if "Alarm: true" in r.text:
             if 'title="Fault: true"' not in r.text:
                   alarms_now = alarm_text
@@ -39,6 +40,7 @@ def getalarms(alarms_dict, column_number, alarm_text):
 
 
 if __name__ == "__main__":
+
     getalarms(alarms_dict=alarms_A, column_number=4, alarm_text='Авария класса А')
     getalarms(alarms_dict=alarms_BC, column_number=5, alarm_text='Авария класса B,C')
 
