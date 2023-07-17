@@ -96,7 +96,7 @@ def func(message):
         # r = switch(startplant[msg], par)
         # stmsg = "не выполнен"
         # if '"message":"Value was successfully written"' in r.text:
-        #     stmsg = "выполнен успешно"
+        stmsg = "выполнен успешно"
         time.sleep(5)
         bot.send_message(message.chat.id, f"{msg} {stmsg}")
 
