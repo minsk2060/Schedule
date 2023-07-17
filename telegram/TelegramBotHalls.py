@@ -93,11 +93,10 @@ def func(message):
         # Здесь код для запуска установки
         bot.send_message(message.chat.id, "Стартуем....")
         par = "&vid=17&value=1"
-        switch(startplant[msg], par)
-        # if "Success: true" in (switch(startplant[msg], par)):
-        stmsg = "выполнен успешно"
-        # else:
-        #     stmsg = "не выполнен"
+        r = switch(startplant[msg], par)
+        stmsg = "не выполнен"
+        if '"message":"Value was successfully written"' in r.text::
+            stmsg = "выполнен успешно"
         time.sleep(5)
         bot.send_message(message.chat.id, f"{msg} {stmsg}")
 

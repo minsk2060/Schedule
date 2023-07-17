@@ -40,7 +40,11 @@ def getalarms(alarms_dict, column_number, alarm_text):
 
 
 if __name__ == "__main__":
-
-    getalarms(alarms_dict=alarms_A, column_number=4, alarm_text='Авария класса А')
-    getalarms(alarms_dict=alarms_BC, column_number=5, alarm_text='Авария класса B,C')
+    g = "8388808&did=33561432"
+    p = "&vid=17&value=1"
+    url = f"http://192.168.250.50/ajaxjson/bac/setValue?pid=85&oid={g}{p}"
+    r = requests.get(url, headers=header, cookies=sauter_cookie)
+    print(r.text)
+    # getalarms(alarms_dict=alarms_A, column_number=4, alarm_text='Авария класса А')
+    # getalarms(alarms_dict=alarms_BC, column_number=5, alarm_text='Авария класса B,C')
 
