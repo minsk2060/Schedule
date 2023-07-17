@@ -4,6 +4,7 @@ from telebot import types
 import requests
 import time
 from request import switch
+#import Schedule
 #from ..plants import ...
 
 
@@ -55,7 +56,7 @@ def reply(message, place=""):
     answer.add(button1, button2)
     answer.add(button3, button4)
     answer.add(button5)
-    bot.send_message(message.chat.id, "Выберите действие".format(message.from_user),reply_markup=answer)
+    bot.send_message(message.chat.id, "Выберите действие".format(message.from_user), reply_markup=answer)
 
 
 @bot.message_handler(content_types=['text'])
