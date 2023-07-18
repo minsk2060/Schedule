@@ -3,7 +3,6 @@ from telegramtokens import telegramtoken_venthalls
 from telebot import types
 import requests
 import time
-from request import switch
 from headers import header, sauter_cookie
 #import Schedule
 #from ..plants import ...
@@ -36,6 +35,13 @@ stopplant = {"Останов  ПВ-2.7, ПВ-2.8": "",
              "Останов  ПВ-2.4": "8388808&did=33561432",
              "Останов  ПВ-2.5": "8388778&did=33560432",
              "Останов  ПВ-2.6": "8388770&did=33560432",}
+
+all_plants = {"ПВ-2.4": "8388808&did=33561432",
+              "ПВ-2.5": "8388778&did=33560432",
+              "ПВ-2.6": "8388770&did=33560432",
+              "ПВ-2.7": "8388827&did=33561432",
+              "ПВ-2.8": "8388835&did=33561432",}
+
 
 @bot.message_handler(commands=['start'])
 def start(message):
@@ -94,61 +100,29 @@ def func(message):
 
     # Запуск
     elif msg in startplant.keys():
-        # Здесь код для запуска установки
+        p = "1"
         bot.send_message(message.chat.id, "Стартуем....")
-        if "ПВ-2.7" in msg:
-            ssg = "Запуск  ПВ-2.7"
-            bot.send_message(message.chat.id, ssg)
-            time.sleep(3)
-            g = startplant[ssg]
-            p = "1"
-            url = f"http://192.168.250.50/ajaxjson/bac/setValue?pid=85&oid={g}&vid=17&value={p}"
-            r = requests.get(url, headers=header, cookies=sauter_cookie)
-            stmsg = "не выполнен"
-            if r:
-                if '"message":"Value was successfully written"' in r.text:
-                    stmsg = "выполнен успешно"
-            bot.send_message(message.chat.id, f"{ssg} {stmsg}")
-            psg = "Запуск  ПВ-2.8"
-            bot.send_message(message.chat.id, psg)
-            time.sleep(3)
-            g = startplant[psg]
-            p = "1"
-            url = f"http://192.168.250.50/ajaxjson/bac/setValue?pid=85&oid={g}&vid=17&value={p}"
-            r = requests.get(url, headers=header, cookies=sauter_cookie)
-            stmsg = "не выполнен"
-            if r:
-                if '"message":"Value was successfully written"' in r.text:
-                    stmsg = "выполнен успешно"
-            bot.send_message(message.chat.id, f"{psg} {stmsg}")
-        else:
-            g = startplant[msg]
-            p = "1"
-            url = f"http://192.168.250.50/ajaxjson/bac/setValue?pid=85&oid={g}&vid=17&value={p}"
-            r = requests.get(url, headers=header, cookies=sauter_cookie)
-            stmsg = "не выполнен"
-            if r:
-                if '"message":"Value was successfully written"' in r.text:
-                    stmsg = "выполнен успешно"
-            time.sleep(5)
-            bot.send_message(message.chat.id, f"{msg} {stmsg}")
+        time.sleep(5)
+        switch_plant(message, msg, p, "Запуск")
 
     # Останов
     elif msg in stopplant.keys():
-        # Здесь код для останова уствновки
-        bot.send_message(message.chat.id, "Останавливаемся....")
-        g = stopplant[msg]
         p = "0"
-        url = f"http://192.168.250.50/ajaxjson/bac/setValue?pid=85&oid={g}&vid=17&value={p}"
-        r = requests.get(url, headers=header, cookies=sauter_cookie)
-        stmsg = "не выполнен"
-        if r:
-            if '"message":"Value was successfully written"' in r.text:
-                stmsg = "выполнен успешно"
+        bot.send_message(message.chat.id, "Останавливаемся....")
         time.sleep(5)
-        bot.send_message(message.chat.id, f"{msg} {stmsg}")
+        switch_plant(message, msg, p, "Останов")
+        # g = stopplant[msg]
+        # p = "0"
+        # url = f"http://192.168.250.50/ajaxjson/bac/setValue?pid=85&oid={g}&vid=17&value={p}"
+        # r = requests.get(url, headers=header, cookies=sauter_cookie)
+        # stmsg = "не выполнен"
+        # if r:
+        #     if '"message":"Value was successfully written"' in r.text:
+        #         stmsg = "выполнен успешно"
+        # time.sleep(5)
+        # bot.send_message(message.chat.id, f"{msg} {stmsg}")
 
-
+    # Иное
     else:
         bot.send_message(message.chat.id, text="Что за команда, не понял?")
         time.sleep(2)
@@ -158,8 +132,42 @@ def func(message):
         time.sleep(1)
         start(message)
 
-try:
-    bot.polling(none_stop=True, timeout=86400, long_polling_timeout=86400)
-except:
-    pass
+
+def switch_plant(message, msg, p, action):
+    if "ПВ-2.7, ПВ-2.8" in msg:
+        ssg = f"{action}  ПВ-2.7"
+        bot.send_message(message.chat.id, ssg)
+        g = all_plants[ssg.replace(f"{action}  ", "")]
+        bot.send_message(message.chat.id, f"{ssg} {do_switch(g, p)}")
+
+        psg = f"{action}  ПВ-2.8"
+        bot.send_message(message.chat.id, psg)
+        g = all_plants[psg.replace(f"{action}  ", "")]
+        bot.send_message(message.chat.id, f"{psg} {do_switch(g, p)}")
+
+
+    else:
+        g = all_plants[msg.replace(f"{action}  ", "")]
+        # url = f"http://192.168.250.50/ajaxjson/bac/setValue?pid=85&oid={g}&vid=17&value={p}"
+        # r = requests.get(url, headers=header, cookies=sauter_cookie)
+        # stmsg = "не выполнен"
+        # if r:
+        #     if '"message":"Value was successfully written"' in r.text:
+        #         stmsg = "выполнен успешно"
+        # time.sleep(5)
+        bot.send_message(message.chat.id, f"{msg} {do_switch(g, p)}")
+
+def do_switch(g, p):
+    url = f"http://192.168.250.50/ajaxjson/bac/setValue?pid=85&oid={g}&vid=17&value={p}"
+    r = requests.get(url, headers=header, cookies=sauter_cookie)
+    time.sleep(5)
+    if '"message":"Value was successfully written"' in r.text:
+        stmsg = "выполнен успешно"
+    else:
+        stmsg = "не выполнен"
+    return stmsg
+
+
+
+bot.polling(none_stop=True, timeout=86400, long_polling_timeout=86400)
 
