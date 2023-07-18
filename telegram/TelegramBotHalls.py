@@ -86,6 +86,12 @@ def func(message):
     elif msg in schedules.keys():
         bot.send_message(message.chat.id, text=f"Ждите, сейчас узнаем ...")
         time.sleep(5)
+        path = "C:/Users/milli/Documents/Programming/Python/Projects/schedules/logging/readlogs.txt"
+        f = open(path, "r")
+        s = []
+        for i in f.read().replace("   ", " ").split("\n"):
+            s.append(i.split(" "))
+
         #Здесь необходимо вставить код для опроса расписания работы
         bot.send_message(message.chat.id, text=f"{msg} на ближайшие пару дней:\n...\n...\n...")
         bot.send_message(message.chat.id, "Выберите действие")

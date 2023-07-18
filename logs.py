@@ -10,7 +10,7 @@ class Textjob:
     def __init__(self, path, flag):
         self.path = path
         self.flag = flag
-    def makelog(self, data, n = ""):
+    def makelog(self, data, n=""):
         f = open(self.path, self.flag)
         f.write("".join(data) + n)
         f.close()
