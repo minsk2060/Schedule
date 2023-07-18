@@ -4,6 +4,7 @@ from telebot import types
 import requests
 import time
 from request import switch
+from headers import header, sauter_cookie
 #import Schedule
 #from ..plants import ...
 
@@ -26,13 +27,15 @@ curstates = {"Состояние  ПВ-2.7, ПВ-2.8":"",
 
 startplant = {"Запуск  ПВ-2.7, ПВ-2.8": "",
               "Запуск  ПВ-2.4": "8388808&did=33561432",
-              "Запуск  ПВ-2.5": "",
-              "Запуск  ПВ-2.6": "",}
+              "Запуск  ПВ-2.5": "8388778&did=33560432",
+              "Запуск  ПВ-2.6": "8388770&did=33560432",
+              "Запуск  ПВ-2.7": "8388827&did=33561432",
+              "Запуск  ПВ-2.8": "8388835&did=33561432",}
 
 stopplant = {"Останов  ПВ-2.7, ПВ-2.8": "",
              "Останов  ПВ-2.4": "8388808&did=33561432",
-             "Останов  ПВ-2.5": "",
-             "Останов  ПВ-2.6": "",}
+             "Останов  ПВ-2.5": "8388778&did=33560432",
+             "Останов  ПВ-2.6": "8388770&did=33560432",}
 
 @bot.message_handler(commands=['start'])
 def start(message):
@@ -56,6 +59,7 @@ def reply(message, place=""):
     answer.add(button1, button2)
     answer.add(button3, button4)
     answer.add(button5)
+    #print(message.chat.id)
     bot.send_message(message.chat.id, "Выберите действие".format(message.from_user), reply_markup=answer)
 
 
@@ -65,14 +69,14 @@ def func(message):
     if msg == "Главное меню":
         start(message)
 
-
+    # Информация
     elif msg in places.keys():
         time.sleep(1)
         bot.send_message(message.chat.id, text=f"{msg}\nобслуживает вентустановка  {places[msg]}")
         time.sleep(1)
         reply(message, msg)
 
-
+    # Расписание
     elif msg in schedules.keys():
         bot.send_message(message.chat.id, text=f"Ждите, сейчас узнаем ...")
         time.sleep(5)
@@ -80,7 +84,7 @@ def func(message):
         bot.send_message(message.chat.id, text=f"{msg} на ближайшие пару дней:\n...\n...\n...")
         bot.send_message(message.chat.id, "Выберите действие")
 
-
+    # Состояние
     elif msg in curstates.keys():
         bot.send_message(message.chat.id, text=f"Ждите, идет опрос ...")
         time.sleep(5)
@@ -88,26 +92,61 @@ def func(message):
         bot.send_message(message.chat.id, text=f"Текущее {msg} :\n...\n...\n...")
         bot.send_message(message.chat.id, "Выберите действие")
 
-
+    # Запуск
     elif msg in startplant.keys():
         # Здесь код для запуска установки
         bot.send_message(message.chat.id, "Стартуем....")
-        # par = "&vid=17&value=1"
-        # r = switch(startplant[msg], par)
-        # stmsg = "не выполнен"
-        # if '"message":"Value was successfully written"' in r.text:
-        stmsg = "выполнен успешно"
-        time.sleep(5)
-        bot.send_message(message.chat.id, f"{msg} {stmsg}")
+        if "ПВ-2.7" in msg:
+            ssg = "Запуск  ПВ-2.7"
+            bot.send_message(message.chat.id, ssg)
+            time.sleep(3)
+            g = startplant[ssg]
+            p = "1"
+            url = f"http://192.168.250.50/ajaxjson/bac/setValue?pid=85&oid={g}&vid=17&value={p}"
+            r = requests.get(url, headers=header, cookies=sauter_cookie)
+            stmsg = "не выполнен"
+            if r:
+                if '"message":"Value was successfully written"' in r.text:
+                    stmsg = "выполнен успешно"
+            bot.send_message(message.chat.id, f"{ssg} {stmsg}")
+            psg = "Запуск  ПВ-2.8"
+            bot.send_message(message.chat.id, psg)
+            time.sleep(3)
+            g = startplant[psg]
+            p = "1"
+            url = f"http://192.168.250.50/ajaxjson/bac/setValue?pid=85&oid={g}&vid=17&value={p}"
+            r = requests.get(url, headers=header, cookies=sauter_cookie)
+            stmsg = "не выполнен"
+            if r:
+                if '"message":"Value was successfully written"' in r.text:
+                    stmsg = "выполнен успешно"
+            bot.send_message(message.chat.id, f"{psg} {stmsg}")
+        else:
+            g = startplant[msg]
+            p = "1"
+            url = f"http://192.168.250.50/ajaxjson/bac/setValue?pid=85&oid={g}&vid=17&value={p}"
+            r = requests.get(url, headers=header, cookies=sauter_cookie)
+            stmsg = "не выполнен"
+            if r:
+                if '"message":"Value was successfully written"' in r.text:
+                    stmsg = "выполнен успешно"
+            time.sleep(5)
+            bot.send_message(message.chat.id, f"{msg} {stmsg}")
 
-
+    # Останов
     elif msg in stopplant.keys():
         # Здесь код для останова уствновки
         bot.send_message(message.chat.id, "Останавливаемся....")
-        par = "&vid=17&value=0"
-        switch(stopplant[msg], par)
+        g = stopplant[msg]
+        p = "0"
+        url = f"http://192.168.250.50/ajaxjson/bac/setValue?pid=85&oid={g}&vid=17&value={p}"
+        r = requests.get(url, headers=header, cookies=sauter_cookie)
+        stmsg = "не выполнен"
+        if r:
+            if '"message":"Value was successfully written"' in r.text:
+                stmsg = "выполнен успешно"
         time.sleep(5)
-        bot.send_message(message.chat.id, f"{msg} выполнен успешно")
+        bot.send_message(message.chat.id, f"{msg} {stmsg}")
 
 
     else:
@@ -119,58 +158,8 @@ def func(message):
         time.sleep(1)
         start(message)
 
+try:
+    bot.polling(none_stop=True, timeout=86400, long_polling_timeout=86400)
+except:
+    pass
 
-bot.polling(none_stop=True, long_polling_timeout=180)
-#
-#
-# # Пример кнопки в ответе
-# # @bot.message_handler(commands=['start']) #создаем команду
-# # def start(message):
-# #     markup = types.InlineKeyboardMarkup()
-# #     button1 = types.InlineKeyboardButton("Сайт Хабр", url='https://habr.com/ru/all/')
-# #     markup.add(button1)
-# #     bot.send_message(message.chat.id, "Привет, {0.first_name}! Нажми на кнопку и перейди на сайт)".format(message.from_user), reply_markup=markup)kup)
-# # bot.polling(none_stop=True)
-#
-#
-# # Пример рабочего бота с кнопками
-# @bot.message_handler(commands=['start'])
-# def start(message):
-#     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-#     btn1 = types.KeyboardButton("Поздороваться")
-#     btn2 = types.KeyboardButton("Задать вопрос")
-#     markup.add(btn1, btn2)
-#     bot.send_message(message.chat.id,
-#                      text="Привет, {0.first_name}! Я тестовый бот для твоей статьи для habr.com".format(
-#                          message.from_user), reply_markup=markup)
-#
-#
-# @bot.message_handler(content_types=['text'])
-# def func(message):
-#     if (message.text == "Поздороваться"):
-#         bot.send_message(message.chat.id, text="Привеет.. Спасибо что читаешь статью!)")
-#     elif (message.text == "Задать вопрос"):
-#         markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-#         btn1 = types.KeyboardButton("Как меня зовут?")
-#         btn2 = types.KeyboardButton("Что я могу?")
-#         back = types.KeyboardButton("Вернуться в главное меню")
-#         markup.add(btn1, btn2, back)
-#         bot.send_message(message.chat.id, text="Задай мне вопрос", reply_markup=markup)
-#
-#     elif (message.text == "Как меня зовут?"):
-#         bot.send_message(message.chat.id, "У меня нет имени..")
-#
-#     elif message.text == "Что я могу?":
-#         bot.send_message(message.chat.id, text="Поздороваться с читателями")
-#
-#     elif (message.text == "Вернуться в главное меню"):
-#         markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-#         button1 = types.KeyboardButton("Поздороваться")
-#         button2 = types.KeyboardButton("Задать вопрос")
-#         markup.add(button1, button2)
-#         bot.send_message(message.chat.id, text="Вы вернулись в главное меню", reply_markup=markup)
-#     else:
-#         bot.send_message(message.chat.id, text="На такую комманду я не запрограммировал..")
-#
-#
-# bot.polling(none_stop=True)

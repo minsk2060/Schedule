@@ -6,6 +6,7 @@ from request import switch, getalarms
 from plants import alarms_A, alarms_BC
 
 
+
 print("РАБОТАЕТ УПРАВЛЕНИЕ ОБОРУДОВАНИЕМ ПО РАСПИСАНИЮ, НЕ ЗАКРЫВАЙТЕ ЭТО ОКНО")
 
 tasks = []
