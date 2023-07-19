@@ -12,27 +12,27 @@ places = {"Игровой зал": "ПВ-2.7, ПВ-2.8",
           "Зал хореографии 2015": "ПВ-2.5",
           "Зал хореографии 2041": "ПВ-2.6" }
 
-schedules = {"Расписание  ПВ-2.7, ПВ-2.8":"",
-             "Расписание  ПВ-2.4":"",
-             "Расписание  ПВ-2.5":"",
-             "Расписание  ПВ-2.6":"",}
+scheds = ["Расписание  ПВ-2.7, ПВ-2.8",
+          "Расписание  ПВ-2.4",
+          "Расписание  ПВ-2.5",
+          "Расписание  ПВ-2.6",]
 
 curstates = {"Состояние  ПВ-2.7, ПВ-2.8":"",
              "Состояние  ПВ-2.4":"",
              "Состояние  ПВ-2.5":"",
              "Состояние  ПВ-2.6":"",}
 
-startplant = {"Запуск  ПВ-2.7, ПВ-2.8": "",
-              "Запуск  ПВ-2.4": "8388808&did=33561432",
-              "Запуск  ПВ-2.5": "8388778&did=33560432",
-              "Запуск  ПВ-2.6": "8388770&did=33560432",
-              "Запуск  ПВ-2.7": "8388827&did=33561432",
-              "Запуск  ПВ-2.8": "8388835&did=33561432",}
+starts = ["Запуск  ПВ-2.7, ПВ-2.8",
+          "Запуск  ПВ-2.4",
+          "Запуск  ПВ-2.5",
+          "Запуск  ПВ-2.6",
+          "Запуск  ПВ-2.7",
+          "Запуск  ПВ-2.8",]
 
-stopplant = {"Останов  ПВ-2.7, ПВ-2.8": "",
-             "Останов  ПВ-2.4": "8388808&did=33561432",
-             "Останов  ПВ-2.5": "8388778&did=33560432",
-             "Останов  ПВ-2.6": "8388770&did=33560432",}
+stops = ["Останов  ПВ-2.7, ПВ-2.8",
+         "Останов  ПВ-2.4",
+         "Останов  ПВ-2.5",
+         "Останов  ПВ-2.6",]
 
 all_plants = {"ПВ-2.4": "8388808&did=33561432",
               "ПВ-2.5": "8388778&did=33560432",
@@ -62,7 +62,6 @@ def reply(message, place=""):
     answer.add(button1, button2)
     answer.add(button3, button4)
     answer.add(button5)
-
     #print(message.chat.id)
     bot.send_message(message.chat.id, "Выберите действие".format(message.from_user), reply_markup=answer)
 
@@ -81,25 +80,22 @@ def func(message):
         reply(message, msg)
 
     # Расписание
-    elif msg in schedules.keys():
+    elif msg in scheds:
         bot.send_message(message.chat.id, text=f"Ждите, сейчас узнаем ...")
         time.sleep(4)
         plnt = msg.replace("Расписание  ", "")
 
         f = open("../logging/readlogs.txt", "r")
         s = []
-        a = f.read().replace("Среда", "Среда   ").replace("Четверг", "Четверг ").split("\n")
+        a = f.read()\
+             .replace("Среда", "Среда   ")\
+             .replace("Четверг", "Четверг ")\
+             .split("\n")
 
         for i in a:
             if plnt in i:
                 s.append(i.replace(f"{plnt}    ", ""))
         prnt = "\n".join(s).replace("\n","\n\n").replace("0   ", "0\n")
-
-
-
-
-        #Здесь необходимо вставить код для опроса расписания работы
-#        bot.send_message(message.chat.id, text=f"{msg} на ближайшие пару дней:\n...\n...\n...")
         bot.send_message(message.chat.id, text=f'{msg} на эти дни:\n\n{prnt}')
         bot.send_message(message.chat.id, "Выберите действие")
 
@@ -112,14 +108,23 @@ def func(message):
         bot.send_message(message.chat.id, "Выберите действие")
 
     # Запуск
-    elif msg in startplant.keys():
+    elif msg in starts:
+        # markup = types.InlineKeyboardMarkup()
+        # button1 = types.InlineKeyboardButton("Высокая", callback_data="2")
+        # button2 = types.InlineKeyboardButton("Низкая" , callback_data="1")
+        # markup.add(button1, button2)
+        # bot.send_message(message.chat.id,"Выберите скорость работы вентустановки", reply_markup=markup)
+        # query = message.text
+        # if query == "Высокая":
         p = "1"
+        # elif query == "Низкая":
+        #     p = "2"
         bot.send_message(message.chat.id, "Стартуем....")
         time.sleep(5)
         switch_plant(message, msg, p, "Запуск")
 
     # Останов
-    elif msg in stopplant.keys():
+    elif msg in stops:
         p = "0"
         bot.send_message(message.chat.id, "Останавливаемся....")
         time.sleep(5)
