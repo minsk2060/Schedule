@@ -171,7 +171,7 @@ try:
             stmsg = "не выполнен"
         return stmsg
 
-    
+
 
     bot.polling(none_stop=True, timeout=86400, long_polling_timeout=86400)
 except:
