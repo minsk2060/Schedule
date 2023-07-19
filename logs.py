@@ -136,13 +136,15 @@ def readlogs(logs_read):
     ttdys = []
     today = datetime.datetime.now().date()
     yrday = today - datetime.timedelta(days=1)
+    tmday = today + datetime.timedelta(days=1)
     str_today = today.strftime("%A").lower()
     str_yrday = yrday.strftime("%A").lower()
+    str_tmday = tmday.strftime("%A").lower()
     for i in logs_read:
-        if i[1] == str_today or i[1] == str_yrday:
+        if i[1] == str_today  or i[1] == str_tmday: #or i[1] == str_yrday:
             ttdys.append(i)
     for i in ttdys:
-        reads.append(f"{plant[i[0]]}   {''.join(days[i[1]])}   {''.join(i[2])} {(act(i[0], i[3]))} \n")
+        reads.append(f"{plant[i[0]]}   {''.join(days[i[1]])}   {''.join(i[2][0:5])} {(act(i[0], i[3]))} \n")
     t = Textjob(Textjob.readlog, "w")
     t.makelog(reads)
 
