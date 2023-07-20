@@ -117,11 +117,12 @@ def func(message):
 
         @bot.callback_query_handler(func=lambda c: c.data in ['1', '2'])
         def check_speed(callback_query):
+            msg = message.text
             bot.answer_callback_query(callback_query.id)
             p = callback_query.data
-            #bot.send_message(callback_query.from_user.id, "Тыр-тыр-тыр...")
-            bot.send_message(message.chat.id, "Стартуем....")
-            switch_plant(message, msg, p, "Запуск")
+            bot.send_message(callback_query.from_user.id, "Тыр-тыр-тыр...")
+            bot.send_message(message.chat.id, f"Стартуем....{msg}")
+            #switch_plant(message, msg, p, "Запуск")
 
     # Останов
     elif msg in stops:
