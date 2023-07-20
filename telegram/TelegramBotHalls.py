@@ -109,19 +109,19 @@ def func(message):
 
     # Запуск
     elif msg in starts:
-        # markup = types.InlineKeyboardMarkup()
-        # button1 = types.InlineKeyboardButton("Высокая", callback_data="2")
-        # button2 = types.InlineKeyboardButton("Низкая" , callback_data="1")
-        # markup.add(button1, button2)
-        # bot.send_message(message.chat.id,"Выберите скорость работы вентустановки", reply_markup=markup)
-        # query = message.text
-        # if query == "Высокая":
-        p = "1"
-        # elif query == "Низкая":
-        #     p = "2"
-        bot.send_message(message.chat.id, "Стартуем....")
-        time.sleep(5)
-        switch_plant(message, msg, p, "Запуск")
+        markup = types.InlineKeyboardMarkup()
+        button2 = types.InlineKeyboardButton("Низкая", callback_data="1")
+        button1 = types.InlineKeyboardButton("Высокая", callback_data="2")
+        markup.add(button2, button1)
+        bot.send_message(message.chat.id, f"Выберите скорость работы вентустановки {msg[-6:]}", reply_markup=markup)
+
+        @bot.callback_query_handler(func=lambda c: c.data in ['1', '2'])
+        def check_speed(callback_query):
+            bot.answer_callback_query(callback_query.id)
+            p = callback_query.data
+            #bot.send_message(callback_query.from_user.id, "Тыр-тыр-тыр...")
+            bot.send_message(message.chat.id, "Стартуем....")
+            switch_plant(message, msg, p, "Запуск")
 
     # Останов
     elif msg in stops:
@@ -156,6 +156,7 @@ def switch_plant(message, msg, p, action):
     else:
         g = all_plants[msg.replace(f"{action}  ", "")]
         bot.send_message(message.chat.id, f"{msg} {do_switch(g, p)}")
+
 
 def do_switch(g, p):
     url = f"http://192.168.250.50/ajaxjson/bac/setValue?pid=85&oid={g}&vid=17&value={p}"
