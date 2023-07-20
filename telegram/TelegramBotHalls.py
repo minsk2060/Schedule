@@ -105,7 +105,7 @@ def func(message):
     # Запуск
     elif msg in starts:
         if "ПВ-2.7" in msg:
-            rod = msg[-14:-7]
+            rod = msg[-14:-8]
             markup = types.InlineKeyboardMarkup()
             button2 = types.InlineKeyboardButton("Низкая", callback_data="1")
             button1 = types.InlineKeyboardButton("Высокая", callback_data="2")
@@ -149,11 +149,11 @@ def func(message):
 
 def switch_plant(message, msg, p, action):
     if "ПВ-2.7, ПВ-2.8" in msg:
-        ssg = f"{action}  ПВ-2.8"
+        ssg = f"{action}  ПВ-2.7"
         bot.send_message(message.chat.id, ssg)
         g = all_plants[ssg.replace(f"{action}  ", "")]
         bot.send_message(message.chat.id, f"{ssg} {do_switch(g, p)}")
-        psg = f"{action}  ПВ-2.7"
+        psg = f"{action}  ПВ-2.8"
         bot.send_message(message.chat.id, psg)
         g = all_plants[psg.replace(f"{action}  ", "")]
         bot.send_message(message.chat.id, f"{psg} {do_switch(g, p)}")
