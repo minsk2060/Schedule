@@ -40,6 +40,7 @@ all_plants = {"ПВ-2.4": "8388808&did=33561432",
               "ПВ-2.7": "8388827&did=33561432",
               "ПВ-2.8": "8388835&did=33561432",}
 
+
 @bot.message_handler(commands=['start'])
 def start(message):
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
@@ -53,25 +54,13 @@ def start(message):
     bot.send_message(message.chat.id, text="Выберите помещение".format(message.from_user), reply_markup=markup)
 
 
-def reply(message, place=""):
-    answer = types.ReplyKeyboardMarkup(resize_keyboard=True)
-    button1 = types.KeyboardButton(f"Состояние  {places[place]}")
-    button2 = types.KeyboardButton(f"Расписание  {places[place]}")
-    button3 = types.KeyboardButton(f"Запуск  {places[place]}")
-    button4 = types.KeyboardButton(f"Останов  {places[place]}")
-    button5 = types.KeyboardButton("Главное меню")
-    answer.add(button1, button2)
-    answer.add(button3, button4)
-    answer.add(button5)
-    bot.send_message(message.chat.id, "Выберите действие".format(message.from_user), reply_markup=answer)
-
-
 @bot.callback_query_handler(func=lambda callback: callback.data in ['1', '2'])
 def check_speed(callback):
     p = callback.data
     t = callback.message.text.replace("Выберите скорость работы вентустановки", "Запуск ")
     bot.send_message(callback.message.chat.id, f"Стартуем.... ")
     switch_plant(callback.message, t, p, "Запуск")
+
 
 @bot.message_handler(content_types=['text'])
 def func(message):
@@ -91,7 +80,6 @@ def func(message):
         bot.send_message(message.chat.id, text=f"Ждите, сейчас узнаем ...")
         time.sleep(4)
         plnt = msg.replace("Расписание  ", "")
-
         f = open("../logging/readlogs.txt", "r")
         s = []
         a = f.read()\
@@ -142,11 +130,11 @@ def func(message):
 
 def switch_plant(message, msg, p, action):
     if "ПВ-2.7, ПВ-2.8" in msg:
-        ssg = f"{action}  ПВ-2.7"
+        ssg = f"{action}  ПВ-2.8"
         bot.send_message(message.chat.id, ssg)
         g = all_plants[ssg.replace(f"{action}  ", "")]
         bot.send_message(message.chat.id, f"{ssg} {do_switch(g, p)}")
-        psg = f"{action}  ПВ-2.8"
+        psg = f"{action}  ПВ-2.7"
         bot.send_message(message.chat.id, psg)
         g = all_plants[psg.replace(f"{action}  ", "")]
         bot.send_message(message.chat.id, f"{psg} {do_switch(g, p)}")
@@ -165,6 +153,19 @@ def do_switch(g, p):
     else:
         stmsg = "не выполнен"
     return stmsg
+
+
+def reply(message, place=""):
+    answer = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    button1 = types.KeyboardButton(f"Состояние  {places[place]}")
+    button2 = types.KeyboardButton(f"Расписание  {places[place]}")
+    button3 = types.KeyboardButton(f"Запуск  {places[place]}")
+    button4 = types.KeyboardButton(f"Останов  {places[place]}")
+    button5 = types.KeyboardButton("Главное меню")
+    answer.add(button1, button2)
+    answer.add(button3, button4)
+    answer.add(button5)
+    bot.send_message(message.chat.id, "Выберите действие".format(message.from_user), reply_markup=answer)
 
 
 bot.polling(none_stop=True, timeout=86400, long_polling_timeout=86400)
