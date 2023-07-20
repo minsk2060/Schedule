@@ -110,12 +110,6 @@ def func(message):
             button1 = types.InlineKeyboardButton("Высокая", callback_data="2")
             markup.add(button2, button1)
             bot.send_message(message.chat.id, f"Выберите скорость работы вентустановки {msg[-14:]}".replace("ки", "ок"), reply_markup=markup)
-            # rod = msg[-6:]
-            # markup = types.InlineKeyboardMarkup()
-            # button2 = types.InlineKeyboardButton("Низкая", callback_data="1")
-            # button1 = types.InlineKeyboardButton("Высокая", callback_data="2")
-            # markup.add(button2, button1)
-            # bot.send_message(message.chat.id, f"Выберите скорость работы вентустановки {rod}", reply_markup=markup)
 
         else:
             rod = msg[-6:]
@@ -124,8 +118,6 @@ def func(message):
             button1 = types.InlineKeyboardButton("Высокая", callback_data="2")
             markup.add(button2, button1)
             bot.send_message(message.chat.id, f"Выберите скорость работы вентустановки {msg[-6:]}", reply_markup=markup)
-
-            # bot.send_message(message.chat.id, f"Выберите скорость работы вентустановки {rod}", reply_markup=markup)
 
     # Останов
     elif msg in stops:
