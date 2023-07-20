@@ -52,6 +52,7 @@ def start(message):
     markup.add(btn1)
     bot.send_message(message.chat.id, text="Выберите помещение".format(message.from_user), reply_markup=markup)
 
+
 def reply(message, place=""):
     answer = types.ReplyKeyboardMarkup(resize_keyboard=True)
     button1 = types.KeyboardButton(f"Состояние  {places[place]}")
@@ -62,9 +63,15 @@ def reply(message, place=""):
     answer.add(button1, button2)
     answer.add(button3, button4)
     answer.add(button5)
-    #print(message.chat.id)
     bot.send_message(message.chat.id, "Выберите действие".format(message.from_user), reply_markup=answer)
 
+
+@bot.callback_query_handler(func=lambda callback: callback.data in ['1', '2'])
+def check_speed(callback):
+    p = callback.data
+    t = callback.message.text.replace("Выберите скорость работы вентустановки", "Запуск ")
+    bot.send_message(callback.message.chat.id, f"Стартуем.... ")
+    switch_plant(callback.message, t, p, "Запуск")
 
 @bot.message_handler(content_types=['text'])
 def func(message):
@@ -115,15 +122,6 @@ def func(message):
         markup.add(button2, button1)
         bot.send_message(message.chat.id, f"Выберите скорость работы вентустановки {msg[-6:]}", reply_markup=markup)
 
-        @bot.callback_query_handler(func=lambda c: c.data in ['1', '2'])
-        def check_speed(callback_query):
-            msg = message.text
-            bot.answer_callback_query(callback_query.id)
-            p = callback_query.data
-            bot.send_message(callback_query.from_user.id, "Тыр-тыр-тыр...")
-            bot.send_message(message.chat.id, f"Стартуем....{msg}")
-            #switch_plant(message, msg, p, "Запуск")
-
     # Останов
     elif msg in stops:
         p = "0"
@@ -148,7 +146,6 @@ def switch_plant(message, msg, p, action):
         bot.send_message(message.chat.id, ssg)
         g = all_plants[ssg.replace(f"{action}  ", "")]
         bot.send_message(message.chat.id, f"{ssg} {do_switch(g, p)}")
-
         psg = f"{action}  ПВ-2.8"
         bot.send_message(message.chat.id, psg)
         g = all_plants[psg.replace(f"{action}  ", "")]
@@ -168,7 +165,6 @@ def do_switch(g, p):
     else:
         stmsg = "не выполнен"
     return stmsg
-
 
 
 bot.polling(none_stop=True, timeout=86400, long_polling_timeout=86400)
