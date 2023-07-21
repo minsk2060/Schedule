@@ -1,7 +1,7 @@
 import time
 
 while True:
-    time.sleep(600)
+    time.sleep(300)
     try:
         import TelegramBotHalls
     except:
