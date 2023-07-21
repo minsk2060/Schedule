@@ -122,7 +122,7 @@
 </tr>
 
 </table>
-</p>
+
 <p>Библиотеки:<br>
 <table style = "border: none;">
 <tr>
@@ -159,7 +159,7 @@
 
 
 </table>
-</p>
+
 </body>
 
 </html>

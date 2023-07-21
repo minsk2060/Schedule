@@ -11,18 +11,18 @@ bot = telebot.TeleBot(telegramtoken_venthalls)
 places = {"Игровой зал": "ПВ-2.7, ПВ-2.8",
           "Раздевалки игрового зала": "ПВ-2.4",
           "Зал хореографии 2015": "ПВ-2.5",
-          "Зал хореографии 2041": "ПВ-2.6" }
+          "Зал хореографии 2041": "ПВ-2.6"}
 
 all_plants = {"ПВ-2.4": "8388808&did=33561432",
               "ПВ-2.5": "8388778&did=33560432",
               "ПВ-2.6": "8388770&did=33560432",
               "ПВ-2.7": "8388827&did=33561432",
-              "ПВ-2.8": "8388835&did=33561432",}
+              "ПВ-2.8": "8388835&did=33561432"}
 
-starts    = ["Запуск  " + x for x in places.values()]
-stops     = ["Останов  " + x for x in places.values()]
+starts = ["Запуск  " + x for x in places.values()]
+stops = ["Останов  " + x for x in places.values()]
 curstates = ["Состояние  " + x for x in places.values()]
-scheds    = ["Расписание  " + x for x in places.values()]
+scheds = ["Расписание  " + x for x in places.values()]
 
 
 @bot.message_handler(commands=['start'])
@@ -65,7 +65,7 @@ def func(message):
         for i in fil.read().split("\n"):
             if msg[-6:] in i:
                 sts.append(i.replace(f"{msg[-6:]}    ", ""))
-        prn = "\n".join(sts).replace("\n","\n\n").replace("0   ", "0\n")
+        prn = "\n".join(sts).replace("\n", "\n\n").replace("0   ", "0\n")
         if prn == "":
             prn = "Отсутствует"
         sms(m, f'{msg} на эти дни:\n\n{prn}', 1)
@@ -93,7 +93,7 @@ def func(message):
         switch_plant(message, msg, p, "Останов")
     # Иное
     else:
-        sms(m, "Что за команда, не понял?", 3 )
+        sms(m, "Что за команда, не понял?", 3)
         sms(m, "Чувак, здесь не надо набирать текст \nПросто жмем кнопки", 3)
         sms(m, "Идем на главную")
         start(message)
