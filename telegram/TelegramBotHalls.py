@@ -7,6 +7,7 @@ from headers import header, sauter_cookie
 
 
 bot = telebot.TeleBot(telegramtoken_venthalls)
+
 places = {"Игровой зал": "ПВ-2.7, ПВ-2.8",
           "Раздевалки игрового зала": "ПВ-2.4",
           "Зал хореографии 2015": "ПВ-2.5",
@@ -42,8 +43,7 @@ def check_speed(callback):
     m = callback.message.chat.id
     tex = callback.message.text
     tex = tex.replace("Выберите скорость работы вентустановки", "Запуск ")
-    sms(m,  "Стартуем.... ")
-    #bot.send_message(callback.message.chat.id, f"Стартуем.... ")
+    sms(m,  "Стартуем.... ", 4)
     switch_plant(callback.message, tex, callback.data, "Запуск")
 
 
@@ -55,12 +55,12 @@ def func(message):
         start(message)
     # Информация
     elif msg in places.keys():
-        sms(m, f"{msg}\nобслуживает вентустановка  {places[msg]}")
+        sms(m, f"{msg}\nобслуживает вентустановка  {places[msg]}", 1)
         reply(message, msg)
     # Расписание
     elif msg in scheds:
-        sms(m, f"Ждите, сейчас узнаем ...")
-        time.sleep(4)
+        sms(m, f"Ждите, сейчас узнаем ...", 4)
+        #time.sleep(4)
         plt = msg[-6:]
         fil = open("../logging/readlogs.txt", "r")
         sts = []
@@ -69,12 +69,12 @@ def func(message):
             if plt in i:
                 sts.append(i.replace(f"{plt}    ", ""))
         prn = "\n".join(sts).replace("\n","\n\n").replace("0   ", "0\n")
-        sms(m, f'{msg} на эти дни:\n\n{prn}')
+        sms(m, f'{msg} на эти дни:\n\n{prn}', 1)
         sms(m, "Выберите действие")
     # Состояние
     elif msg in curstates:
-        sms(m, f"Ждите, идет опрос ...")
-        sms(m, f"Текущее {msg} :\n...\n...\n...")
+        sms(m, f"Ждите, идет опрос ...", 3)
+        sms(m, f"Текущее {msg} :\n...\n...\n...", 1)
         sms(m,"Выберите действие")
     # Запуск
     elif msg in starts:
@@ -90,19 +90,19 @@ def func(message):
     # Останов
     elif msg in stops:
         p = "0"
-        sms(m, "Останавливаемся....")
+        sms(m, "Останавливаемся....", 3)
         switch_plant(message, msg, p, "Останов")
     # Иное
     else:
-        sms(m, "Что за команда, не понял?" )
-        sms(m, "Чувак, здесь не надо набирать текст \nПросто жмем кнопки")
+        sms(m, "Что за команда, не понял?", 3 )
+        sms(m, "Чувак, здесь не надо набирать текст \nПросто жмем кнопки", 3)
         sms(m, "Идем на главную")
         start(message)
 
 
-def sms(m, t):
+def sms(m, t, s=0):
     bot.send_message(m, t)
-    time.sleep(4)
+    time.sleep(s)
 
 
 def switch_plant(message, msg, p, action):
@@ -110,16 +110,12 @@ def switch_plant(message, msg, p, action):
     if "ПВ-2.7, ПВ-2.8" in msg:
         ssg = f"{action}  ПВ-2.7"
         sms(m, ssg)
-        #bot.send_message(message.chat.id, ssg)
         g = all_plants[ssg.replace(f"{action}  ", "")]
         sms(m, f"{ssg} {do_switch(g, p)}")
-        #bot.send_message(message.chat.id, f"{ssg} {do_switch(g, p)}")
         psg = f"{action}  ПВ-2.8"
         sms(m, psg)
-        #bot.send_message(message.chat.id, psg)
         g = all_plants[psg.replace(f"{action}  ", "")]
         sms(m, f"{psg} {do_switch(g, p)}")
-        #bot.send_message(message.chat.id, f"{psg} {do_switch(g, p)}")
     else:
         g = all_plants[msg.replace(f"{action}  ", "")]
         bot.send_message(message.chat.id, f"{msg} {do_switch(g, p)}")
@@ -132,9 +128,7 @@ def do_switch(g, p):
     stmsg = "не выполнен"
     if '"message":"Value was successfully written"' in r.text:
         stmsg = "выполнен успешно"
-    # else:
-    #     stmsg = "не выполнен"
-    return stmsg
+     return stmsg
 
 
 def reply(message, place=""):
