@@ -68,7 +68,7 @@ def func(message):
         prn = "\n".join(sts).replace("\n", "\n\n").replace("0   ", "0\n")
         if prn == "":
             prn = "Отсутствует"
-        sms(m, f'{msg} на эти дни:\n\n{prn}', 1)
+        sms(m, f'{msg}\nна эти дни:\n\n{prn}', 1)
         sms(m)
     # Состояние
     elif msg in curstates:
