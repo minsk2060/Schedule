@@ -128,7 +128,7 @@ def do_switch(g, p):
     stmsg = "не выполнен"
     if '"message":"Value was successfully written"' in r.text:
         stmsg = "выполнен успешно"
-     return stmsg
+    return stmsg
 
 
 def reply(message, place=""):
