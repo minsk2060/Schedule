@@ -60,22 +60,21 @@ def func(message):
     # Расписание
     elif msg in scheds:
         sms(m, f"Ждите, сейчас узнаем ...", 4)
-        #time.sleep(4)
-        plt = msg[-6:]
         fil = open("../logging/readlogs.txt", "r")
         sts = []
-        als = fil.read().split("\n")
-        for i in als:
-            if plt in i:
-                sts.append(i.replace(f"{plt}    ", ""))
+        for i in fil.read().split("\n"):
+            if msg[-6:] in i:
+                sts.append(i.replace(f"{msg[-6:]}    ", ""))
         prn = "\n".join(sts).replace("\n","\n\n").replace("0   ", "0\n")
+        if prn == "":
+            prn = "Отсутствует"
         sms(m, f'{msg} на эти дни:\n\n{prn}', 1)
-        sms(m, "Выберите действие")
+        sms(m)
     # Состояние
     elif msg in curstates:
         sms(m, f"Ждите, идет опрос ...", 3)
         sms(m, f"Текущее {msg} :\n...\n...\n...", 1)
-        sms(m,"Выберите действие")
+        sms(m)
     # Запуск
     elif msg in starts:
         markup = types.InlineKeyboardMarkup()
@@ -100,7 +99,7 @@ def func(message):
         start(message)
 
 
-def sms(m, t, s=0):
+def sms(m, t="Выберите действие", s=0):
     bot.send_message(m, t)
     time.sleep(s)
 
