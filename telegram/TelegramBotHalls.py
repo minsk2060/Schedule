@@ -39,8 +39,11 @@ def start(message):
 
 @bot.callback_query_handler(func=lambda callback: callback.data in ['1', '2'])
 def check_speed(callback):
-    tex = callback.message.text.replace("Выберите скорость работы вентустановки", "Запуск ")
-    bot.send_message(callback.message.chat.id, f"Стартуем.... ")
+    m = callback.message.chat.id
+    tex = callback.message.text
+    tex = tex.replace("Выберите скорость работы вентустановки", "Запуск ")
+    sms(m,  "Стартуем.... ")
+    #bot.send_message(callback.message.chat.id, f"Стартуем.... ")
     switch_plant(callback.message, tex, callback.data, "Запуск")
 
 
@@ -52,15 +55,11 @@ def func(message):
         start(message)
     # Информация
     elif msg in places.keys():
-        #time.sleep(1)
         sms(m, f"{msg}\nобслуживает вентустановка  {places[msg]}")
-        #bot.send_message(message.chat.id, text=f"{msg}\nобслуживает вентустановка  {places[msg]}")
-        #time.sleep(1)
         reply(message, msg)
     # Расписание
     elif msg in scheds:
         sms(m, f"Ждите, сейчас узнаем ...")
-        #bot.send_message(message.chat.id, text=f"Ждите, сейчас узнаем ...")
         time.sleep(4)
         plt = msg[-6:]
         fil = open("../logging/readlogs.txt", "r")
@@ -72,18 +71,11 @@ def func(message):
         prn = "\n".join(sts).replace("\n","\n\n").replace("0   ", "0\n")
         sms(m, f'{msg} на эти дни:\n\n{prn}')
         sms(m, "Выберите действие")
-        #bot.send_message(message.chat.id, text=f'{msg} на эти дни:\n\n{prn}')
-        #bot.send_message(message.chat.id, "Выберите действие")
     # Состояние
     elif msg in curstates:
         sms(m, f"Ждите, идет опрос ...")
-        #bot.send_message(message.chat.id, text=f"Ждите, идет опрос ...")
-        #time.sleep(5)
-        #Здесь необходимо вставить код для опроса состояия вентустановки
         sms(m, f"Текущее {msg} :\n...\n...\n...")
         sms(m,"Выберите действие")
-        #bot.send_message(message.chat.id, text=f"Текущее {msg} :\n...\n...\n...")
-        #bot.send_message(message.chat.id, "Выберите действие")
     # Запуск
     elif msg in starts:
         markup = types.InlineKeyboardMarkup()
@@ -99,8 +91,6 @@ def func(message):
     elif msg in stops:
         p = "0"
         sms(m, "Останавливаемся....")
-        #bot.send_message(message.chat.id, "Останавливаемся....")
-        #time.sleep(5)
         switch_plant(message, msg, p, "Останов")
     # Иное
     else:
@@ -110,22 +100,26 @@ def func(message):
         start(message)
 
 
-
 def sms(m, t):
     bot.send_message(m, t)
     time.sleep(4)
 
 
 def switch_plant(message, msg, p, action):
+    m = message.chat.id
     if "ПВ-2.7, ПВ-2.8" in msg:
         ssg = f"{action}  ПВ-2.7"
-        bot.send_message(message.chat.id, ssg)
+        sms(m, ssg)
+        #bot.send_message(message.chat.id, ssg)
         g = all_plants[ssg.replace(f"{action}  ", "")]
-        bot.send_message(message.chat.id, f"{ssg} {do_switch(g, p)}")
+        sms(m, f"{ssg} {do_switch(g, p)}")
+        #bot.send_message(message.chat.id, f"{ssg} {do_switch(g, p)}")
         psg = f"{action}  ПВ-2.8"
-        bot.send_message(message.chat.id, psg)
+        sms(m, psg)
+        #bot.send_message(message.chat.id, psg)
         g = all_plants[psg.replace(f"{action}  ", "")]
-        bot.send_message(message.chat.id, f"{psg} {do_switch(g, p)}")
+        sms(m, f"{psg} {do_switch(g, p)}")
+        #bot.send_message(message.chat.id, f"{psg} {do_switch(g, p)}")
     else:
         g = all_plants[msg.replace(f"{action}  ", "")]
         bot.send_message(message.chat.id, f"{msg} {do_switch(g, p)}")
@@ -135,10 +129,11 @@ def do_switch(g, p):
     url = f"http://192.168.250.50/ajaxjson/bac/setValue?pid=85&oid={g}&vid=17&value={p}"
     r = requests.get(url, headers=header, cookies=sauter_cookie)
     time.sleep(5)
+    stmsg = "не выполнен"
     if '"message":"Value was successfully written"' in r.text:
         stmsg = "выполнен успешно"
-    else:
-        stmsg = "не выполнен"
+    # else:
+    #     stmsg = "не выполнен"
     return stmsg
 
 
