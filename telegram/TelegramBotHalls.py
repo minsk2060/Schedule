@@ -86,8 +86,8 @@ def func(message):
             bot.send_message(message.chat.id, text=f'{msg} на эти дни:\n\n{read_sched(plt)}')
             # выполнить функцию чтения расписания
         else:
-        plt = msg.replace("Расписание  ", "")
-        bot.send_message(message.chat.id, text=f'{msg} на эти дни:\n\n{read_sched(plt)}')
+            plt = msg.replace("Расписание  ", "")
+            bot.send_message(message.chat.id, text=f'{msg} на эти дни:\n\n{read_sched(plt)}')
         # fil = open("../logging/readlogs.txt", "r")
         # sts = []
         # als = fil.read()\
