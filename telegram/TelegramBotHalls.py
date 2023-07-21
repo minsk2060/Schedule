@@ -89,7 +89,7 @@ def func(message):
         for i in als:
             if plt in i:
                 sts.append(i.replace(f"{plt}    ", ""))
-        prn = "\n".join(s).replace("\n","\n\n").replace("0   ", "0\n")
+        prn = "\n".join(sts).replace("\n","\n\n").replace("0   ", "0\n")
         bot.send_message(message.chat.id, text=f'{msg} на эти дни:\n\n{prn}')
         bot.send_message(message.chat.id, "Выберите действие")
 
