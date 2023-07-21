@@ -12,27 +12,31 @@ places = {"Игровой зал": "ПВ-2.7, ПВ-2.8",
           "Зал хореографии 2015": "ПВ-2.5",
           "Зал хореографии 2041": "ПВ-2.6" }
 
-scheds = ["Расписание  ПВ-2.7, ПВ-2.8",
-          "Расписание  ПВ-2.4",
-          "Расписание  ПВ-2.5",
-          "Расписание  ПВ-2.6",]
+# scheds = ["Расписание  ПВ-2.7, ПВ-2.8",
+#           "Расписание  ПВ-2.4",
+#           "Расписание  ПВ-2.5",
+#           "Расписание  ПВ-2.6",]
 
-curstates = {"Состояние  ПВ-2.7, ПВ-2.8":"",
-             "Состояние  ПВ-2.4":"",
-             "Состояние  ПВ-2.5":"",
-             "Состояние  ПВ-2.6":"",}
+# curstates = {"Состояние  ПВ-2.7, ПВ-2.8":"",
+#              "Состояние  ПВ-2.4":"",
+#              "Состояние  ПВ-2.5":"",
+#              "Состояние  ПВ-2.6":"",}
 
-starts = ["Запуск  ПВ-2.7, ПВ-2.8",
-          "Запуск  ПВ-2.4",
-          "Запуск  ПВ-2.5",
-          "Запуск  ПВ-2.6",
-          "Запуск  ПВ-2.7",
-          "Запуск  ПВ-2.8",]
+# starts = ["Запуск  ПВ-2.7, ПВ-2.8",
+#           "Запуск  ПВ-2.4",
+#           "Запуск  ПВ-2.5",
+#           "Запуск  ПВ-2.6",
+#           "Запуск  ПВ-2.7",
+#           "Запуск  ПВ-2.8",]
+starts    = ["Запуск  " + x for x in places.values()]
+stops     = ["Останов  " + x for x in places.values()]
+curstates = ["Состояние  " + x for x in places.values()]
+scheds    = ["Расписсание  " + x for x in places.values()]
 
-stops = ["Останов  ПВ-2.7, ПВ-2.8",
-         "Останов  ПВ-2.4",
-         "Останов  ПВ-2.5",
-         "Останов  ПВ-2.6",]
+# stops = ["Останов  ПВ-2.7, ПВ-2.8",
+#          "Останов  ПВ-2.4",
+#          "Останов  ПВ-2.5",
+#          "Останов  ПВ-2.6",]
 
 all_plants = {"ПВ-2.4": "8388808&did=33561432",
               "ПВ-2.5": "8388778&did=33560432",
@@ -79,10 +83,6 @@ def func(message):
         bot.send_message(message.chat.id, text=f"Ждите, сейчас узнаем ...")
         time.sleep(4)
         plt = msg[-6:]
-        # if "ПВ-2.7" in msg:
-        #     plt = "ПВ-2.7"
-        # else:
-        #     plt = msg.replace("Расписание  ", "")
         fil = open("../logging/readlogs.txt", "r")
         sts = []
         als = fil.read().split("\n")
@@ -140,7 +140,6 @@ def switch_plant(message, msg, p, action):
         bot.send_message(message.chat.id, psg)
         g = all_plants[psg.replace(f"{action}  ", "")]
         bot.send_message(message.chat.id, f"{psg} {do_switch(g, p)}")
-
     else:
         g = all_plants[msg.replace(f"{action}  ", "")]
         bot.send_message(message.chat.id, f"{msg} {do_switch(g, p)}")
@@ -168,20 +167,6 @@ def reply(message, place=""):
     answer.add(button3, button4)
     answer.add(button5)
     bot.send_message(message.chat.id, "Выберите действие".format(message.from_user), reply_markup=answer)
-
-# def read_sched(plt):
-#     fil = open("../logging/readlogs.txt", "r")
-#     sts = []
-#     als = fil.read() \
-#         .replace("Среда", "Среда   ") \
-#         .replace("Четверг", "Четверг ") \
-#         .split("\n")
-#     for i in als:
-#         if plt in i:
-#             sts.append(i.replace(f"{plt}    ", ""))
-#     prn = "\n".join(sts).replace("\n", "\n\n").replace("0   ", "0\n")
-#     return prn
-    #bot.send_message(message.chat.id, text=f'{msg} на эти дни:\n\n{prn}')
 
 
 bot.polling(none_stop=True, timeout=86400, long_polling_timeout=86400)
