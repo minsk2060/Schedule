@@ -104,19 +104,13 @@ def func(message):
 
     # Запуск
     elif msg in starts:
+        markup = types.InlineKeyboardMarkup()
+        button2 = types.InlineKeyboardButton("Низкая", callback_data="1")
+        button1 = types.InlineKeyboardButton("Высокая", callback_data="2")
+        markup.add(button2, button1)
         if "ПВ-2.7" in msg:
-            markup = types.InlineKeyboardMarkup()
-            button2 = types.InlineKeyboardButton("Низкая", callback_data="1")
-            button1 = types.InlineKeyboardButton("Высокая", callback_data="2")
-            markup.add(button2, button1)
             bot.send_message(message.chat.id, f"Выберите скорость работы вентустановки {msg[-14:]}".replace("ки", "ок"), reply_markup=markup)
-
         else:
-            rod = msg[-6:]
-            markup = types.InlineKeyboardMarkup()
-            button2 = types.InlineKeyboardButton("Низкая", callback_data="1")
-            button1 = types.InlineKeyboardButton("Высокая", callback_data="2")
-            markup.add(button2, button1)
             bot.send_message(message.chat.id, f"Выберите скорость работы вентустановки {msg[-6:]}", reply_markup=markup)
 
     # Останов
