@@ -81,7 +81,7 @@ def func(message):
         # if "ПВ-2.7" in msg:
         #     plt = "ПВ-2.7"
         # else:
-        plt = msg.replace("Расписание  ", ""[-4:])
+        plt = msg.replace("Расписание  ", "")[-6:]
         bot.send_message(message.chat.id, text=f'{msg} на эти дни:\n\n{read_sched(plt)}')
         # fil = open("../logging/readlogs.txt", "r")
         # sts = []
