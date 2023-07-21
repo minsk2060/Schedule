@@ -56,10 +56,9 @@ def start(message):
 
 @bot.callback_query_handler(func=lambda callback: callback.data in ['1', '2'])
 def check_speed(callback):
-    p = callback.data
-    t = callback.message.text.replace("Выберите скорость работы вентустановки", "Запуск ")
+    tex = callback.message.text.replace("Выберите скорость работы вентустановки", "Запуск ")
     bot.send_message(callback.message.chat.id, f"Стартуем.... ")
-    switch_plant(callback.message, t, p, "Запуск")
+    switch_plant(callback.message, tex, callback.data, "Запуск")
 
 
 @bot.message_handler(content_types=['text'])
@@ -79,19 +78,28 @@ def func(message):
     elif msg in scheds:
         bot.send_message(message.chat.id, text=f"Ждите, сейчас узнаем ...")
         time.sleep(4)
-        plnt = msg.replace("Расписание  ", "")
-        f = open("../logging/readlogs.txt", "r")
-        s = []
-        a = f.read()\
-             .replace("Среда", "Среда   ")\
-             .replace("Четверг", "Четверг ")\
-             .split("\n")
+        if "ПВ-2.7" in msg:
+            plt = "ПВ-2.7"
+            bot.send_message(message.chat.id, text=f'{msg} на эти дни:\n\n{read_sched(plt)}')
+            # выполнить функцию чтения расписания
+            plt = "ПВ-2.8"
+            bot.send_message(message.chat.id, text=f'{msg} на эти дни:\n\n{read_sched(plt)}')
+            # выполнить функцию чтения расписания
+        else:
+        plt = msg.replace("Расписание  ", "")
+        bot.send_message(message.chat.id, text=f'{msg} на эти дни:\n\n{read_sched(plt)}')
+        # fil = open("../logging/readlogs.txt", "r")
+        # sts = []
+        # als = fil.read()\
+        #      .replace("Среда", "Среда   ")\
+        #      .replace("Четверг", "Четверг ")\
+        #      .split("\n")
+        #
+        # for i in als:
+        #     if plt in i:
+        #         sts.append(i.replace(f"{plt}    ", ""))
+        # prn = "\n".join(s).replace("\n","\n\n").replace("0   ", "0\n")
 
-        for i in a:
-            if plnt in i:
-                s.append(i.replace(f"{plnt}    ", ""))
-        prnt = "\n".join(s).replace("\n","\n\n").replace("0   ", "0\n")
-        bot.send_message(message.chat.id, text=f'{msg} на эти дни:\n\n{prnt}')
         bot.send_message(message.chat.id, "Выберите действие")
 
     # Состояние
@@ -169,6 +177,20 @@ def reply(message, place=""):
     answer.add(button3, button4)
     answer.add(button5)
     bot.send_message(message.chat.id, "Выберите действие".format(message.from_user), reply_markup=answer)
+
+def read_sched(plt):
+    fil = open("../logging/readlogs.txt", "r")
+    sts = []
+    als = fil.read() \
+        .replace("Среда", "Среда   ") \
+        .replace("Четверг", "Четверг ") \
+        .split("\n")
+    for i in als:
+        if plt in i:
+            sts.append(i.replace(f"{plt}    ", ""))
+    prn = "\n".join(sts).replace("\n", "\n\n").replace("0   ", "0\n")
+    return prn
+    #bot.send_message(message.chat.id, text=f'{msg} на эти дни:\n\n{prn}')
 
 
 bot.polling(none_stop=True, timeout=86400, long_polling_timeout=86400)
