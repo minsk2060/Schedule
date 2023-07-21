@@ -31,7 +31,7 @@ places = {"Игровой зал": "ПВ-2.7, ПВ-2.8",
 starts    = ["Запуск  " + x for x in places.values()]
 stops     = ["Останов  " + x for x in places.values()]
 curstates = ["Состояние  " + x for x in places.values()]
-scheds    = ["Расписсание  " + x for x in places.values()]
+scheds    = ["Расписание  " + x for x in places.values()]
 
 # stops = ["Останов  ПВ-2.7, ПВ-2.8",
 #          "Останов  ПВ-2.4",
