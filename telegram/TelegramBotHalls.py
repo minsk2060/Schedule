@@ -94,7 +94,7 @@ def func(message):
         bot.send_message(message.chat.id, "Выберите действие")
 
     # Состояние
-    elif msg in curstates.keys():
+    elif msg in curstates:
         bot.send_message(message.chat.id, text=f"Ждите, идет опрос ...")
         time.sleep(5)
         #Здесь необходимо вставить код для опроса состояия вентустановки
