@@ -12,37 +12,16 @@ places = {"Игровой зал": "ПВ-2.7, ПВ-2.8",
           "Зал хореографии 2015": "ПВ-2.5",
           "Зал хореографии 2041": "ПВ-2.6" }
 
-# scheds = ["Расписание  ПВ-2.7, ПВ-2.8",
-#           "Расписание  ПВ-2.4",
-#           "Расписание  ПВ-2.5",
-#           "Расписание  ПВ-2.6",]
-
-# curstates = {"Состояние  ПВ-2.7, ПВ-2.8":"",
-#              "Состояние  ПВ-2.4":"",
-#              "Состояние  ПВ-2.5":"",
-#              "Состояние  ПВ-2.6":"",}
-
-# starts = ["Запуск  ПВ-2.7, ПВ-2.8",
-#           "Запуск  ПВ-2.4",
-#           "Запуск  ПВ-2.5",
-#           "Запуск  ПВ-2.6",
-#           "Запуск  ПВ-2.7",
-#           "Запуск  ПВ-2.8",]
-starts    = ["Запуск  " + x for x in places.values()]
-stops     = ["Останов  " + x for x in places.values()]
-curstates = ["Состояние  " + x for x in places.values()]
-scheds    = ["Расписание  " + x for x in places.values()]
-
-# stops = ["Останов  ПВ-2.7, ПВ-2.8",
-#          "Останов  ПВ-2.4",
-#          "Останов  ПВ-2.5",
-#          "Останов  ПВ-2.6",]
-
 all_plants = {"ПВ-2.4": "8388808&did=33561432",
               "ПВ-2.5": "8388778&did=33560432",
               "ПВ-2.6": "8388770&did=33560432",
               "ПВ-2.7": "8388827&did=33561432",
               "ПВ-2.8": "8388835&did=33561432",}
+
+starts    = ["Запуск  " + x for x in places.values()]
+stops     = ["Останов  " + x for x in places.values()]
+curstates = ["Состояние  " + x for x in places.values()]
+scheds    = ["Расписание  " + x for x in places.values()]
 
 
 @bot.message_handler(commands=['start'])
@@ -67,20 +46,21 @@ def check_speed(callback):
 
 @bot.message_handler(content_types=['text'])
 def func(message):
+    m = message.chat.id
     msg = message.text
     if msg == "Главное меню":
         start(message)
-
     # Информация
     elif msg in places.keys():
-        time.sleep(1)
-        bot.send_message(message.chat.id, text=f"{msg}\nобслуживает вентустановка  {places[msg]}")
-        time.sleep(1)
+        #time.sleep(1)
+        sms(m, f"{msg}\nобслуживает вентустановка  {places[msg]}")
+        #bot.send_message(message.chat.id, text=f"{msg}\nобслуживает вентустановка  {places[msg]}")
+        #time.sleep(1)
         reply(message, msg)
-
     # Расписание
     elif msg in scheds:
-        bot.send_message(message.chat.id, text=f"Ждите, сейчас узнаем ...")
+        sms(m, f"Ждите, сейчас узнаем ...")
+        #bot.send_message(message.chat.id, text=f"Ждите, сейчас узнаем ...")
         time.sleep(4)
         plt = msg[-6:]
         fil = open("../logging/readlogs.txt", "r")
@@ -90,44 +70,50 @@ def func(message):
             if plt in i:
                 sts.append(i.replace(f"{plt}    ", ""))
         prn = "\n".join(sts).replace("\n","\n\n").replace("0   ", "0\n")
-        bot.send_message(message.chat.id, text=f'{msg} на эти дни:\n\n{prn}')
-        bot.send_message(message.chat.id, "Выберите действие")
-
+        sms(m, f'{msg} на эти дни:\n\n{prn}')
+        sms(m, "Выберите действие")
+        #bot.send_message(message.chat.id, text=f'{msg} на эти дни:\n\n{prn}')
+        #bot.send_message(message.chat.id, "Выберите действие")
     # Состояние
     elif msg in curstates:
-        bot.send_message(message.chat.id, text=f"Ждите, идет опрос ...")
-        time.sleep(5)
+        sms(m, f"Ждите, идет опрос ...")
+        #bot.send_message(message.chat.id, text=f"Ждите, идет опрос ...")
+        #time.sleep(5)
         #Здесь необходимо вставить код для опроса состояия вентустановки
-        bot.send_message(message.chat.id, text=f"Текущее {msg} :\n...\n...\n...")
-        bot.send_message(message.chat.id, "Выберите действие")
-
+        sms(m, f"Текущее {msg} :\n...\n...\n...")
+        sms(m,"Выберите действие")
+        #bot.send_message(message.chat.id, text=f"Текущее {msg} :\n...\n...\n...")
+        #bot.send_message(message.chat.id, "Выберите действие")
     # Запуск
     elif msg in starts:
         markup = types.InlineKeyboardMarkup()
         button2 = types.InlineKeyboardButton("Низкая", callback_data="1")
         button1 = types.InlineKeyboardButton("Высокая", callback_data="2")
         markup.add(button2, button1)
+        mes = "Выберите скорость работы вентустанов"
         if "ПВ-2.7" in msg:
-            bot.send_message(message.chat.id, f"Выберите скорость работы вентустановки {msg[-14:]}".replace("ки", "ок"), reply_markup=markup)
+            bot.send_message(message.chat.id, f"{mes}ок {msg[-14:]}", reply_markup=markup)
         else:
-            bot.send_message(message.chat.id, f"Выберите скорость работы вентустановки {msg[-6:]}", reply_markup=markup)
-
+            bot.send_message(message.chat.id, f"{mes}ки {msg[-6:]}", reply_markup=markup)
     # Останов
     elif msg in stops:
         p = "0"
-        bot.send_message(message.chat.id, "Останавливаемся....")
-        time.sleep(5)
+        sms(m, "Останавливаемся....")
+        #bot.send_message(message.chat.id, "Останавливаемся....")
+        #time.sleep(5)
         switch_plant(message, msg, p, "Останов")
-
     # Иное
     else:
-        bot.send_message(message.chat.id, text="Что за команда, не понял?")
-        time.sleep(2)
-        bot.send_message(message.chat.id, text="Чувак, здесь не надо набирать текст \nПросто жмем кнопки")
-        time.sleep(3)
-        bot.send_message(message.chat.id, text="Идем на главную")
-        time.sleep(1)
+        sms(m, "Что за команда, не понял?" )
+        sms(m, "Чувак, здесь не надо набирать текст \nПросто жмем кнопки")
+        sms(m, "Идем на главную")
         start(message)
+
+
+
+def sms(m, t):
+    bot.send_message(m, t)
+    time.sleep(4)
 
 
 def switch_plant(message, msg, p, action):
@@ -169,4 +155,4 @@ def reply(message, place=""):
     bot.send_message(message.chat.id, "Выберите действие".format(message.from_user), reply_markup=answer)
 
 
-bot.polling(none_stop=True, timeout=86400, long_polling_timeout=86400)
+bot.polling(none_stop=True, timeout=600, long_polling_timeout=600)
