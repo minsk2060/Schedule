@@ -78,23 +78,19 @@ def func(message):
     elif msg in scheds:
         bot.send_message(message.chat.id, text=f"Ждите, сейчас узнаем ...")
         time.sleep(4)
-        if "ПВ-2.7" in msg:
-            plt = "ПВ-2.7"
-        else:
-            plt = msg.replace("Расписание  ", "")
-        bot.send_message(message.chat.id, text=f'{msg} на эти дни:\n\n{read_sched(plt)}')
-        # fil = open("../logging/readlogs.txt", "r")
-        # sts = []
-        # als = fil.read()\
-        #      .replace("Среда", "Среда   ")\
-        #      .replace("Четверг", "Четверг ")\
-        #      .split("\n")
-        #
-        # for i in als:
-        #     if plt in i:
-        #         sts.append(i.replace(f"{plt}    ", ""))
-        # prn = "\n".join(s).replace("\n","\n\n").replace("0   ", "0\n")
-
+        plt = msg[-6:]
+        # if "ПВ-2.7" in msg:
+        #     plt = "ПВ-2.7"
+        # else:
+        #     plt = msg.replace("Расписание  ", "")
+        fil = open("../logging/readlogs.txt", "r")
+        sts = []
+        als = fil.read().split("\n")
+        for i in als:
+            if plt in i:
+                sts.append(i.replace(f"{plt}    ", ""))
+        prn = "\n".join(s).replace("\n","\n\n").replace("0   ", "0\n")
+        bot.send_message(message.chat.id, text=f'{msg} на эти дни:\n\n{prn}')
         bot.send_message(message.chat.id, "Выберите действие")
 
     # Состояние
@@ -173,18 +169,18 @@ def reply(message, place=""):
     answer.add(button5)
     bot.send_message(message.chat.id, "Выберите действие".format(message.from_user), reply_markup=answer)
 
-def read_sched(plt):
-    fil = open("../logging/readlogs.txt", "r")
-    sts = []
-    als = fil.read() \
-        .replace("Среда", "Среда   ") \
-        .replace("Четверг", "Четверг ") \
-        .split("\n")
-    for i in als:
-        if plt in i:
-            sts.append(i.replace(f"{plt}    ", ""))
-    prn = "\n".join(sts).replace("\n", "\n\n").replace("0   ", "0\n")
-    return prn
+# def read_sched(plt):
+#     fil = open("../logging/readlogs.txt", "r")
+#     sts = []
+#     als = fil.read() \
+#         .replace("Среда", "Среда   ") \
+#         .replace("Четверг", "Четверг ") \
+#         .split("\n")
+#     for i in als:
+#         if plt in i:
+#             sts.append(i.replace(f"{plt}    ", ""))
+#     prn = "\n".join(sts).replace("\n", "\n\n").replace("0   ", "0\n")
+#     return prn
     #bot.send_message(message.chat.id, text=f'{msg} на эти дни:\n\n{prn}')
 
 
