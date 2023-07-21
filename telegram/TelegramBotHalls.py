@@ -78,11 +78,10 @@ def func(message):
     elif msg in scheds:
         bot.send_message(message.chat.id, text=f"Ждите, сейчас узнаем ...")
         time.sleep(4)
-        # if "ПВ-2.7" in msg:
-        #     plt = "ПВ-2.7"
-        # else:
-        #plt = msg.replace("Расписание  ", "")
-        plt = msg[-6:]
+        if "ПВ-2.7" in msg:
+            plt = "ПВ-2.7"
+        else:
+            plt = msg.replace("Расписание  ", "")
         bot.send_message(message.chat.id, text=f'{msg} на эти дни:\n\n{read_sched(plt)}')
         # fil = open("../logging/readlogs.txt", "r")
         # sts = []
