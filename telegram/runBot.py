@@ -1,8 +1,9 @@
-import time
+import psutil, time
 
 while True:
-    time.sleep(300)
-    try:
-        import TelegramBotHalls
-    except:
-        import TelegramBotHalls
+    time.sleep(10)
+    for p in psutil.process_iter():
+        if "python" in p.name():
+            for i in p.cmdline():
+                if "TelegramBotHalls.py" not in i:
+                    import TelegramBotHalls
