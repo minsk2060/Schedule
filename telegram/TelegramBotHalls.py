@@ -28,7 +28,7 @@ scheds = ["Расписание  " + x for x in places.values()]
 @bot.message_handler(commands=['start'])
 def start(message):
     m = message.chat.id
-    if root(message):
+    if root(m):
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
         btn1 = types.KeyboardButton("Игровой зал")
         btn2 = types.KeyboardButton("Раздевалки игрового зала")
@@ -44,7 +44,7 @@ def start(message):
 @bot.callback_query_handler(func=lambda callback: callback.data in ['1', '2'])
 def check_speed(callback):
     m = callback.message.chat.id
-    if root(callback.message):
+    if root(m):
         tex = callback.message.text
         tex = tex.replace("Выберите скорость работы вентустановки", "Запуск ")
         sms(m,  "Стартуем.... ", 4)
@@ -56,7 +56,7 @@ def check_speed(callback):
 @bot.message_handler(content_types=['text'])
 def func(message):
     m = message.chat.id
-    if root(message):
+    if root(m):
         msg = message.text
         if msg == "Главное меню":
             start(message)
@@ -154,10 +154,10 @@ def reply(message, place=""):
     answer.add(button5)
     bot.send_message(message.chat.id, "Выберите действие".format(message.from_user), reply_markup=answer)
 
-def root(message):
-    if str(message.from_user.id) in botHalls_users.values():
-        return True
-    return False
+
+def root(m):
+    return True if str(m) in botHalls_users.values() else False
+
 
 def no_root(m):
     bot.send_message(m, "У Вас нет прав доступа к этому боту")
