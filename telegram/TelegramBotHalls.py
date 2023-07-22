@@ -57,7 +57,7 @@ def func(message):
     elif msg in places.keys():
         vor = "обслуживает вентустановка"
         if "Игровой" in msg:
-            vor.replace("ка", "ки").replace("ет","ют")
+            vor = "обслуживают вентустановки"
         sms(m, f"{msg}\n{vor}  {places[msg]}", 1)
         reply(message, msg)
     # Расписание
