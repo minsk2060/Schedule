@@ -70,7 +70,7 @@ def func(message):
                 sts.append(i.replace(f"{msg[-6:]}    ", ""))
         prn = "\n".join(sts).replace("\n", "\n\n").replace("0   ", "0\n")
         if prn == "":
-            prn = "Отсутствует"
+            prn = "не задано"
         sms(m, f'{msg}\nна эти дни:\n\n{prn}', 1)
         sms(m)
     # Состояние
