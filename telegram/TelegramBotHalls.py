@@ -1,5 +1,5 @@
 import telebot
-from telegramtokens import telegramtoken_venthalls
+from telegramtokens import telegramtoken_venthalls, botHalls_users
 from telebot import types
 import requests
 import time
@@ -27,79 +27,88 @@ scheds = ["Расписание  " + x for x in places.values()]
 
 @bot.message_handler(commands=['start'])
 def start(message):
-    markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-    btn1 = types.KeyboardButton("Игровой зал")
-    btn2 = types.KeyboardButton("Раздевалки игрового зала")
-    btn3 = types.KeyboardButton("Зал хореографии 2015")
-    btn4 = types.KeyboardButton("Зал хореографии 2041")
-    markup.add(btn3, btn4)
-    markup.add(btn2)
-    markup.add(btn1)
-    bot.send_message(message.chat.id, text="Выберите помещение".format(message.from_user), reply_markup=markup)
-
+    m = message.chat.id
+    if root(message):
+        markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+        btn1 = types.KeyboardButton("Игровой зал")
+        btn2 = types.KeyboardButton("Раздевалки игрового зала")
+        btn3 = types.KeyboardButton("Зал хореографии 2015")
+        btn4 = types.KeyboardButton("Зал хореографии 2041")
+        markup.add(btn3, btn4)
+        markup.add(btn2)
+        markup.add(btn1)
+        bot.send_message(m, "Выберите помещение", reply_markup=markup)
+    else:
+        no_root(m)
 
 @bot.callback_query_handler(func=lambda callback: callback.data in ['1', '2'])
 def check_speed(callback):
     m = callback.message.chat.id
-    tex = callback.message.text
-    tex = tex.replace("Выберите скорость работы вентустановки", "Запуск ")
-    sms(m,  "Стартуем.... ", 4)
-    switch_plant(callback.message, tex, callback.data, "Запуск")
+    if root(callback.message):
+        tex = callback.message.text
+        tex = tex.replace("Выберите скорость работы вентустановки", "Запуск ")
+        sms(m,  "Стартуем.... ", 4)
+        switch_plant(callback.message, tex, callback.data, "Запуск")
+    else:
+        no_root(m)
 
 
 @bot.message_handler(content_types=['text'])
 def func(message):
     m = message.chat.id
-    msg = message.text
-    if msg == "Главное меню":
-        start(message)
-    # Информация
-    elif msg in places.keys():
-        vor = "обслуживает вентустановка"
-        if "Игровой" in msg:
-            vor = "обслуживают вентустановки"
-        sms(m, f"{msg}\n{vor}  {places[msg]}", 1)
-        reply(message, msg)
-    # Расписание
-    elif msg in scheds:
-        sms(m, f"Ждите, сейчас узнаем ...", 4)
-        fil = open("../logging/readlogs.txt", "r")
-        sts = []
-        for i in fil.read().split("\n"):
-            if msg[-6:] in i:
-                sts.append(i.replace(f"{msg[-6:]}    ", ""))
-        prn = "\n".join(sts).replace("\n", "\n\n").replace("0   ", "0\n")
-        if prn == "":
-            prn = "не задано"
-        sms(m, f'{msg}\nна эти дни:\n\n{prn}', 1)
-        sms(m)
-    # Состояние
-    elif msg in curstates:
-        sms(m, f"Ждите, идет опрос ...", 3)
-        sms(m, f"Текущее {msg} :\n...\n...\n...", 1)
-        sms(m)
-    # Запуск
-    elif msg in starts:
-        markup = types.InlineKeyboardMarkup()
-        button2 = types.InlineKeyboardButton("Низкая", callback_data="1")
-        button1 = types.InlineKeyboardButton("Высокая", callback_data="2")
-        markup.add(button2, button1)
-        mes = "Выберите скорость работы вентустанов"
-        if "ПВ-2.7" in msg:
-            bot.send_message(message.chat.id, f"{mes}ок {msg[-14:]}", reply_markup=markup)
+    if root(message):
+        msg = message.text
+        if msg == "Главное меню":
+            start(message)
+        # Информация
+        elif msg in places.keys():
+            vor = "обслуживает вентустановка"
+            if "Игровой" in msg:
+                vor = "обслуживают вентустановки"
+            sms(m, f"{msg}\n{vor}  {places[msg]}", 1)
+            reply(message, msg)
+        # Расписание
+        elif msg in scheds:
+            sms(m, f"Ждите, сейчас узнаем ...", 4)
+            fil = open("../logging/readlogs.txt", "r")
+            sts = []
+            for i in fil.read().split("\n"):
+                if msg[-6:] in i:
+                    sts.append(i.replace(f"{msg[-6:]}    ", ""))
+            prn = "\n".join(sts).replace("\n", "\n\n").replace("0   ", "0\n")
+            if prn == "":
+                prn = "не задано"
+            sms(m, f'{msg}\nна эти дни:\n\n{prn}', 1)
+            sms(m)
+        # Состояние
+        elif msg in curstates:
+            sms(m, f"Ждите, идет опрос ...", 3)
+            sms(m, f"Текущее {msg} :\n...\n...\n...", 1)
+            sms(m)
+        # Запуск
+        elif msg in starts:
+            markup = types.InlineKeyboardMarkup()
+            button2 = types.InlineKeyboardButton("Низкая", callback_data="1")
+            button1 = types.InlineKeyboardButton("Высокая", callback_data="2")
+            markup.add(button2, button1)
+            mes = "Выберите скорость работы вентустанов"
+            if "ПВ-2.7" in msg:
+                bot.send_message(message.chat.id, f"{mes}ок {msg[-14:]}", reply_markup=markup)
+            else:
+                bot.send_message(message.chat.id, f"{mes}ки {msg[-6:]}", reply_markup=markup)
+        # Останов
+        elif msg in stops:
+            p = "0"
+            sms(m, "Останавливаемся....", 3)
+            switch_plant(message, msg, p, "Останов")
+        # Иное
         else:
-            bot.send_message(message.chat.id, f"{mes}ки {msg[-6:]}", reply_markup=markup)
-    # Останов
-    elif msg in stops:
-        p = "0"
-        sms(m, "Останавливаемся....", 3)
-        switch_plant(message, msg, p, "Останов")
-    # Иное
+            sms(m, "Что за команда, не понял?", 3)
+            sms(m, "Чувак, здесь не надо набирать текст \nПросто жмем кнопки", 3)
+            sms(m, "Идем на главную")
+            start(message)
     else:
-        sms(m, "Что за команда, не понял?", 3)
-        sms(m, "Чувак, здесь не надо набирать текст \nПросто жмем кнопки", 3)
-        sms(m, "Идем на главную")
-        start(message)
+        no_root(m)
 
 
 def sms(m, t="Выберите действие", s=0):
@@ -144,6 +153,14 @@ def reply(message, place=""):
     answer.add(button3, button4)
     answer.add(button5)
     bot.send_message(message.chat.id, "Выберите действие".format(message.from_user), reply_markup=answer)
+
+def root(message):
+    if str(message.from_user.id) in botHalls_users.values():
+        return True
+    return False
+
+def no_root(m):
+    bot.send_message(m, "У Вас нет прав доступа к этому боту")
 
 
 bot.polling(none_stop=True, timeout=600, long_polling_timeout=600)
