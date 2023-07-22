@@ -1,24 +1,28 @@
-import psutil, time, datetime
+import psutil
+import time
+import datetime
 import schedule
-import TelegramBotHalls
-# from TelegramBotHalls import bot
+import subprocess
+import sys
+
 
 def runbot():
     for p in psutil.process_iter():
-        if "python" in p.name():
-            for i in p.cmdline():
-                if "TelegramBotHalls.py" in i:
-                    print("123")
-                    print(i)
-                    continue
-                else:
-                    f = open("logbot.txt", "a")
-                    f.write(f"Телеграм бот вновь запущен {datetime.datetime.now()}\n")
-                    f.close()
-                    # bot.polling(none_stop=True, timeout=600, long_polling_timeout=600)
-                    import TelegramBotHalls
+        if p.name() != "python.exe":
+            continue
+        elif "TelegramBotHalls.py" in p.cmdline()[1]:
+            f = open("logbot.txt", "a")
+            f.write(f"Телеграм бот работает нормально {datetime.datetime.now()}\n")
+            f.close()
+            break
+        else:
+            f = open("logbot.txt", "a")
+            f.write(f"Телеграм бот вновь запущен {datetime.datetime.now()}\n")
+            f.close()
+            subprocess.Popen([sys.executable, "TelegramBotHalls.py"])
 
-schedule.every(1).minutes.do(runbot)
+#
+schedule.every(20).minutes.do(runbot)
 
 while True:
     schedule.run_pending()
