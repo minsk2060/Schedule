@@ -55,7 +55,10 @@ def func(message):
         start(message)
     # Информация
     elif msg in places.keys():
-        sms(m, f"{msg}\nобслуживает вентустановка  {places[msg]}", 1)
+        vor = "обслуживает вентустановка"
+        if "Игровой" in msg:
+            vor.replace("ка", "ки").replace("ет","ют")
+        sms(m, f"{msg}\n{vor}  {places[msg]}", 1)
         reply(message, msg)
     # Расписание
     elif msg in scheds:
