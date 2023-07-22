@@ -8,6 +8,6 @@ while True:
                 if "TelegramBotHalls.py" not in i:
                     import TelegramBotHalls
                     f = open("logbot.txt", "a")
-                    now = datetime.datetime.now().strftime("%Y" "%h" "%m")
-                    f.write(f"Телеграм бот вновь запущен {now}\n")
+                    now = datetime.datetime.now().strftime("%Y %h %m %H:%m.%s")
+                    f.write(f"РўРµР»РµРіСЂР°Рј Р±РѕС‚ РІРЅРѕРІСЊ Р·Р°РїСѓС‰РµРЅ {now}\n")
                     f.close()
