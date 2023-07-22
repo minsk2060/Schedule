@@ -11,9 +11,9 @@ def runbot():
         if p.name() != "python.exe":
             continue
         elif "TelegramBotHalls.py" in p.cmdline()[1]:
-            f = open("logbot.txt", "a")
-            f.write(f"Телеграм бот работает нормально {datetime.datetime.now()}\n")
-            f.close()
+            # f = open("logbot.txt", "a")
+            # f.write(f"Телеграм бот работает нормально {datetime.datetime.now()}\n")
+            # f.close()
             break
         else:
             f = open("logbot.txt", "a")
@@ -21,8 +21,8 @@ def runbot():
             f.close()
             subprocess.Popen([sys.executable, "TelegramBotHalls.py"])
 
-#
-schedule.every(20).minutes.do(runbot)
+
+schedule.every(10).seconds.do(runbot)
 
 while True:
     schedule.run_pending()
