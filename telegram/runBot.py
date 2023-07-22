@@ -7,7 +7,8 @@ while True:
             for i in p.cmdline():
                 if "TelegramBotHalls.py" not in i:
                     import TelegramBotHalls
+                    now = datetime.datetime.now().strftime("%Y  %h  %m  %Н:%m")
+                    print(f"Bot restarted in {now}")
                     f = open("logbot.txt", "a")
-                    now = datetime.datetime.now().strftime("%Y %h %m %H:%m.%s")
                     f.write(f"Телеграм бот вновь запущен {now}\n")
                     f.close()
