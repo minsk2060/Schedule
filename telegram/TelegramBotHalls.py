@@ -163,4 +163,4 @@ def no_root(m):
     bot.send_message(m, "У Вас нет прав доступа к этому боту")
 
 
-bot.polling(none_stop=True, timeout=600, long_polling_timeout=600)
+bot.polling(none_stop=True, timeout=20, long_polling_timeout=20)

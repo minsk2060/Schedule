@@ -4,25 +4,31 @@ import datetime
 import schedule
 from subprocess import Popen
 import sys
+from telebot.apihelper import ApiTelegramException
 
 
 def runbot():
     for p in psutil.process_iter():
         if p.name() != "python.exe":
             continue
-        elif "TelegramBotHalls.py" in p.cmdline()[1]:
-            f = open("logbot.txt", "a")
-            f.write(f"Телеграм бот работает нормально {datetime.datetime.now()}\n")
-            f.close()
-            break
-        else:
-            f = open("logbot.txt", "a")
-            f.write(f"Телеграм бот вновь запущен {datetime.datetime.now()}\n")
-            f.close()
-            Popen([sys.executable, "TelegramBotHalls.py"])
+        elif p.name() == "python.exe":
+            #print(f"{datetime.datetime.now()} {p.cmdline()[1]}")
+            if "TelegramBotHalls.py" in p.cmdline()[1]:
+                f = open("logbot.txt", "a")
+                f.write(f"{datetime.datetime.now()} Телеграм бот работает нормально \n")
+                f.close()
+                break
+            else:
+                f = open("logbot.txt", "a")
+                f.write(f"{datetime.datetime.now()} Телеграм бот вновь запущен \n")
+                f.close()
+                try:
+                    Popen([sys.executable, "TelegramBotHalls.py"])
+                except :
+                    print(f"Ошибка ")
+                    break
 
-
-schedule.every(10).seconds.do(runbot)
+schedule.every(180).seconds.do(runbot)
 
 while True:
     schedule.run_pending()
