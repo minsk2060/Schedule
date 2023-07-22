@@ -22,7 +22,7 @@ def runbot():
             subprocess.Popen([sys.executable, "TelegramBotHalls.py"])
 
 #
-schedule.every(20).minutes.do(runbot)
+schedule.every(10).seconds.do(runbot)
 
 while True:
     schedule.run_pending()
