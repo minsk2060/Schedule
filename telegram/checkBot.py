@@ -3,9 +3,9 @@ import psutil
 import time
 import datetime
 import schedule
-# from subprocess import Popen
-# import sys
-from telebot.apihelper import ApiTelegramException
+# еще есть вариант изменить функцию на bot.infinity_polling(Non_stop =  True)
+# еще вариант запускать только bot.poling а не сам скрипт
+
 
 def log(text):
     f=open("logbot.txt", "a")
