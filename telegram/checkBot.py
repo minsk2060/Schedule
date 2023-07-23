@@ -26,7 +26,7 @@ def runbot():
                 runpy.run_module("runBot")
                 # runpy.run_module("TelegramBotHalls")
                 log('Попытка запуска прошла успешно\n')
-                time.sleep(60)
+                time.sleep(180)
                 break
             except:
                 log('Ошибка запуска \n')
