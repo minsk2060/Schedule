@@ -62,7 +62,6 @@ def reply(message, place=""):
     answer.add(button1, button2)
     answer.add(button3, button4)
     answer.add(button5)
-    #print(message.chat.id)
     bot.send_message(message.chat.id, "Выберите действие".format(message.from_user), reply_markup=answer)
 
 
