@@ -12,7 +12,7 @@ def runbot():
         if p.name() != "python.exe":
             continue
         elif p.name() == "python.exe":
-            #print(f"{datetime.datetime.now()} {p.cmdline()[1]}")
+            print(f"{datetime.datetime.now()} {p.cmdline()[1]}")
             if "TelegramBotHalls.py" in p.cmdline()[1]:
                 f = open("logbot.txt", "a")
                 f.write(f"{datetime.datetime.now()} Телеграм бот работает нормально \n")
