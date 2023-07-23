@@ -25,6 +25,7 @@ def runbot():
                 f.close()
                 try:
                     Popen([sys.executable, "TelegramBotHalls.py"])
+                    break
                 except :
                     print(f"Ошибка ")
                     break
