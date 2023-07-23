@@ -7,7 +7,7 @@ from headers import header, sauter_cookie
 
 # num = telebot.TeleBot(telegramtoken_venthalls)
 # print(num.num_threads)
-bot = telebot.TeleBot(telegramtoken_venthalls)
+bot = telebot.TeleBot(telegramtoken_venthalls, threaded=False)
 
 places = {"Игровой зал": "ПВ-2.7, ПВ-2.8",
           "Раздевалки игрового зала": "ПВ-2.4",
