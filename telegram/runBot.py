@@ -1,8 +1,4 @@
-import time
+from subprocess import Popen
+import sys
 
-while True:
-    time.sleep(600)
-    try:
-        import TelegramBotHalls
-    except:
-        import TelegramBotHalls
+Popen([sys.executable, "TelegramBotHalls.py"])
