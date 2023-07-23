@@ -9,24 +9,22 @@ from telebot.apihelper import ApiTelegramException
 
 def runbot():
     for p in psutil.process_iter():
-        if p.name() != "python.exe":
+        if "python" not in p.name():
             continue
-        elif p.name() == "python.exe":
-            print(f"{datetime.datetime.now()} {p.cmdline()[1]}")
-            if "TelegramBotHalls.py" in p.cmdline()[1]:
-                f = open("logbot.txt", "a")
-                f.write(f"{datetime.datetime.now()} Телеграм бот работает нормально \n")
-                f.close()
-                break
-            else:
-                f = open("logbot.txt", "a")
-                f.write(f"{datetime.datetime.now()} Телеграм бот вновь запущен \n")
-                f.close()
-                try:
-                    Popen([sys.executable, "TelegramBotHalls.py"])
-                except :
-                    print(f"Ошибка ")
-                    break
+        if "python" in p.name() and "TelegramBotHalls" in p.cmdline()[1]:
+            f = open("logbot.txt", "a")
+            f.write(f"{datetime.datetime.now()} Выполнилось условие.. in .. in..\n")
+            f.close()
+            continue
+        if "python" in p.name() and "TelegramBotHalls" not in p.cmdline()[1]:
+            f = open("logbot.txt", "a")
+            f.write(f"{datetime.datetime.now()} Выполнилось условие.. in .. not in..\n")
+            f.write(f"{datetime.datetime.now()} Телеграм бот вновь запущен \n")
+            f.write(f"{datetime.datetime.now()} Путь: {p.cmdline()[1]} \n")
+            f.close()
+            Popen([sys.executable, "TelegramBotHalls.py"])
+            break
+
 
 schedule.every(180).seconds.do(runbot)
 
