@@ -7,7 +7,7 @@ from headers import header, sauter_cookie
 
 # num = telebot.TeleBot(telegramtoken_venthalls)
 # print(num.num_threads)
-bot = telebot.TeleBot(telegramtoken_venthalls, threaded=False)
+bot = telebot.TeleBot(telegramtoken_venthalls)
 
 places = {"Игровой зал": "ПВ-2.7, ПВ-2.8",
           "Раздевалки игрового зала": "ПВ-2.4",
@@ -164,4 +164,4 @@ def no_root(m):
     bot.send_message(m, "У Вас нет прав доступа к этому боту")
 
 
-bot.polling(none_stop=True, timeout=20, long_polling_timeout=20)
+bot.infinity_polling(none_stop=True)
