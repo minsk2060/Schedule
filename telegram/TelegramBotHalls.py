@@ -20,9 +20,15 @@ all_plants = {"ПВ-2.4": "8388808&did=33561432",
               "ПВ-2.7": "8388827&did=33561432",
               "ПВ-2.8": "8388835&did=33561432"}
 
-reqs = {"ПВ-2.6" : "http://192.168.250.50/svo/details/?oid=609&did=33560432&vid=17&mode=cached",}
-states = {"5":"Работает на вфсокой скорости",
-          "0":"Остановлена"}
+reqs = {"ПВ-2.4" : "http://192.168.250.50/svo/details/?oid=8388808&did=33561432&vid=17&mode=cached",
+        "ПВ-2.5" : "http://192.168.250.50/svo/details/?oid=8388778&did=33560432&vid=17&mode=cached",
+        "ПВ-2.6" : "http://192.168.250.50/svo/details/?oid=8388770&did=33560432&vid=17&mode=cached",
+        "ПВ-2.7" : "http://192.168.250.50/svo/details/?oid=8388835&did=33561432&vid=17&mode=cached",
+        "ПВ-2.8" : "http://192.168.250.50/svo/details/?oid=8388827&did=33561432&vid=17&mode=cached"}
+
+states = {"2":"Работает на высокой скорости",
+          "1": "Работает на низкой скорости",
+          "0":  "Остановлена"}
 
 starts = ["Запуск  " + x for x in places.values()]
 stops = ["Останов  " + x for x in places.values()]
@@ -88,7 +94,7 @@ def func(message):
         # Состояние
         elif msg in curstates:
             sms(m, f"Ждите, идет опрос ...", 3)
-            sms(m, f"Текущее {msg} :\n{get_state(msg[-6:])}", 1)
+            sms(m, f"Текущее состояние {msg[-6:]} :\n{get_state(msg[-6:])}", 3)
             sms(m)
         # Запуск
         elif msg in starts:
