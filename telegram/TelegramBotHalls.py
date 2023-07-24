@@ -184,7 +184,7 @@ def no_root(m):
     bot.send_message(m, "У Вас нет прав доступа к этому боту")
 
 try:
-    bot.infinity_polling(none_stop=True, timeout=100, long_polling_timeout=100)
+    bot.infinity_polling(none_stop=True, timeout=180, long_polling_timeout=180)
 except Exception as e:
     time.sleep(3)
     print (e)
