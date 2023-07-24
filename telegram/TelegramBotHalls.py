@@ -165,6 +165,7 @@ def no_root(m):
 
 try:
     bot.infinity_polling(none_stop=True, timeout=60, long_polling_timeout=60)
-except:
+except Exception as e:
     time.sleep(3)
+    print (e)
     pass
