@@ -20,6 +20,10 @@ all_plants = {"ПВ-2.4": "8388808&did=33561432",
               "ПВ-2.7": "8388827&did=33561432",
               "ПВ-2.8": "8388835&did=33561432"}
 
+reqs = {"ПВ-2.6" : "http://192.168.250.50/svo/details/?oid=609&did=33560432&vid=17&mode=cached",}
+states = {"5":"Работает на вфсокой скорости",
+          "0":"Остановлена"}
+
 starts = ["Запуск  " + x for x in places.values()]
 stops = ["Останов  " + x for x in places.values()]
 curstates = ["Состояние  " + x for x in places.values()]
@@ -84,7 +88,7 @@ def func(message):
         # Состояние
         elif msg in curstates:
             sms(m, f"Ждите, идет опрос ...", 3)
-            sms(m, f"Текущее {msg} :\n...\n...\n...", 1)
+            sms(m, f"Текущее {msg} :\n{get_state(msg[-6:])}", 1)
             sms(m)
         # Запуск
         elif msg in starts:
@@ -142,6 +146,16 @@ def do_switch(g, p):
         stmsg = "выполнен успешно"
     return stmsg
 
+def get_state(pl):
+    # url = f"http://192.168.250.50/svo/details/?oid=609&did=33560432&vid=17&mode=cached"
+    url = reqs[pl]
+    resp = requests.get(url, headers=header, cookies=sauter_cookie)
+    time.sleep(5)
+    r = resp.text
+    n = r[r.index('<tr data-pid="85">')+18:]
+    e = n[:n.index('</tr>')]
+    g = e[e.index("property-value")+16]
+    return states[g]
 
 def reply(message, place=""):
     answer = types.ReplyKeyboardMarkup(resize_keyboard=True)
@@ -169,3 +183,8 @@ except Exception as e:
     time.sleep(3)
     print (e)
     pass
+
+"""URL-Адрес Запроса: для ПВ-2.6
+http://192.168.250.50/svo/details/?oid=609&did=33560432&vid=17&mode=cached
+GET
+"""
