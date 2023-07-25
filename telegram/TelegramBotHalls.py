@@ -17,14 +17,9 @@ places = {"Игровой зал": "ПВ-2.7, ПВ-2.8",
 all_plants = {"ПВ-2.4": "8388808&did=33561432",
               "ПВ-2.5": "8388778&did=33560432",
               "ПВ-2.6": "8388770&did=33560432",
-              "ПВ-2.7": "8388827&did=33561432",
-              "ПВ-2.8": "8388835&did=33561432"}
-
-reqs = {"ПВ-2.4" : "http://192.168.250.50/svo/details/?oid=8388808&did=33561432&vid=17&mode=cached",
-        "ПВ-2.5" : "http://192.168.250.50/svo/details/?oid=8388778&did=33560432&vid=17&mode=cached",
-        "ПВ-2.6" : "http://192.168.250.50/svo/details/?oid=8388770&did=33560432&vid=17&mode=cached",
-        "ПВ-2.7" : "http://192.168.250.50/svo/details/?oid=8388835&did=33561432&vid=17&mode=cached",
-        "ПВ-2.8" : "http://192.168.250.50/svo/details/?oid=8388827&did=33561432&vid=17&mode=cached"}
+              "ПВ-2.7": "8388835&did=33561432",
+              "ПВ-2.8": "8388827&did=33561432",
+              }
 
 states = {"2":"Работает на высокой скорости",
           "1": "Работает на низкой скорости",
@@ -94,6 +89,8 @@ def func(message):
         # Состояние
         elif msg in curstates:
             sms(m, f"Ждите, идет опрос ...", 3)
+            if "ПВ-2.7" in msg:
+                sms(m, f"Текущее состояние {msg[-6:]} :\n{get_state(msg[-14:])}", 3)
             sms(m, f"Текущее состояние {msg[-6:]} :\n{get_state(msg[-6:])}", 3)
             sms(m)
         # Запуск
@@ -153,8 +150,7 @@ def do_switch(g, p):
     return stmsg
 
 def get_state(pl):
-    # url = f"http://192.168.250.50/svo/details/?oid=609&did=33560432&vid=17&mode=cached"
-    url = reqs[pl]
+    url = f"http://192.168.250.50/svo/details/?oid={all_plants[pl]}&vid=17&mode=cached"
     resp = requests.get(url, headers=header, cookies=sauter_cookie)
     time.sleep(5)
     r = resp.text
@@ -189,8 +185,3 @@ except Exception as e:
     time.sleep(3)
     print (e)
     pass
-
-"""URL-Адрес Запроса: для ПВ-2.6
-http://192.168.250.50/svo/details/?oid=609&did=33560432&vid=17&mode=cached
-GET
-"""
