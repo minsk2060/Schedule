@@ -90,7 +90,7 @@ def func(message):
         elif msg in curstates:
             sms(m, f"Ждите, идет опрос ...", 3)
             if "ПВ-2.7" in msg:
-                sms(m, f"Текущее состояние {msg[-6:]} :\n{get_state(msg[-14:])}", 3)
+                sms(m, f"Текущее состояние {msg[-14:-8]} :\n{get_state(msg[-14:-8])}", 3)
             sms(m, f"Текущее состояние {msg[-6:]} :\n{get_state(msg[-6:])}", 3)
             sms(m)
         # Запуск
@@ -101,7 +101,7 @@ def func(message):
             markup.add(button2, button1)
             mes = "Выберите скорость работы вентустанов"
             if "ПВ-2.7" in msg:
-                bot.send_message(message.chat.id, f"{mes}ок {msg[-14:]}", reply_markup=markup)
+                bot.send_message(message.chat.id, f"{mes}ок {msg[-14]}", reply_markup=markup)
             else:
                 bot.send_message(message.chat.id, f"{mes}ки {msg[-6:]}", reply_markup=markup)
         # Останов
