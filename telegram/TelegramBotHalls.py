@@ -112,7 +112,7 @@ def func(message):
         # Запуск
         elif msg in starts:
             if check_alarm(msg[-6:]):
-                sms(m, "Запуск не возможен. Установка в аварии класса А")
+                sms(m, f"Запуск не возможен. Установка {msg[-6:]} в аварии класса А")
             else:
                 markup = types.InlineKeyboardMarkup()
                 button2 = types.InlineKeyboardButton("Низкая", callback_data="1")
@@ -185,7 +185,7 @@ def get_state(pl):
 def get_alarm(pl, dic, txt):
     url = f"http://192.168.250.50/svo/details/update?oid={dic[pl]}&vid=17&mode=cached"
     resp = requests.get(url, headers=header, cookies=sauter_cookie)
-    time.sleep(3)
+    time.sleep(2)
     almsg = ""
     if "Alarm: true" in resp.text:
         if 'title="Fault: true"' not in resp.text:
@@ -195,7 +195,7 @@ def get_alarm(pl, dic, txt):
 
 def check_alarm(plt):
     alm = 'Авария класса А'
-    if get_alarm(plt, rev_alarms_BC, alm) == alm:
+    if get_alarm(plt, rev_alarms_A, alm) == alm:
         return True
     return False
 
