@@ -4,6 +4,7 @@ from telebot import types
 import requests
 import time
 from headers import header, sauter_cookie
+from plants import alarms_A, alarms_BC
 
 # num = telebot.TeleBot(telegramtoken_venthalls)
 # print(num.num_threads)
@@ -21,14 +22,17 @@ all_plants = {"ПВ-2.4": "8388808&did=33561432",
               "ПВ-2.8": "8388827&did=33561432",
               }
 
-states = {"2":"Работает на высокой скорости",
-          "1": "Работает на низкой скорости",
-          "0":  "Остановлена"}
+states = {"2":"работает на высокой скорости",
+          "1": "работает на низкой скорости",
+          "0":  "остановлена"}
 
 starts = ["Запуск  " + x for x in places.values()]
 stops = ["Останов  " + x for x in places.values()]
 curstates = ["Состояние  " + x for x in places.values()]
 scheds = ["Расписание  " + x for x in places.values()]
+
+rev_alarms_BC = {v[:6]: k for k, v in alarms_BC.items() if v[:6] in all_plants.keys()}
+rev_alarms_A = {v[:6]: k for k, v in alarms_A.items() if v[:6] in all_plants.keys()}
 
 
 @bot.message_handler(commands=['start'])
@@ -86,13 +90,19 @@ def func(message):
                 prn = "не задано"
             sms(m, f'{msg}\nна эти дни:\n\n{prn}', 1)
             sms(m)
+
         # Состояние
         elif msg in curstates:
             sms(m, f"Ждите, идет опрос ...", 3)
+            sms(m, f"В текущий момент установка"
+                   f" {msg[-6:]} {get_state(msg[-6:])}.\n"
+                   f"{get_alarm(msg[-6:], rev_alarms_BC, 'Авария класса ВС')}"
+                   f"{get_alarm(msg[-6:], rev_alarms_A,  'Авария класса А')}", 3)
+
             if "ПВ-2.7" in msg:
-                sms(m, f"Текущее состояние {msg[-14:-8]}  :\n\n{get_state(msg[-14:-8])}", 3)
-            sms(m, f"Текущее состояние {msg[-6:]}  :\n\n{get_state(msg[-6:])}", 3)
+                sms(m, f"Установка {msg[-14:-8]} сейчас {get_state(msg[-14:-8])}", 3)
             sms(m)
+
         # Запуск
         elif msg in starts:
             markup = types.InlineKeyboardMarkup()
@@ -158,6 +168,17 @@ def get_state(pl):
     e = n[:n.index('</tr>')]
     g = e[e.index("property-value")+16]
     return states[g]
+
+def get_alarm(pl, dic, txt):
+    url = f"http://192.168.250.50/svo/details/update?oid={dic[pl]}&vid=17&mode=cached"
+    resp = requests.get(url, headers=header, cookies=sauter_cookie)
+    time.sleep(5)
+    almsg = ""
+    if "Alarm: true" in resp.text:
+        if 'title="Fault: true"' not in resp.text:
+            almsg = txt
+    return almsg
+
 
 def reply(message, place=""):
     answer = types.ReplyKeyboardMarkup(resize_keyboard=True)
