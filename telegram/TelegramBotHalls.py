@@ -57,11 +57,11 @@ def check_speed(callback):
     if root(m):
         tex = callback.message.text
         tex = tex.replace("Выберите скорость работы вентустановки", "Запуск ")
-        if check_alarm(tex[-6:]):
-            sms(m, "Запуск не возможен. Установка в аварии класса А")
-        else:
-            sms(m,  "Стартуем.... ", 4)
-            switch_plant(callback.message, tex, callback.data, "Запуск")
+        # if check_alarm(tex[-6:]):
+        #     sms(m, "Запуск не возможен. Установка в аварии класса А")
+        # else:
+        sms(m,  "Стартуем.... ", 4)
+        switch_plant(callback.message, tex, callback.data, "Запуск")
     else:
         no_root(m)
 
@@ -100,7 +100,7 @@ def func(message):
         elif msg in curstates:
             sms(m, f"Ждите, идет опрос ...", 2)
             sms(m, f"В текущий момент установка"
-                   f" {msg[-6:]} {get_state(msg[-6:])}."
+                   f" {msg[-6:]} {get_state(msg[-6:])}. "
                    f"{get_alarm(msg[-6:], rev_alarms_BC, 'Авария класса ВС')}"
                    f"{get_alarm(msg[-6:], rev_alarms_A,  'Авария класса А')}", 2)
             if "ПВ-2.7" in msg:
@@ -111,15 +111,18 @@ def func(message):
 
         # Запуск
         elif msg in starts:
-            markup = types.InlineKeyboardMarkup()
-            button2 = types.InlineKeyboardButton("Низкая", callback_data="1")
-            button1 = types.InlineKeyboardButton("Высокая", callback_data="2")
-            markup.add(button2, button1)
-            mes = "Выберите скорость работы вентустанов"
-            if "ПВ-2.7" in msg:
-                bot.send_message(message.chat.id, f"{mes}ок {msg[-14]}", reply_markup=markup)
+            if check_alarm(msg[-6:]):
+                sms(m, "Запуск не возможен. Установка в аварии класса А")
             else:
-                bot.send_message(message.chat.id, f"{mes}ки {msg[-6:]}", reply_markup=markup)
+                markup = types.InlineKeyboardMarkup()
+                button2 = types.InlineKeyboardButton("Низкая", callback_data="1")
+                button1 = types.InlineKeyboardButton("Высокая", callback_data="2")
+                markup.add(button2, button1)
+                mes = "Выберите скорость работы вентустанов"
+                if "ПВ-2.7" in msg:
+                    bot.send_message(message.chat.id, f"{mes}ок {msg[-14]}", reply_markup=markup)
+                else:
+                    bot.send_message(message.chat.id, f"{mes}ки {msg[-6:]}", reply_markup=markup)
 
         # Останов
         elif msg in stops:
