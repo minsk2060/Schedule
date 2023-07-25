@@ -57,8 +57,11 @@ def check_speed(callback):
     if root(m):
         tex = callback.message.text
         tex = tex.replace("Выберите скорость работы вентустановки", "Запуск ")
-        sms(m,  "Стартуем.... ", 4)
-        switch_plant(callback.message, tex, callback.data, "Запуск")
+        if check_alarm(tex[-6:]):
+            sms(m, "Запуск не возможен. Установка в аварии класса А")
+        else:
+            sms(m,  "Стартуем.... ", 4)
+            switch_plant(callback.message, tex, callback.data, "Запуск")
     else:
         no_root(m)
 
@@ -70,6 +73,7 @@ def func(message):
         msg = message.text
         if msg == "Главное меню":
             start(message)
+
         # Информация
         elif msg in places.keys():
             vor = "обслуживает вентустановка"
@@ -77,6 +81,7 @@ def func(message):
                 vor = "обслуживают вентустановки"
             sms(m, f"{msg}\n{vor}  {places[msg]}", 1)
             reply(message, msg)
+
         # Расписание
         elif msg in scheds:
             sms(m, f"Ждите, сейчас узнаем ...", 4)
@@ -93,14 +98,15 @@ def func(message):
 
         # Состояние
         elif msg in curstates:
-            sms(m, f"Ждите, идет опрос ...", 3)
+            sms(m, f"Ждите, идет опрос ...", 2)
             sms(m, f"В текущий момент установка"
-                   f" {msg[-6:]} {get_state(msg[-6:])}.\n"
+                   f" {msg[-6:]} {get_state(msg[-6:])}."
                    f"{get_alarm(msg[-6:], rev_alarms_BC, 'Авария класса ВС')}"
-                   f"{get_alarm(msg[-6:], rev_alarms_A,  'Авария класса А')}", 3)
-
+                   f"{get_alarm(msg[-6:], rev_alarms_A,  'Авария класса А')}", 2)
             if "ПВ-2.7" in msg:
-                sms(m, f"Установка {msg[-14:-8]} сейчас {get_state(msg[-14:-8])}", 3)
+                sms(m, f"Установка {msg[-14:-8]} {get_state(msg[-14:-8])}."
+                       f"{get_alarm(msg[-14:-8], rev_alarms_BC, 'Авария класса ВС')}"
+                       f"{get_alarm(msg[-14:-8], rev_alarms_A,  'Авария класса А')}", 2)
             sms(m)
 
         # Запуск
@@ -114,11 +120,13 @@ def func(message):
                 bot.send_message(message.chat.id, f"{mes}ок {msg[-14]}", reply_markup=markup)
             else:
                 bot.send_message(message.chat.id, f"{mes}ки {msg[-6:]}", reply_markup=markup)
+
         # Останов
         elif msg in stops:
             p = "0"
             sms(m, "Останавливаемся....", 3)
             switch_plant(message, msg, p, "Останов")
+
         # Иное
         else:
             sms(m, "Что за команда, не понял?", 3)
@@ -159,6 +167,7 @@ def do_switch(g, p):
         stmsg = "выполнен успешно"
     return stmsg
 
+
 def get_state(pl):
     url = f"http://192.168.250.50/svo/details/?oid={all_plants[pl]}&vid=17&mode=cached"
     resp = requests.get(url, headers=header, cookies=sauter_cookie)
@@ -169,6 +178,7 @@ def get_state(pl):
     g = e[e.index("property-value")+16]
     return states[g]
 
+
 def get_alarm(pl, dic, txt):
     url = f"http://192.168.250.50/svo/details/update?oid={dic[pl]}&vid=17&mode=cached"
     resp = requests.get(url, headers=header, cookies=sauter_cookie)
@@ -178,6 +188,13 @@ def get_alarm(pl, dic, txt):
         if 'title="Fault: true"' not in resp.text:
             almsg = txt
     return almsg
+
+
+def check_alarm(plt):
+    alm = 'Авария класса А'
+    if get_alarm(plt, rev_alarms_BC, alm) == alm:
+        return True
+    return False
 
 
 def reply(message, place=""):
