@@ -162,7 +162,7 @@ def do_switch(g, p):
 def get_state(pl):
     url = f"http://192.168.250.50/svo/details/?oid={all_plants[pl]}&vid=17&mode=cached"
     resp = requests.get(url, headers=header, cookies=sauter_cookie)
-    time.sleep(5)
+    time.sleep(3)
     r = resp.text
     n = r[r.index('<tr data-pid="85">')+18:]
     e = n[:n.index('</tr>')]
@@ -172,7 +172,7 @@ def get_state(pl):
 def get_alarm(pl, dic, txt):
     url = f"http://192.168.250.50/svo/details/update?oid={dic[pl]}&vid=17&mode=cached"
     resp = requests.get(url, headers=header, cookies=sauter_cookie)
-    time.sleep(5)
+    time.sleep(3)
     almsg = ""
     if "Alarm: true" in resp.text:
         if 'title="Fault: true"' not in resp.text:
