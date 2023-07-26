@@ -6,8 +6,6 @@ import time
 from headers import header, sauter_cookie
 from plants import alarms_A, alarms_BC
 
-# num = telebot.TeleBot(telegramtoken_venthalls)
-# print(num.num_threads)
 bot = telebot.TeleBot(telegramtoken_venthalls)
 
 places = {"Игровой зал": "ПВ-2.7, ПВ-2.8",
@@ -57,9 +55,6 @@ def check_speed(callback):
     if root(m):
         tex = callback.message.text
         tex = tex.replace("Выберите скорость работы вентустановки", "Запуск ")
-        # if check_alarm(tex[-6:]):
-        #     sms(m, "Запуск не возможен. Установка в аварии класса А")
-        # else:
         sms(m,  "Стартуем.... ", 4)
         switch_plant(callback.message, tex, callback.data, "Запуск")
     else:
@@ -111,9 +106,6 @@ def func(message):
 
         # Запуск
         elif msg in starts:
-            # if check_alarm(msg[-6:]):
-            #     sms(m, f"Запуск не возможен. Установка {msg[-6:]} в аварии класса А")
-            # else:
             markup = types.InlineKeyboardMarkup()
             button2 = types.InlineKeyboardButton("Низкая", callback_data="1")
             button1 = types.InlineKeyboardButton("Высокая", callback_data="2")
@@ -151,11 +143,11 @@ def switch_plant(message, msg, p, action):
         ssg = f"{action}  ПВ-2.7"
         sms(m, ssg)
         g = all_plants[ssg.replace(f"{action}  ", "")]
-        sms(m, f"{ssg} {do_switch(g, p, ssg[-6:])}")
+        sms(m, f"{ssg} {do_switch(g, p, 'ПВ-2.7')}")
         psg = f"{action}  ПВ-2.8"
         sms(m, psg)
         g = all_plants[psg.replace(f"{action}  ", "")]
-        sms(m, f"{psg} {do_switch(g, p, psg[-6:])}")
+        sms(m, f"{psg} {do_switch(g, p, 'ПВ-2.8')}")
     else:
         g = all_plants[msg.replace(f"{action}  ", "")]
         bot.send_message(message.chat.id, f"{msg} {do_switch(g, p, msg[-6:])}")
@@ -196,11 +188,9 @@ def get_alarm(pl, dic, txt):
     return almsg
 
 
-def check_alarm(plt):
+def check_alarm(pl):
     alm = 'Авария класса А'
-    if get_alarm(plt, rev_alarms_BC, alm) == alm:
-        return True
-    return False
+    return True if get_alarm(pl, rev_alarms_A, alm) == alm else False
 
 
 def reply(message, place=""):
