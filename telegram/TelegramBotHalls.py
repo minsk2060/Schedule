@@ -111,18 +111,18 @@ def func(message):
 
         # Запуск
         elif msg in starts:
-            if check_alarm(msg[-6:]):
-                sms(m, f"Запуск не возможен. Установка {msg[-6:]} в аварии класса А")
+            # if check_alarm(msg[-6:]):
+            #     sms(m, f"Запуск не возможен. Установка {msg[-6:]} в аварии класса А")
+            # else:
+            markup = types.InlineKeyboardMarkup()
+            button2 = types.InlineKeyboardButton("Низкая", callback_data="1")
+            button1 = types.InlineKeyboardButton("Высокая", callback_data="2")
+            markup.add(button2, button1)
+            mes = "Выберите скорость работы вентустанов"
+            if "ПВ-2.7" in msg:
+                bot.send_message(message.chat.id, f"{mes}ок {msg[-14]}", reply_markup=markup)
             else:
-                markup = types.InlineKeyboardMarkup()
-                button2 = types.InlineKeyboardButton("Низкая", callback_data="1")
-                button1 = types.InlineKeyboardButton("Высокая", callback_data="2")
-                markup.add(button2, button1)
-                mes = "Выберите скорость работы вентустанов"
-                if "ПВ-2.7" in msg:
-                    bot.send_message(message.chat.id, f"{mes}ок {msg[-14]}", reply_markup=markup)
-                else:
-                    bot.send_message(message.chat.id, f"{mes}ки {msg[-6:]}", reply_markup=markup)
+                bot.send_message(message.chat.id, f"{mes}ки {msg[-6:]}", reply_markup=markup)
 
         # Останов
         elif msg in stops:
@@ -162,12 +162,15 @@ def switch_plant(message, msg, p, action):
 
 
 def do_switch(g, p):
+    stmsg = "не выполнен.\n"
     url = f"http://192.168.250.50/ajaxjson/bac/setValue?pid=85&oid={g}&vid=17&value={p}"
-    r = requests.get(url, headers=header, cookies=sauter_cookie)
-    time.sleep(5)
-    stmsg = "не выполнен"
-    if '"message":"Value was successfully written"' in r.text:
-        stmsg = "выполнен успешно"
+    if check_alarm(g):
+        stmsg = stmsg + "Авария класса А"
+    else:
+        r = requests.get(url, headers=header, cookies=sauter_cookie)
+        time.sleep(4)
+        if '"message":"Value was successfully written"' in r.text:
+            stmsg = "выполнен успешно.\n"
     return stmsg
 
 
@@ -195,7 +198,7 @@ def get_alarm(pl, dic, txt):
 
 def check_alarm(plt):
     alm = 'Авария класса А'
-    if get_alarm(plt, rev_alarms_A, alm) == alm:
+    if get_alarm(plt, rev_alarms_BC, alm) == alm:
         return True
     return False
 
