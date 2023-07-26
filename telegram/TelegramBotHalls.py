@@ -111,7 +111,7 @@ def func(message):
             markup.add(button2, button1)
             mes = "Выберите скорость работы"
             if "ПВ-2.7" in msg:
-                bot.send_message(message.chat.id, f"{mes}ок {msg[-14]}", reply_markup=markup)
+                bot.send_message(message.chat.id, f"{mes} {msg[-14]}", reply_markup=markup)
             else:
                 bot.send_message(message.chat.id, f"{mes} {msg[-6:]}", reply_markup=markup)
 
