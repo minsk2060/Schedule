@@ -190,7 +190,7 @@ def get_alarm(pl, dic, txt):
 
 def check_alarm(pl):
     alm = 'Авария класса А'
-    if get_alarm(plt, rev_alarms_A, alm) == alm:
+    if get_alarm(pl, rev_alarms_A, alm) == alm:
         return True
     return False
 
