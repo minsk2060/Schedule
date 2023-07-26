@@ -53,8 +53,7 @@ def start(message):
 def check_speed(callback):
     m = callback.message.chat.id
     if root(m):
-        tex = callback.message.text
-        tex = tex.replace("Выберите скорость работы вентустановки", "Запуск ")
+        tex = callback.message.text.replace("Выберите скорость работы вентустановки", "Запуск ")
         sms(m,  "Стартуем.... ", 4)
         switch_plant(callback.message, tex, callback.data, "Запуск")
     else:
