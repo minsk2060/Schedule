@@ -53,7 +53,7 @@ def start(message):
 def check_speed(callback):
     m = callback.message.chat.id
     if root(m):
-        tex = callback.message.text.replace("Выберите скорость работы вентустановки", "Запуск ")
+        tex = callback.message.text.replace("Выберите скорость работы", "Запуск ")
         sms(m,  "Стартуем.... ", 4)
         switch_plant(callback.message, tex, callback.data, "Запуск")
     else:
@@ -109,11 +109,11 @@ def func(message):
             button2 = types.InlineKeyboardButton("Низкая", callback_data="1")
             button1 = types.InlineKeyboardButton("Высокая", callback_data="2")
             markup.add(button2, button1)
-            mes = "Выберите скорость работы вентустанов"
-            if "ПВ-2.7" in msg:
-                bot.send_message(message.chat.id, f"{mes}ок {msg[-14]}", reply_markup=markup)
-            else:
-                bot.send_message(message.chat.id, f"{mes}ки {msg[-6:]}", reply_markup=markup)
+            mes = "Выберите скорость работы"
+            # if "ПВ-2.7" in msg:
+            #     bot.send_message(message.chat.id, f"{mes}ок {msg[-14]}", reply_markup=markup)
+            # else:
+            bot.send_message(message.chat.id, f"{mes} {msg[-6:]}", reply_markup=markup)
 
         # Останов
         elif msg in stops:
