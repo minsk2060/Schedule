@@ -151,20 +151,20 @@ def switch_plant(message, msg, p, action):
         ssg = f"{action}  ПВ-2.7"
         sms(m, ssg)
         g = all_plants[ssg.replace(f"{action}  ", "")]
-        sms(m, f"{ssg} {do_switch(g, p)}")
+        sms(m, f"{ssg} {do_switch(g, p, ssg[-6:])}")
         psg = f"{action}  ПВ-2.8"
         sms(m, psg)
         g = all_plants[psg.replace(f"{action}  ", "")]
-        sms(m, f"{psg} {do_switch(g, p)}")
+        sms(m, f"{psg} {do_switch(g, p, psg[-6:])}")
     else:
         g = all_plants[msg.replace(f"{action}  ", "")]
-        bot.send_message(message.chat.id, f"{msg} {do_switch(g, p)}")
+        bot.send_message(message.chat.id, f"{msg} {do_switch(g, p, msg[-6:])}")
 
 
-def do_switch(g, p):
+def do_switch(g, p, plt):
     stmsg = "не выполнен.\n"
     url = f"http://192.168.250.50/ajaxjson/bac/setValue?pid=85&oid={g}&vid=17&value={p}"
-    if check_alarm(g):
+    if check_alarm(plt):
         stmsg = stmsg + "Авария класса А"
     else:
         r = requests.get(url, headers=header, cookies=sauter_cookie)
