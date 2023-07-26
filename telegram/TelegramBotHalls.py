@@ -162,7 +162,7 @@ def do_switch(g, p, plt):
         r = requests.get(url, headers=header, cookies=sauter_cookie)
         time.sleep(4)
         if '"message":"Value was successfully written"' in r.text:
-            stmsg = "выполнен успешно.\n"
+            stmsg = "выполнен успешно.\n "
     return stmsg
 
 
