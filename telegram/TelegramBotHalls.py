@@ -3,7 +3,7 @@ from telegramtokens import telegramtoken_venthalls, botHalls_users
 from telebot import types
 import requests
 import time
-from headers import header, sauter_cookie
+from headers import header, header_alarm_A, sauter_cookie
 from plants import alarms_A, alarms_BC
 
 bot = telebot.TeleBot(telegramtoken_venthalls)
@@ -158,7 +158,7 @@ def do_switch(g, p, plt):
     if check_alarm(plt):
         stmsg = stmsg + "Авария класса А"
     else:
-        r = requests.get(url, headers=header, cookies=sauter_cookie)
+        r = requests.get(url, headers=header_alarm_A, cookies=sauter_cookie)
         time.sleep(4)
         if '"message":"Value was successfully written"' in r.text:
             stmsg = "выполнен успешно.\n "
@@ -167,7 +167,7 @@ def do_switch(g, p, plt):
 
 def get_state(pl):
     url = f"http://192.168.250.50/svo/details/?oid={all_plants[pl]}&vid=17&mode=cached"
-    resp = requests.get(url, headers=header, cookies=sauter_cookie)
+    resp = requests.get(url, headers=header_alarm_A, cookies=sauter_cookie)
     time.sleep(3)
     r = resp.text
     n = r[r.index('<tr data-pid="85">')+18:]
@@ -179,7 +179,7 @@ def get_state(pl):
 def get_alarm(pl, dic, txt):
     url = f"http://192.168.250.50/svo/details/update?oid={dic[pl]}&vid=17&mode=cached"
     resp = requests.get(url, headers=header, cookies=sauter_cookie)
-    time.sleep(2)
+    time.sleep(3)
     almsg = ""
     if "Alarm: true" in resp.text:
         if 'title="Fault: true"' not in resp.text:
