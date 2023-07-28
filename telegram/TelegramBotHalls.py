@@ -188,6 +188,11 @@ def get_alarm(pl, dic, txt):
 
 
 def check_alarm(pl):
+    """
+    check_alarm()  - Проверка отсутствия аварии класса А перед запуском
+    :param pl:     -
+    :return:
+    """
     alm = 'Авария класса А'
     return True if get_alarm(pl, rev_alarms_A, alm) == alm else False
 

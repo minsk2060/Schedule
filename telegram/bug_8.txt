@@ -1,0 +1,35 @@
+C:\Users\BMS\AppData\Local\Microsoft\WindowsApps\python3.10.exe C:\Users\BMS\projects\schedules\telegram\TelegramBotHalls.py 
+2023-07-26 10:13:08,552 (__init__.py:960 MainThread) ERROR - TeleBot: "Infinity polling exception: Exceeded 30 redirects."
+2023-07-26 10:13:08,553 (__init__.py:962 MainThread) ERROR - TeleBot: "Exception traceback:
+Traceback (most recent call last):
+  File "C:\Users\BMS\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\telebot\__init__.py", line 955, in infinity_polling
+    self.polling(non_stop=True, timeout=timeout, long_polling_timeout=long_polling_timeout,
+  File "C:\Users\BMS\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\telebot\__init__.py", line 1043, in polling
+    self.__threaded_polling(non_stop=non_stop, interval=interval, timeout=timeout, long_polling_timeout=long_polling_timeout,
+  File "C:\Users\BMS\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\telebot\__init__.py", line 1118, in __threaded_polling
+    raise e
+  File "C:\Users\BMS\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\telebot\__init__.py", line 1074, in __threaded_polling
+    self.worker_pool.raise_exceptions()
+  File "C:\Users\BMS\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\telebot\util.py", line 147, in raise_exceptions
+    raise self.exception_info
+  File "C:\Users\BMS\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\telebot\util.py", line 90, in run
+    task(*args, **kwargs)
+  File "C:\Users\BMS\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\telebot\__init__.py", line 6770, in _run_middlewares_and_handler
+    result = handler['function'](message)
+  File "C:\Users\BMS\projects\schedules\telegram\TelegramBotHalls.py", line 99, in func
+    f"{get_alarm(msg[-6:], rev_alarms_A,  'Авария класса А')}", 2)
+  File "C:\Users\BMS\projects\schedules\telegram\TelegramBotHalls.py", line 181, in get_alarm
+    resp = requests.get(url, headers=header, cookies=sauter_cookie)
+  File "C:\Users\BMS\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\requests\api.py", line 73, in get
+    return request("get", url, params=params, **kwargs)
+  File "C:\Users\BMS\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\requests\api.py", line 59, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "C:\Users\BMS\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\requests\sessions.py", line 587, in request
+    resp = self.send(prep, **send_kwargs)
+  File "C:\Users\BMS\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\requests\sessions.py", line 723, in send
+    history = [resp for resp in gen]
+  File "C:\Users\BMS\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\requests\sessions.py", line 723, in <listcomp>
+    history = [resp for resp in gen]
+  File "C:\Users\BMS\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\requests\sessions.py", line 191, in resolve_redirects
+    raise TooManyRedirects(
+requests.exceptions.TooManyRedirects: Exceeded 30 redirects.
