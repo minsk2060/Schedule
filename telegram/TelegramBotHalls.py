@@ -5,6 +5,7 @@ import requests
 import time
 from headers import header, header_alarm_A, sauter_cookie
 from plants import alarms_A, alarms_BC
+from helpmsg import helpmsg
 
 bot = telebot.TeleBot(telegramtoken_venthalls)
 
@@ -20,7 +21,7 @@ all_plants = {"ПВ-2.4": "8388808&did=33561432",
               "ПВ-2.8": "8388827&did=33561432",
               }
 
-states = {"2":"работает на высокой скорости",
+states = {"2": "работает на высокой скорости",
           "1": "работает на низкой скорости",
           "0":  "остановлена"}
 
@@ -31,6 +32,16 @@ scheds = ["Расписание  " + x for x in places.values()]
 
 rev_alarms_BC = {v[:6]: k for k, v in alarms_BC.items() if v[:6] in all_plants.keys()}
 rev_alarms_A = {v[:6]: k for k, v in alarms_A.items() if v[:6] in all_plants.keys()}
+
+
+@bot.message_handler(commands=['help'])
+def start(message):
+    m = message.chat.id
+    if root(m):
+        sms(m, helpmsg)
+        start(message)
+    else:
+        no_root(m)
 
 
 @bot.message_handler(commands=['start'])
@@ -48,6 +59,7 @@ def start(message):
         bot.send_message(m, "Выберите помещение", reply_markup=markup)
     else:
         no_root(m)
+
 
 @bot.callback_query_handler(func=lambda callback: callback.data in ['1', '2'])
 def check_speed(callback):
@@ -219,9 +231,10 @@ def root(m):
 def no_root(m):
     bot.send_message(m, "У Вас нет прав доступа к этому боту")
 
+
 try:
     bot.infinity_polling(none_stop=True, timeout=180, long_polling_timeout=180)
 except Exception as e:
     time.sleep(3)
-    print (e)
+    print(e)
     pass
