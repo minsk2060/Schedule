@@ -10,6 +10,7 @@
     <file url="file://$PROJECT_DIR$/telegram/TelegramBotAlarms.py" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/telegram/TelegramBotHalls.py" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/telegram/checkBot.py" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/telegram/helpmsg.py" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/telegram/telegramtokens.py" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/telegram/try.py" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/trying/Try.py" charset="UTF-8" />
