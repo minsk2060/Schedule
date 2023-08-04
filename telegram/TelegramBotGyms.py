@@ -10,9 +10,9 @@ from helpmsg import helpmsg_gyms
 bot = telebot.TeleBot(telegramtoken_ventgyms)
 
 places = {"Игровая комната": "ПВ-2.9",
-          "Раздевалки тренажерных залов": "ПВ-2.15",
-          "Тренажерный зал 1": "ПВ-2.12",
-          "Тренажерный зал 2, зал Йоги": "ПВ-2.11"}
+          "Раздевалки залов": "ПВ-2.15",
+          "Тренажерный зал": "ПВ-2.12",
+          "Зал Еги": "ПВ-2.11"}
 
 all_plants = {"ПВ-2.11": "8388739&did=33559432",
               "ПВ-2.12": "8388750&did=33559432",
@@ -48,9 +48,9 @@ def start(message):
     if root(m):
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
         btn1 = types.KeyboardButton("Игровая комната")
-        btn2 = types.KeyboardButton("Раздевалки тренажерных залов")
-        btn3 = types.KeyboardButton("Тренажерный зал 1")
-        btn4 = types.KeyboardButton("Тренажерный зал 2, зал Йоги")
+        btn2 = types.KeyboardButton("Раздевалки залов")
+        btn3 = types.KeyboardButton("Тренажерный зал")
+        btn4 = types.KeyboardButton("Зал Еги")
         markup.add(btn3, btn4)
         markup.add(btn2)
         markup.add(btn1)
@@ -85,7 +85,7 @@ def func(message):
 
         # Информация
         elif msg in places.keys():
-            vor = "обслуживает вентустановка"
+            vor = "обслуживается вентустановкой"
             sms(m, f"{msg}\n{vor}  {places[msg]}", 1)
             reply(message, msg)
 
