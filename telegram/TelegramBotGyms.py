@@ -12,7 +12,7 @@ bot = telebot.TeleBot(telegramtoken_ventgyms)
 places = {"Игровая комната": "ПВ-2.9",
           "Раздевалки залов": "ПВ-2.15",
           "Тренажерный зал": "ПВ-2.12",
-          "Зал Еги": "ПВ-2.11"}
+          "Зал Ёги": "ПВ-2.11"}
 
 all_plants = {"ПВ-2.11": "8388739&did=33559432",
               "ПВ-2.12": "8388750&did=33559432",
@@ -50,7 +50,7 @@ def start(message):
         btn1 = types.KeyboardButton("Игровая комната")
         btn2 = types.KeyboardButton("Раздевалки залов")
         btn3 = types.KeyboardButton("Тренажерный зал")
-        btn4 = types.KeyboardButton("Зал Еги")
+        btn4 = types.KeyboardButton("Зал Ёги")
         markup.add(btn3, btn4)
         markup.add(btn2)
         markup.add(btn1)
@@ -75,7 +75,7 @@ def check_speed(callback):
 def func(message):
     m = message.chat.id
     if "ПВ" in message.text:
-        PV = len(message.text) - message.text.index("ПВ")
+        PV = message.text.index("ПВ") #len(message.text) - message.text.index("ПВ")
 
     sms(m,  message.text)
     if root(m):
@@ -95,8 +95,8 @@ def func(message):
             fil = open("../logging/readlogs.txt", "r")
             sts = []
             for i in fil.read().split("\n"):
-                if msg[-PV:] in i:
-                    sts.append(i.replace(f"{msg[-PV:]}    ", ""))
+                if msg[PV:] in i:
+                    sts.append(i.replace(f"{msg[:PV]}    ", ""))
             prn = "\n".join(sts).replace("\n", "\n\n").replace("0   ", "0\n")
             if prn == "":
                 prn = "не задано"
@@ -106,11 +106,12 @@ def func(message):
         # Состояние
         elif msg in curstates:
             sms(m, f"Ждите, идет опрос ...", 2)
+            print((msg, PV))
             sms(m, f"В текущий момент установка"
-                   f" {msg[-PV:]}") # {get_state(msg[-PV:])}. "
+                   f" {msg[PV:]}  {get_state(msg[PV:])}.")
                    # f"{get_alarm(msg[-7:], rev_alarms_BC, 'Авария класса ВС')}"
-                   # f"{get_alarm(msg[-7:], rev_alarms_A,  'Авария класса А')}", 2
-            #)
+                   # f"{get_alarm(msg[-7:], rev_alarms_A,  'Авария класса А')}", 2)
+
             sms(m)
 
         # Запуск
@@ -120,7 +121,7 @@ def func(message):
             button1 = types.InlineKeyboardButton("Высокая", callback_data="2")
             markup.add(button2, button1)
             mes = "Выберите скорость работы"
-            bot.send_message(message.chat.id, f"{mes} {msg[-PV:]}", reply_markup=markup)
+            bot.send_message(message.chat.id, f"{mes} {msg[PV:]}", reply_markup=markup)
 
         # Останов
         elif msg in stops:
@@ -145,19 +146,19 @@ def sms(m, t="Выберите действие", s=0):
 
 def switch_plant(message, msg, p, action, PV):
     g = all_plants[msg.replace(f"{action}  ", "")]
-    bot.send_message(message.chat.id, f"{msg} {do_switch(g, p, msg[-PV:])}")
+    bot.send_message(message.chat.id, f"{msg} {do_switch(g, p, msg[PV:])}")
 
 
 def do_switch(g, p, plt):
     stmsg = "не выполнен.\n"
-    # url = f"http://192.168.250.50/ajaxjson/bac/setValue?pid=85&oid={g}&vid=17&value={p}"
-    # if check_alarm(plt):
-    #     stmsg = stmsg + "Авария класса А"
-    # else:
-    #     r = requests.get(url, headers=header_alarm_A, cookies=sauter_cookie)
-    #     time.sleep(4)
-    #     if '"message":"Value was successfully written"' in r.text:
-    #         stmsg = "выполнен успешно.\n "
+    url = f"http://192.168.250.50/ajaxjson/bac/setValue?pid=85&oid={g}&vid=17&value={p}"
+    if check_alarm(plt):
+        stmsg = stmsg + "Авария класса А"
+    else:
+        r = requests.get(url, headers=header_alarm_A, cookies=sauter_cookie)
+        time.sleep(4)
+        if '"message":"Value was successfully written"' in r.text:
+            stmsg = "выполнен успешно.\n "
     return stmsg
 
 
