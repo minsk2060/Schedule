@@ -1,43 +1,44 @@
 import telebot
-from telegramtokens import telegramtoken_venthalls, botHalls_users
+from telegramtokens import telegramtoken_ventgyms, botGyms_users
 from telebot import types
 import requests
 import time
 from headers import header, header_alarm_A, sauter_cookie
 from plants import alarms_A, alarms_BC
-from helpmsg import helpmsg_halls
+from helpmsg import helpmsg_gyms
 
-bot = telebot.TeleBot(telegramtoken_venthalls)
+bot = telebot.TeleBot(telegramtoken_ventgyms)
 
-places = {"Игровой зал": "ПВ-2.7, ПВ-2.8",
-          "Раздевалки игрового зала": "ПВ-2.4",
-          "Зал хореографии 2015": "ПВ-2.5",
-          "Зал хореографии 2041": "ПВ-2.6"}
+places = {"Игровая комната": "ПВ-2.9",
+          "Раздевалки тренажерных залов": "ПВ-2.15",
+          "Тренажерный зал 1": "ПВ-2.12",
+          "Тренажерный зал 2, зал Йоги": "ПВ-2.11"}
 
-all_plants = {"ПВ-2.4": "8388808&did=33561432",
-              "ПВ-2.5": "8388778&did=33560432",
-              "ПВ-2.6": "8388770&did=33560432",
-              "ПВ-2.7": "8388835&did=33561432",
-              "ПВ-2.8": "8388827&did=33561432",
+all_plants = {"ПВ-2.11": "8388739&did=33559432",
+              "ПВ-2.12": "8388750&did=33559432",
+              "ПВ-2.15": "8388845&did=33559432",
+              "ПВ-2.9": "8388815&did=33561432",
+
               }
 
 states = {"2": "работает на высокой скорости",
           "1": "работает на низкой скорости",
-          "0":  "остановлена"}
+          "0": "остановлена",
+          "3": "работает на низкой скорости", }
 
 starts = ["Запуск  " + x for x in places.values()]
 stops = ["Останов  " + x for x in places.values()]
 curstates = ["Состояние  " + x for x in places.values()]
 scheds = ["Расписание  " + x for x in places.values()]
 
-rev_alarms_BC = {v[:6]: k for k, v in alarms_BC.items() if v[:6] in all_plants.keys()}
-rev_alarms_A = {v[:6]: k for k, v in alarms_A.items() if v[:6] in all_plants.keys()}
+rev_alarms_BC = {v[:7]: k for k, v in alarms_BC.items() if v[:7] in all_plants.keys()}
+rev_alarms_A = {v[:7]: k for k, v in alarms_A.items() if v[:7] in all_plants.keys()}
 
 
 @bot.message_handler(commands=['help'])
 def start(message):
     m = message.chat.id
-    if root(m): sms(m, helpmsg_halls)
+    if root(m): sms(m, helpmsg_gyms)
     else: no_root(m)
 
 
@@ -46,10 +47,10 @@ def start(message):
     m = message.chat.id
     if root(m):
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-        btn1 = types.KeyboardButton("Игровой зал")
-        btn2 = types.KeyboardButton("Раздевалки игрового зала")
-        btn3 = types.KeyboardButton("Зал хореографии 2015")
-        btn4 = types.KeyboardButton("Зал хореографии 2041")
+        btn1 = types.KeyboardButton("Игровая комната")
+        btn2 = types.KeyboardButton("Раздевалки тренажерных залов")
+        btn3 = types.KeyboardButton("Тренажерный зал 1")
+        btn4 = types.KeyboardButton("Тренажерный зал 2, зал Йоги")
         markup.add(btn3, btn4)
         markup.add(btn2)
         markup.add(btn1)
@@ -64,7 +65,8 @@ def check_speed(callback):
     if root(m):
         tex = callback.message.text.replace("Выберите скорость работы", "Запуск ")
         sms(m,  "Стартуем.... ", 4)
-        switch_plant(callback.message, tex, callback.data, "Запуск")
+        PV = callback.message.text.index("ПВ")
+        switch_plant(callback.message, tex, callback.data, "Запуск", PV)
     else:
         no_root(m)
 
@@ -72,6 +74,10 @@ def check_speed(callback):
 @bot.message_handler(content_types=['text'])
 def func(message):
     m = message.chat.id
+    if "ПВ" in message.text:
+        PV = len(message.text) - message.text.index("ПВ")
+
+    sms(m,  message.text)
     if root(m):
         msg = message.text
         if msg == "Главное меню":
@@ -80,8 +86,6 @@ def func(message):
         # Информация
         elif msg in places.keys():
             vor = "обслуживает вентустановка"
-            if "Игровой" in msg:
-                vor = "обслуживают вентустановки"
             sms(m, f"{msg}\n{vor}  {places[msg]}", 1)
             reply(message, msg)
 
@@ -91,8 +95,8 @@ def func(message):
             fil = open("../logging/readlogs.txt", "r")
             sts = []
             for i in fil.read().split("\n"):
-                if msg[-6:] in i:
-                    sts.append(i.replace(f"{msg[-6:]}    ", ""))
+                if msg[-PV:] in i:
+                    sts.append(i.replace(f"{msg[-PV:]}    ", ""))
             prn = "\n".join(sts).replace("\n", "\n\n").replace("0   ", "0\n")
             if prn == "":
                 prn = "не задано"
@@ -103,13 +107,10 @@ def func(message):
         elif msg in curstates:
             sms(m, f"Ждите, идет опрос ...", 2)
             sms(m, f"В текущий момент установка"
-                   f" {msg[-6:]} {get_state(msg[-6:])}. "
-                   f"{get_alarm(msg[-6:], rev_alarms_BC, 'Авария класса ВС')}"
-                   f"{get_alarm(msg[-6:], rev_alarms_A,  'Авария класса А')}", 2)
-            if "ПВ-2.7" in msg:
-                sms(m, f"Установка {msg[-14:-8]} {get_state(msg[-14:-8])}."
-                       f"{get_alarm(msg[-14:-8], rev_alarms_BC, 'Авария класса ВС')}"
-                       f"{get_alarm(msg[-14:-8], rev_alarms_A,  'Авария класса А')}", 2)
+                   f" {msg[-PV:]}") # {get_state(msg[-PV:])}. "
+                   # f"{get_alarm(msg[-7:], rev_alarms_BC, 'Авария класса ВС')}"
+                   # f"{get_alarm(msg[-7:], rev_alarms_A,  'Авария класса А')}", 2
+            #)
             sms(m)
 
         # Запуск
@@ -119,16 +120,13 @@ def func(message):
             button1 = types.InlineKeyboardButton("Высокая", callback_data="2")
             markup.add(button2, button1)
             mes = "Выберите скорость работы"
-            if "ПВ-2.7" in msg:
-                bot.send_message(message.chat.id, f"{mes} {msg[-14:]}", reply_markup=markup)
-            else:
-                bot.send_message(message.chat.id, f"{mes} {msg[-6:]}", reply_markup=markup)
+            bot.send_message(message.chat.id, f"{mes} {msg[-PV:]}", reply_markup=markup)
 
         # Останов
         elif msg in stops:
             p = "0"
             sms(m, "Останавливаемся....", 3)
-            switch_plant(message, msg, p, "Останов")
+            switch_plant(message, msg, p, "Останов", PV)
 
         # Иное
         else:
@@ -145,32 +143,21 @@ def sms(m, t="Выберите действие", s=0):
     time.sleep(s)
 
 
-def switch_plant(message, msg, p, action):
-    m = message.chat.id
-    if "ПВ-2.7, ПВ-2.8" in msg:
-        ssg = f"{action}  ПВ-2.7"
-        sms(m, ssg)
-        g = all_plants[ssg.replace(f"{action}  ", "")]
-        sms(m, f"{ssg} {do_switch(g, p, 'ПВ-2.7')}")
-        psg = f"{action}  ПВ-2.8"
-        sms(m, psg)
-        g = all_plants[psg.replace(f"{action}  ", "")]
-        sms(m, f"{psg} {do_switch(g, p, 'ПВ-2.8')}")
-    else:
-        g = all_plants[msg.replace(f"{action}  ", "")]
-        bot.send_message(message.chat.id, f"{msg} {do_switch(g, p, msg[-6:])}")
+def switch_plant(message, msg, p, action, PV):
+    g = all_plants[msg.replace(f"{action}  ", "")]
+    bot.send_message(message.chat.id, f"{msg} {do_switch(g, p, msg[-PV:])}")
 
 
 def do_switch(g, p, plt):
     stmsg = "не выполнен.\n"
-    url = f"http://192.168.250.50/ajaxjson/bac/setValue?pid=85&oid={g}&vid=17&value={p}"
-    if check_alarm(plt):
-        stmsg = stmsg + "Авария класса А"
-    else:
-        r = requests.get(url, headers=header_alarm_A, cookies=sauter_cookie)
-        time.sleep(4)
-        if '"message":"Value was successfully written"' in r.text:
-            stmsg = "выполнен успешно.\n "
+    # url = f"http://192.168.250.50/ajaxjson/bac/setValue?pid=85&oid={g}&vid=17&value={p}"
+    # if check_alarm(plt):
+    #     stmsg = stmsg + "Авария класса А"
+    # else:
+    #     r = requests.get(url, headers=header_alarm_A, cookies=sauter_cookie)
+    #     time.sleep(4)
+    #     if '"message":"Value was successfully written"' in r.text:
+    #         stmsg = "выполнен успешно.\n "
     return stmsg
 
 
@@ -197,11 +184,6 @@ def get_alarm(pl, dic, txt):
 
 
 def check_alarm(pl):
-    """
-    check_alarm()  - Проверка отсутствия аварии класса А перед запуском
-    :param pl:     -
-    :return:
-    """
     alm = 'Авария класса А'
     if get_alarm(pl, rev_alarms_A, alm) == alm:
         return True
@@ -222,8 +204,8 @@ def reply(message, place=""):
 
 
 def root(m):
-    return True if str(m) in botHalls_users.values() else False
-
+    # return True if str(m) in botGyms_users.values() else False
+    return True
 
 def no_root(m):
     bot.send_message(m, "У Вас нет прав доступа к этому боту")
