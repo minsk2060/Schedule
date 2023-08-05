@@ -34,8 +34,20 @@ stops = ["Останов  " + x for x in places.values()]
 curstates = ["Состояние  " + x for x in places.values()]
 scheds = ["Расписание  " + x for x in places.values()]
 
+
 def if_root(permit):
+    """
+    Ограничение доступа к боту
+
+    :param permit: функция, для которой будет применяться ограничение прав доступа
+    :return: функция для сравнения входящего id со списком пользователей
+    """
     def check_root(message):
+        """
+        Ограничение прав доступа
+
+        :param message: входной параметр для определения id пользователя
+        """
         uid = str(message.chat.id)
         # if uid in botGyms_users.values():
         permit(message)
@@ -56,7 +68,7 @@ def alrm_params(alrm_dict):
 
 @bot.message_handler(commands=['help'])
 @if_root
-def help(message):
+def hepl(message):
     """
     Обработчик сообщения "help"
 
@@ -97,6 +109,11 @@ def start(message):
 @bot.callback_query_handler(func=lambda callback: callback.data in ['1', '2'])
 # @if_root
 def check_speed(callback):
+    """
+    Обработчик сообщения с инлайн кнопками
+
+    :param callback: объект, содержащий в т.ч. инфо о нажатой кнопке
+    """
     uid = callback.message.chat.id
     # if root(uid):
     tex = callback.message.text.replace("Выберите скорость работы", "Запуск ")
@@ -109,6 +126,11 @@ def check_speed(callback):
 @bot.message_handler(content_types=['text'])
 @if_root
 def func(message):
+    """
+    Обработчик текстовых сообщений (основная логика)
+
+    :param message: объект "сообщение"
+    """
     uid = message.chat.id
     pv = 0
     if "ПВ" in message.text:
@@ -143,8 +165,8 @@ def func(message):
     # Состояние
     elif msg in curstates:
         sms(uid, f"Ждите, идет опрос ...", 2)
-        sms(uid, f"В текущий момент установка"
-                 f" {msg[pv:]}  {get_state(msg[pv:])}.\n"
+        sms(uid, f"В текущий момент установка "
+                 f"{msg[pv:]}  {get_state(msg[pv:])}.\n"
                  f"{get_alarm(msg[pv:], alrm_params(alarms_BC), 'Авария класса ВС')}"
                  f"{get_alarm(msg[pv:], alrm_params(alarms_A),  'Авария класса А')}", 2)
         sms(uid)
