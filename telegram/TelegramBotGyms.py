@@ -7,6 +7,7 @@ from headers import header, header_alarm_A, sauter_cookie
 from plants import alarms_A, alarms_BC
 from helpmsg import helpmsg_gyms
 
+# Инициализация бота
 bot = telebot.TeleBot(telegramtoken_ventgyms)
 
 # Наименования оборудования
@@ -41,6 +42,7 @@ def if_root(permit):
         # else:
         #     sms(uid, "У Вас НЕТ прав доступа к этому боту")
     return check_root
+
 
 def alrm_params(alrm_dict):
     """ Преобразование с целью получения параметров для запроса
@@ -142,7 +144,7 @@ def func(message):
     elif msg in curstates:
         sms(uid, f"Ждите, идет опрос ...", 2)
         sms(uid, f"В текущий момент установка"
-                 f" {msg[pv:]}  {get_state(msg[pv:])}."
+                 f" {msg[pv:]}  {get_state(msg[pv:])}.\n"
                  f"{get_alarm(msg[pv:], alrm_params(alarms_BC), 'Авария класса ВС')}"
                  f"{get_alarm(msg[pv:], alrm_params(alarms_A),  'Авария класса А')}", 2)
         sms(uid)
