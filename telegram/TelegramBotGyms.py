@@ -66,9 +66,10 @@ def check_speed(callback):
     m = callback.message.chat.id
     if root(m):
         tex = callback.message.text.replace("Выберите скорость работы", "Запуск ")
+        print(tex)
         sms(m,  "Стартуем.... ", 4)
         PV = callback.message.text.index("ПВ")
-        switch_plant(callback.message, tex, callback.data, "Запуск", PV)
+        switch_plant(callback.message, tex, callback.data, "Запуск")
     else:
         no_root(m)
 
@@ -108,7 +109,6 @@ def func(message):
         # Состояние
         elif msg in curstates:
             sms(m, f"Ждите, идет опрос ...", 2)
-            print((msg, PV))
             sms(m, f"В текущий момент установка"
                    f" {msg[PV:]}  {get_state(msg[PV:])}."
                    f"{get_alarm(msg[PV:], rev_alarms_BC, 'Авария класса ВС')}"
@@ -145,8 +145,9 @@ def sms(m, t="Выберите действие", s=0):
     time.sleep(s)
 
 
-def switch_plant(message, msg, p, action, PV):
+def switch_plant(message, msg, p, action):
     g = all_plants[msg.replace(f"{action}  ", "")]
+    PV = msg.index("ПВ")
     bot.send_message(message.chat.id, f"{msg} {do_switch(g, p, msg[PV:])}")
 
 
