@@ -37,6 +37,7 @@ rev_alarms_BC = {v.replace(" ", ""): k for k, v in alarms_BC.items()
 rev_alarms_A = {v.replace(" ", ""): k for k, v in alarms_A.items()
                 if v.replace(" ", "") in all_plants.keys()}
 
+
 @bot.message_handler(commands=['help'])
 def start(message):
     m = message.chat.id
