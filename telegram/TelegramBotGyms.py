@@ -32,7 +32,7 @@ scheds = ["Расписание  " + x for x in places.values()]
 
 def alrm_params(alrm_dict):
     return {v.replace(" ", ""): k for k, v in alrm_dict.items()
-                 if v.replace(" ", "") in all_plants.keys()}
+            if v.replace(" ", "") in all_plants.keys()}
 
 
 # rev_alarms_BC = {v.replace(" ", ""): k for k, v in alarms_BC.items()
@@ -157,14 +157,14 @@ def switch_plant(message, msg, p, action):
 
 def do_switch(g, p, plt):
     stmsg = "не выполнен.\n"
-    # url = f"http://192.168.250.50/ajaxjson/bac/setValue?pid=85&oid={g}&vid=17&value={p}"
-    # if check_alarm(plt):
-    #     stmsg = stmsg + "Авария класса А"
-    # else:
-    #     r = requests.get(url, headers=header_alarm_A, cookies=sauter_cookie)
-    #     time.sleep(4)
-    #     if '"message":"Value was successfully written"' in r.text:
-    #         stmsg = "выполнен успешно.\n "
+    url = f"http://192.168.250.50/ajaxjson/bac/setValue?pid=85&oid={g}&vid=17&value={p}"
+    if check_alarm(plt):
+        stmsg = stmsg + "Авария класса А"
+    else:
+        r = requests.get(url, headers=header_alarm_A, cookies=sauter_cookie)
+        time.sleep(4)
+        if '"message":"Value was successfully written"' in r.text:
+            stmsg = "выполнен успешно.\n "
     return stmsg
 
 
