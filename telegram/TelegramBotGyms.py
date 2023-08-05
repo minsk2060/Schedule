@@ -1,5 +1,5 @@
 import telebot
-from telegramtokens import telegramtoken_ventgyms
+from telegramtokens import telegramtoken_ventgyms, botGyms_users
 from telebot import types
 import requests
 import time
@@ -21,18 +21,26 @@ all_plants = {"ПВ-2.11": "8388739&did=33559432",
               "ПВ-2.15": "8388845&did=33559432",
               "ПВ-2.9": "8388815&did=33561432", }
 
-# Состояния работы
+# Коды состояний работы
 states = {"2": "работает на высокой скорости",
           "1": "работает на низкой скорости",
           "0": "остановлена",
           "3": "работает на низкой скорости", }
 
-# Сообщения - команды
+# Тексты команд на кнопках
 starts = ["Запуск  " + x for x in places.values()]
 stops = ["Останов  " + x for x in places.values()]
 curstates = ["Состояние  " + x for x in places.values()]
 scheds = ["Расписание  " + x for x in places.values()]
 
+def if_root(permit):
+    def check_root(message):
+        uid = str(message.chat.id)
+        # if uid in botGyms_users.values():
+        permit(message)
+        # else:
+        #     sms(uid, "У Вас НЕТ прав доступа к этому боту")
+    return check_root
 
 def alrm_params(alrm_dict):
     """ Преобразование с целью получения параметров для запроса
@@ -44,9 +52,8 @@ def alrm_params(alrm_dict):
             if v.replace(" ", "") in all_plants.keys()}
 
 
-
-
 @bot.message_handler(commands=['help'])
+@if_root
 def help(message):
     """
     Обработчик сообщения "help"
@@ -54,13 +61,16 @@ def help(message):
     :param message: объект "сообщение" (содержит в т.ч. текст сообщения)
     """
     uid = message.chat.id
-    if root(uid):
-        sms(uid, helpmsg_gyms)
-    else:
-        no_root(uid)
+    sms(uid, helpmsg_gyms)
+
+    # if root(uid):
+    #     sms(uid, helpmsg_gyms)
+    # else:
+    #     no_root(uid)
 
 
 @bot.message_handler(commands=['start'])
+@if_root
 def start(message):
     """
     Обработчик сообщений, поступающих после команды "start"
@@ -68,32 +78,34 @@ def start(message):
     :param message: объект "сообщение" (содержит в т.ч. текст сообщения)
     """
     uid = message.chat.id
-    if root(uid):
-        markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-        btn1 = types.KeyboardButton("Игровая комната")
-        btn2 = types.KeyboardButton("Раздевалки залов")
-        btn3 = types.KeyboardButton("Тренажерный зал")
-        btn4 = types.KeyboardButton("Зал Ёги")
-        markup.add(btn3, btn4)
-        markup.add(btn2)
-        markup.add(btn1)
-        bot.send_message(uid, "Выберите помещение", reply_markup=markup)
-    else:
-        no_root(uid)
+    # if root(uid):
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    btn1 = types.KeyboardButton("Игровая комната")
+    btn2 = types.KeyboardButton("Раздевалки залов")
+    btn3 = types.KeyboardButton("Тренажерный зал")
+    btn4 = types.KeyboardButton("Зал Ёги")
+    markup.add(btn3, btn4)
+    markup.add(btn2)
+    markup.add(btn1)
+    bot.send_message(uid, "Выберите помещение", reply_markup=markup)
+    # else:
+    #     no_root(uid)
 
 
 @bot.callback_query_handler(func=lambda callback: callback.data in ['1', '2'])
+# @if_root
 def check_speed(callback):
     uid = callback.message.chat.id
-    if root(uid):
-        tex = callback.message.text.replace("Выберите скорость работы", "Запуск ")
-        sms(uid,  "Стартуем.... ", 4)
-        switch_plant(callback.message, tex, callback.data, "Запуск")
-    else:
-        no_root(uid)
+    # if root(uid):
+    tex = callback.message.text.replace("Выберите скорость работы", "Запуск ")
+    sms(uid,  "Стартуем.... ", 4)
+    switch_plant(callback.message, tex, callback.data, "Запуск")
+    # else:
+    #     no_root(uid)
 
 
 @bot.message_handler(content_types=['text'])
+@if_root
 def func(message):
     uid = message.chat.id
     pv = 0
@@ -101,60 +113,60 @@ def func(message):
         pv = message.text.index("ПВ")
 
     # Проверка прав доступа
-    if root(uid):
-        msg = message.text
-        if msg == "Главное меню":
-            start(message)
+    # if root(uid):
+    msg = message.text
+    if msg == "Главное меню":
+        start(message)
 
-        # Информация
-        elif msg in places.keys():
-            vor = "обслуживается вентустановкой"
-            sms(uid, f"{msg}\n{vor}  {places[msg]}", 1)
-            reply(message, msg)
+    # Информация
+    elif msg in places.keys():
+        vor = "обслуживается вентустановкой"
+        sms(uid, f"{msg}\n{vor}  {places[msg]}", 1)
+        reply(message, msg)
 
-        # Расписание
-        elif msg in scheds:
-            sms(uid, f"Ждите, сейчас узнаем ...", 4)
-            fil = open("../logging/readlogs.txt", "r")
-            sts = []
-            for i in fil.read().split("\n"):
-                if msg[pv:] in i:
-                    sts.append(i.replace(f"{msg[:pv]}    ", ""))
-            prn = "\n".join(sts).replace("\n", "\n\n").replace("0   ", "0\n")
-            if prn == "":
-                prn = "не задано"
-            sms(uid, f'{msg}\nна эти дни:\n\n{prn}', 1)
-            sms(uid)
+    # Расписание
+    elif msg in scheds:
+        sms(uid, f"Ждите, сейчас узнаем ...", 4)
+        fil = open("../logging/readlogs.txt", "r")
+        sts = []
+        for i in fil.read().split("\n"):
+            if msg[pv:] in i:
+                sts.append(i.replace(f"{msg[:pv]}    ", ""))
+        prn = "\n".join(sts).replace("\n", "\n\n").replace("0   ", "0\n")
+        if prn == "":
+            prn = "не задано"
+        sms(uid, f'{msg}\nна эти дни:\n\n{prn}', 1)
+        sms(uid)
 
-        # Состояние
-        elif msg in curstates:
-            sms(uid, f"Ждите, идет опрос ...", 2)
-            sms(uid, f"В текущий момент установка"
-                   f" {msg[pv:]}  {get_state(msg[pv:])}."
-                   f"{get_alarm(msg[pv:], alrm_params(alarms_BC), 'Авария класса ВС')}"
-                   f"{get_alarm(msg[pv:], alrm_params(alarms_A),  'Авария класса А')}", 2)
-            sms(uid)
+    # Состояние
+    elif msg in curstates:
+        sms(uid, f"Ждите, идет опрос ...", 2)
+        sms(uid, f"В текущий момент установка"
+                 f" {msg[pv:]}  {get_state(msg[pv:])}."
+                 f"{get_alarm(msg[pv:], alrm_params(alarms_BC), 'Авария класса ВС')}"
+                 f"{get_alarm(msg[pv:], alrm_params(alarms_A),  'Авария класса А')}", 2)
+        sms(uid)
 
-        # Запуск
-        elif msg in starts:
-            markup = types.InlineKeyboardMarkup()
-            button2 = types.InlineKeyboardButton("Низкая", callback_data="1")
-            button1 = types.InlineKeyboardButton("Высокая", callback_data="2")
-            markup.add(button2, button1)
-            mes = "Выберите скорость работы"
-            bot.send_message(message.chat.id, f"{mes} {msg[pv:]}", reply_markup=markup)
+    # Запуск
+    elif msg in starts:
+        markup = types.InlineKeyboardMarkup()
+        button2 = types.InlineKeyboardButton("Низкая", callback_data="1")
+        button1 = types.InlineKeyboardButton("Высокая", callback_data="2")
+        markup.add(button2, button1)
+        mes = "Выберите скорость работы"
+        bot.send_message(message.chat.id, f"{mes} {msg[pv:]}", reply_markup=markup)
 
-        # Останов
-        elif msg in stops:
-            p = "0"
-            sms(uid, "Останавливаемся....", 3)
-            switch_plant(message, msg, p, "Останов")
+    # Останов
+    elif msg in stops:
+        p = "0"
+        sms(uid, "Останавливаемся....", 3)
+        switch_plant(message, msg, p, "Останов")
 
-        # Иное
-        else:
-            start(message)
+    # Иное
     else:
-        no_root(uid)
+        start(message)
+    # else:
+    #     no_root(uid)
 
 
 def sms(uid, t="Выберите действие", s=0):
@@ -271,24 +283,24 @@ def reply(message, place=""):
     bot.send_message(message.chat.id, "Выберите действие".format(message.from_user), reply_markup=answer)
 
 
-def root(uid):
-    """
-    Идентификация пользователоей
-
-    :param uid:  идентификатор пользователя (chat.id)
-    :return:     True если пользователь в списке пользователей
-    """
-    return True   # if str(uid) in botGyms_users.values() else False
-
-
-def no_root(uid):
-    """
-    Идентификация пользователей
-
-    :param uid:   идентификатор пользователя (chat.id)
-    :return:      сообщени еоб отсутсии прав доступа к боту
-    """
-    bot.send_message(uid, "У Вас нет прав доступа к этому боту")
+# def root(uid):
+#     """
+#     Идентификация пользователоей
+#
+#     :param uid:  идентификатор пользователя (chat.id)
+#     :return:     True если пользователь в списке пользователей
+#     """
+#     return True   # if str(uid) in botGyms_users.values() else False
+#
+#
+# def no_root(uid):
+#     """
+#     Идентификация пользователей
+#
+#     :param uid:   идентификатор пользователя (chat.id)
+#     :return:      сообщени еоб отсутсии прав доступа к боту
+#     """
+#     bot.send_message(uid, "У Вас нет прав доступа к этому боту")
 
 
 try:
