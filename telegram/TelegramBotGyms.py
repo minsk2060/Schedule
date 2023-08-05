@@ -202,7 +202,7 @@ def reply(message, place=""):
 
 
 def root(m):
-    return True if str(m) in botGyms_users.values() else False
+    return True #if str(m) in botGyms_users.values() else False
 
 
 def no_root(m):
