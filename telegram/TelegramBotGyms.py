@@ -96,16 +96,15 @@ def check_speed(callback):
 @bot.message_handler(content_types=['text'])
 def func(message):
     uid = message.chat.id
+    pv = 0
+    if "ПВ" in message.text:
+        pv = message.text.index("ПВ")
 
     # Проверка прав доступа
     if root(uid):
         msg = message.text
         if msg == "Главное меню":
             start(message)
-
-        pv = 0
-        if "ПВ" in message.text:
-            pv = message.text.index("ПВ")
 
         # Информация
         elif msg in places.keys():
