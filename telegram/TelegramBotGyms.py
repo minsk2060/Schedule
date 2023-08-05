@@ -31,6 +31,7 @@ stops = ["Останов  " + x for x in places.values()]
 curstates = ["Состояние  " + x for x in places.values()]
 scheds = ["Расписание  " + x for x in places.values()]
 
+
 rev_alarms_BC = {v[:7]: k for k, v in alarms_BC.items() if v[:7] in all_plants.keys()}
 rev_alarms_A = {v[:7]: k for k, v in alarms_A.items() if v[:7] in all_plants.keys()}
 
@@ -108,10 +109,9 @@ def func(message):
             sms(m, f"Ждите, идет опрос ...", 2)
             print((msg, PV))
             sms(m, f"В текущий момент установка"
-                   f" {msg[PV:]}  {get_state(msg[PV:])}.")
-                   # f"{get_alarm(msg[-7:], rev_alarms_BC, 'Авария класса ВС')}"
-                   # f"{get_alarm(msg[-7:], rev_alarms_A,  'Авария класса А')}", 2)
-
+                   f" {msg[PV:]}  {get_state(msg[PV:])}."
+                   f"{get_alarm(msg[PV:], rev_alarms_BC, 'Авария класса ВС')}"
+                   f"{get_alarm(msg[PV:], rev_alarms_A,  'Авария класса А')}", 2)
             sms(m)
 
         # Запуск
@@ -130,11 +130,11 @@ def func(message):
             switch_plant(message, msg, p, "Останов", PV)
 
         # Иное
-        else:
-            sms(m, "Что за команда, не понял?", 3)
-            sms(m, "Чувак, здесь не надо набирать текст \nПросто жмем кнопки", 3)
-            sms(m, "Идем на главную")
-            start(message)
+        # else:
+        #     sms(m, "Что за команда, не понял?", 3)
+        #     sms(m, "Чувак, здесь не надо набирать текст \nПросто жмем кнопки", 3)
+        #     sms(m, "Идем на главную")
+        #     start(message)
     else:
         no_root(m)
 
