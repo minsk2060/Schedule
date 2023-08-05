@@ -32,9 +32,10 @@ curstates = ["Состояние  " + x for x in places.values()]
 scheds = ["Расписание  " + x for x in places.values()]
 
 
-rev_alarms_BC = {v[:7]: k for k, v in alarms_BC.items() if v[:7] in all_plants.keys()}
-rev_alarms_A = {v[:7]: k for k, v in alarms_A.items() if v[:7] in all_plants.keys()}
-
+rev_alarms_BC = {v.replace(" ",""): k for k, v in alarms_BC.items()
+                 if v.replace(" ","") in all_plants.keys()}
+rev_alarms_A = {v.replace(" ",""):k for k, v in alarms_A.items()
+                if v.replace(" ","") in all_plants.keys()}
 
 @bot.message_handler(commands=['help'])
 def start(message):
