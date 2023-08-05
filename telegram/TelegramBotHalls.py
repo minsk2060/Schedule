@@ -37,8 +37,10 @@ rev_alarms_A = {v[:6]: k for k, v in alarms_A.items() if v[:6] in all_plants.key
 @bot.message_handler(commands=['help'])
 def start(message):
     m = message.chat.id
-    if root(m): sms(m, helpmsg_halls)
-    else: no_root(m)
+    if root(m):
+        sms(m, helpmsg_halls)
+    else:
+        no_root(m)
 
 
 @bot.message_handler(commands=['start'])

@@ -1,5 +1,5 @@
 import telebot
-from telegramtokens import telegramtoken_ventgyms, botGyms_users
+from telegramtokens import telegramtoken_ventgyms
 from telebot import types
 import requests
 import time
@@ -32,16 +32,18 @@ curstates = ["Состояние  " + x for x in places.values()]
 scheds = ["Расписание  " + x for x in places.values()]
 
 
-rev_alarms_BC = {v.replace(" ",""): k for k, v in alarms_BC.items()
-                 if v.replace(" ","") in all_plants.keys()}
-rev_alarms_A = {v.replace(" ",""):k for k, v in alarms_A.items()
-                if v.replace(" ","") in all_plants.keys()}
+rev_alarms_BC = {v.replace(" ", ""): k for k, v in alarms_BC.items()
+                 if v.replace(" ", "") in all_plants.keys()}
+rev_alarms_A = {v.replace(" ", ""): k for k, v in alarms_A.items()
+                if v.replace(" ", "") in all_plants.keys()}
 
 @bot.message_handler(commands=['help'])
 def start(message):
     m = message.chat.id
-    if root(m): sms(m, helpmsg_gyms)
-    else: no_root(m)
+    if root(m):
+        sms(m, helpmsg_gyms)
+    else:
+        no_root(m)
 
 
 @bot.message_handler(commands=['start'])
@@ -75,8 +77,9 @@ def check_speed(callback):
 @bot.message_handler(content_types=['text'])
 def func(message):
     m = message.chat.id
+    pv = 0
     if "ПВ" in message.text:
-        PV = message.text.index("ПВ")
+        pv = message.text.index("ПВ")
 
     sms(m,  message.text)
     if root(m):
@@ -96,8 +99,8 @@ def func(message):
             fil = open("../logging/readlogs.txt", "r")
             sts = []
             for i in fil.read().split("\n"):
-                if msg[PV:] in i:
-                    sts.append(i.replace(f"{msg[:PV]}    ", ""))
+                if msg[pv:] in i:
+                    sts.append(i.replace(f"{msg[:pv]}    ", ""))
             prn = "\n".join(sts).replace("\n", "\n\n").replace("0   ", "0\n")
             if prn == "":
                 prn = "не задано"
@@ -108,9 +111,9 @@ def func(message):
         elif msg in curstates:
             sms(m, f"Ждите, идет опрос ...", 2)
             sms(m, f"В текущий момент установка"
-                   f" {msg[PV:]}  {get_state(msg[PV:])}."
-                   f"{get_alarm(msg[PV:], rev_alarms_BC, 'Авария класса ВС')}"
-                   f"{get_alarm(msg[PV:], rev_alarms_A,  'Авария класса А')}", 2)
+                   f" {msg[pv:]}  {get_state(msg[pv:])}."
+                   f"{get_alarm(msg[pv:], rev_alarms_BC, 'Авария класса ВС')}"
+                   f"{get_alarm(msg[pv:], rev_alarms_A,  'Авария класса А')}", 2)
             sms(m)
 
         # Запуск
@@ -120,7 +123,7 @@ def func(message):
             button1 = types.InlineKeyboardButton("Высокая", callback_data="2")
             markup.add(button2, button1)
             mes = "Выберите скорость работы"
-            bot.send_message(message.chat.id, f"{mes} {msg[PV:]}", reply_markup=markup)
+            bot.send_message(message.chat.id, f"{mes} {msg[pv:]}", reply_markup=markup)
 
         # Останов
         elif msg in stops:
@@ -142,8 +145,8 @@ def sms(m, t="Выберите действие", s=0):
 
 def switch_plant(message, msg, p, action):
     g = all_plants[msg.replace(f"{action}  ", "")]
-    PV = msg.index("ПВ")
-    bot.send_message(message.chat.id, f"{msg} {do_switch(g, p, msg[PV:])}")
+    pv = msg.index("ПВ")
+    bot.send_message(message.chat.id, f"{msg} {do_switch(g, p, msg[pv:])}")
 
 
 def do_switch(g, p, plt):
@@ -202,7 +205,7 @@ def reply(message, place=""):
 
 
 def root(m):
-    return True #if str(m) in botGyms_users.values() else False
+    return True   # if str(m) in botGyms_users.values() else False
 
 
 def no_root(m):
