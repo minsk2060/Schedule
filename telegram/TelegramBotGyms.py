@@ -17,9 +17,7 @@ places = {"Игровая комната": "ПВ-2.9",
 all_plants = {"ПВ-2.11": "8388739&did=33559432",
               "ПВ-2.12": "8388750&did=33559432",
               "ПВ-2.15": "8388845&did=33559432",
-              "ПВ-2.9": "8388815&did=33561432",
-
-              }
+              "ПВ-2.9": "8388815&did=33561432", }
 
 states = {"2": "работает на высокой скорости",
           "1": "работает на низкой скорости",
@@ -32,10 +30,17 @@ curstates = ["Состояние  " + x for x in places.values()]
 scheds = ["Расписание  " + x for x in places.values()]
 
 
-rev_alarms_BC = {v.replace(" ", ""): k for k, v in alarms_BC.items()
+def alrm_params(alrm_dict):
+    return {v.replace(" ", ""): k for k, v in alrm_dict.items()
                  if v.replace(" ", "") in all_plants.keys()}
-rev_alarms_A = {v.replace(" ", ""): k for k, v in alarms_A.items()
-                if v.replace(" ", "") in all_plants.keys()}
+
+
+# rev_alarms_BC = {v.replace(" ", ""): k for k, v in alarms_BC.items()
+#                  if v.replace(" ", "") in all_plants.keys()}
+#
+# rev_alarms_A = {v.replace(" ", ""): k for k, v in alarms_A.items()
+#                 if v.replace(" ", "") in all_plants.keys()}
+
 
 @bot.message_handler(commands=['help'])
 def start(message):
@@ -112,8 +117,8 @@ def func(message):
             sms(m, f"Ждите, идет опрос ...", 2)
             sms(m, f"В текущий момент установка"
                    f" {msg[pv:]}  {get_state(msg[pv:])}."
-                   f"{get_alarm(msg[pv:], rev_alarms_BC, 'Авария класса ВС')}"
-                   f"{get_alarm(msg[pv:], rev_alarms_A,  'Авария класса А')}", 2)
+                   f"{get_alarm(msg[pv:], alrm_params(alarms_BC), 'Авария класса ВС')}"
+                   f"{get_alarm(msg[pv:], alrm_params(alarms_A),  'Авария класса А')}", 2)
             sms(m)
 
         # Запуск
@@ -186,7 +191,7 @@ def get_alarm(pl, dic, txt):
 
 def check_alarm(pl):
     alm = 'Авария класса А'
-    if get_alarm(pl, rev_alarms_A, alm) == alm:
+    if get_alarm(pl, alrm_params(alarms_A), alm) == alm:
         return True
     return False
 
