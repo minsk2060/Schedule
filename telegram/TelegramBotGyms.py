@@ -66,9 +66,7 @@ def check_speed(callback):
     m = callback.message.chat.id
     if root(m):
         tex = callback.message.text.replace("Выберите скорость работы", "Запуск ")
-        print(tex)
         sms(m,  "Стартуем.... ", 4)
-        PV = callback.message.text.index("ПВ")
         switch_plant(callback.message, tex, callback.data, "Запуск")
     else:
         no_root(m)
@@ -78,7 +76,7 @@ def check_speed(callback):
 def func(message):
     m = message.chat.id
     if "ПВ" in message.text:
-        PV = message.text.index("ПВ") #len(message.text) - message.text.index("ПВ")
+        PV = message.text.index("ПВ")
 
     sms(m,  message.text)
     if root(m):
@@ -128,14 +126,11 @@ def func(message):
         elif msg in stops:
             p = "0"
             sms(m, "Останавливаемся....", 3)
-            switch_plant(message, msg, p, "Останов", PV)
+            switch_plant(message, msg, p, "Останов")
 
         # Иное
-        # else:
-        #     sms(m, "Что за команда, не понял?", 3)
-        #     sms(m, "Чувак, здесь не надо набирать текст \nПросто жмем кнопки", 3)
-        #     sms(m, "Идем на главную")
-        #     start(message)
+        else:
+            start(message)
     else:
         no_root(m)
 
@@ -207,8 +202,8 @@ def reply(message, place=""):
 
 
 def root(m):
-    # return True if str(m) in botGyms_users.values() else False
-    return True
+    return True if str(m) in botGyms_users.values() else False
+
 
 def no_root(m):
     bot.send_message(m, "У Вас нет прав доступа к этому боту")
