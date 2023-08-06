@@ -123,9 +123,7 @@ def func(message):
     uid = message.chat.id
     msg = message.text
     pv = msg.index("ПВ") if "ПВ" in msg else 0
-    print(message.chat.id, message.from_user.first_name, message.from_user.last_name)
-    #(message.chat.id, "Привет, {0.first_name}! Нажми на кнопку и перейди на сайт)".format(message.from_user), reply_markup=markup)kup)
-
+    print(uid, message.from_user.first_name, message.from_user.last_name)
     # Главное меню
     if msg == "Главное меню":
         start(message)
@@ -157,16 +155,15 @@ def func(message):
     # Запуск
     elif msg in starts:
         markup = types.InlineKeyboardMarkup()
-        button2 = types.InlineKeyboardButton("Низкая", callback_data="1")
+        button2 = types.InlineKeyboardButton("Низкая",  callback_data="1")
         button1 = types.InlineKeyboardButton("Высокая", callback_data="2")
         markup.add(button2, button1)
-        mes = "Выберите скорость работы"
-        bot.send_message(message.chat.id, f"{mes} {msg[pv:]}", reply_markup=markup)
+        spd = "Выберите скорость работы"
+        bot.send_message(message.chat.id, f"{spd} {msg[pv:]}", reply_markup=markup)
     # Останов
     elif msg in stops:
-        p = "0"
         sms(uid, "Останавливаемся....", 3)
-        switch_plant(message, msg, p, "Останов")
+        switch_plant(message, msg, "0", "Останов")
     # Иное
     else:
         start(message)
@@ -184,18 +181,20 @@ def sms(uid, t="Выберите действие", s=0):
     time.sleep(s)
 
 
-def switch_plant(message, msg, p, action):
+def switch_plant(message, msg, act, action):
     """
     Подготовка к выполнению действия над вентустановкой
 
     :param message: объект "сообщение", содержит в т.ч. текст полученного сообщения
     :param msg:     текст полученного сообщения
-    :param p:       параметр, определяющий действие (0-стоп, 1-запуск на низкой и т.п.)
+    :param act:     параметр, определяющий действие (0-стоп, 1-запуск на низкой и т.п.)
     :param action:  текст, соответствующий действию ("Запуск", "Останов" и т.п)
+    :cod:           идентификатор установки (например "8388750&did=33559432")
+    :pv:            местораположение наименования установки в сообщении
     """
-    g = all_plants[msg.replace(f"{action}  ", "")]
+    cod = all_plants[msg.replace(f"{action}  ", "")]
     pv = msg.index("ПВ")
-    bot.send_message(message.chat.id, f"{msg} {do_switch(g, p, msg[pv:])}")
+    bot.send_message(message.chat.id, f"{msg} {do_switch(cod, act, msg[pv:])}")
 
 def do_switch(g, p, plt):
     """
@@ -233,8 +232,6 @@ def get_state(plt):
     stt = end[end.index("property-value")+16]
     return states[stt]
 
-class Alarms:
-    pass
 
 def get_alarm(plt, dic, txt):
     """
@@ -266,7 +263,7 @@ def check_alarm(plt):
     alm = 'Авария класса А'
     return True if get_alarm(plt, prs, alm) == alm else False
 
-
+# @if_root
 def reply(message, place=""):
     """
     Обработчик сообщения "выберите действие"
