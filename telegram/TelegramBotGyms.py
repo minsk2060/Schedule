@@ -7,6 +7,7 @@ from headers import header, header_alarm_A, sauter_cookie
 from plants import alarms_A, alarms_BC
 from helpmsg import helpmsg_gyms
 
+# Инициализация бота
 bot = telebot.TeleBot(telegramtoken_ventgyms)
 
 # Наименования оборудования
@@ -33,14 +34,27 @@ stops = ["Останов  " + x for x in places.values()]
 curstates = ["Состояние  " + x for x in places.values()]
 scheds = ["Расписание  " + x for x in places.values()]
 
+
 def if_root(permit):
+    """
+    Ограничение доступа к боту
+
+    :param permit: функция, для которой будет применяться ограничение прав доступа
+    :return: функция для сравнения входящего id со списком пользователей
+    """
     def check_root(message):
+        """
+        Ограничение прав доступа
+
+        :param message: входной параметр для определения id пользователя
+        """
         uid = str(message.chat.id)
-        # if uid in botGyms_users.values():
-        permit(message)
-        # else:
-        #     sms(uid, "У Вас НЕТ прав доступа к этому боту")
-    return check_root
+        if uid in botGyms_users.values():
+            permit(message)
+        else:
+            sms(uid, "У Вас НЕТ прав доступа к этому боту")
+        return check_root
+
 
 def alrm_params(alrm_dict):
     """ Преобразование с целью получения параметров для запроса
@@ -53,8 +67,8 @@ def alrm_params(alrm_dict):
 
 
 @bot.message_handler(commands=['help'])
-@if_root
-def help(message):
+# @if_root
+def hepl(message):
     """
     Обработчик сообщения "help"
 
@@ -63,14 +77,9 @@ def help(message):
     uid = message.chat.id
     sms(uid, helpmsg_gyms)
 
-    # if root(uid):
-    #     sms(uid, helpmsg_gyms)
-    # else:
-    #     no_root(uid)
-
 
 @bot.message_handler(commands=['start'])
-@if_root
+# @if_root
 def start(message):
     """
     Обработчик сообщений, поступающих после команды "start"
@@ -88,32 +97,34 @@ def start(message):
     markup.add(btn2)
     markup.add(btn1)
     bot.send_message(uid, "Выберите помещение", reply_markup=markup)
-    # else:
-    #     no_root(uid)
 
 
 @bot.callback_query_handler(func=lambda callback: callback.data in ['1', '2'])
-# @if_root
 def check_speed(callback):
+    """
+    Обработчик сообщения с инлайн кнопками
+
+    :param callback: объект, содержащий в т.ч. инфо о нажатой кнопке
+    """
     uid = callback.message.chat.id
-    # if root(uid):
     tex = callback.message.text.replace("Выберите скорость работы", "Запуск ")
     sms(uid,  "Стартуем.... ", 4)
     switch_plant(callback.message, tex, callback.data, "Запуск")
-    # else:
-    #     no_root(uid)
 
 
 @bot.message_handler(content_types=['text'])
-@if_root
+# @if_root
 def func(message):
+    """
+    Обработчик текстовых сообщений (основная логика)
+
+    :param message: объект "сообщение"
+    """
     uid = message.chat.id
     pv = 0
     if "ПВ" in message.text:
         pv = message.text.index("ПВ")
 
-    # Проверка прав доступа
-    # if root(uid):
     msg = message.text
     if msg == "Главное меню":
         start(message)
@@ -141,8 +152,8 @@ def func(message):
     # Состояние
     elif msg in curstates:
         sms(uid, f"Ждите, идет опрос ...", 2)
-        sms(uid, f"В текущий момент установка"
-                 f" {msg[pv:]}  {get_state(msg[pv:])}."
+        sms(uid, f"В текущий момент установка "
+                 f"{msg[pv:]}  {get_state(msg[pv:])}.\n"
                  f"{get_alarm(msg[pv:], alrm_params(alarms_BC), 'Авария класса ВС')}"
                  f"{get_alarm(msg[pv:], alrm_params(alarms_A),  'Авария класса А')}", 2)
         sms(uid)
@@ -165,8 +176,6 @@ def func(message):
     # Иное
     else:
         start(message)
-    # else:
-    #     no_root(uid)
 
 
 def sms(uid, t="Выберите действие", s=0):
@@ -193,7 +202,6 @@ def switch_plant(message, msg, p, action):
     g = all_plants[msg.replace(f"{action}  ", "")]
     pv = msg.index("ПВ")
     bot.send_message(message.chat.id, f"{msg} {do_switch(g, p, msg[pv:])}")
-
 
 def do_switch(g, p, plt):
     """
@@ -225,11 +233,11 @@ def get_state(plt):
     url = f"http://192.168.250.50/svo/details/?oid={all_plants[plt]}&vid=17&mode=cached"
     resp = requests.get(url, headers=header_alarm_A, cookies=sauter_cookie)
     time.sleep(3)
-    r = resp.text
-    n = r[r.index('<tr data-pid="85">')+18:]
-    e = n[:n.index('</tr>')]
-    g = e[e.index("property-value")+16]
-    return states[g]
+    rsp = resp.text
+    num = rsp[rsp.index('<tr data-pid="85">')+18:]
+    end = num[:num.index('</tr>')]
+    stt = end[end.index("property-value")+16]
+    return states[stt]
 
 
 def get_alarm(plt, dic, txt):
@@ -283,29 +291,9 @@ def reply(message, place=""):
     bot.send_message(message.chat.id, "Выберите действие".format(message.from_user), reply_markup=answer)
 
 
-# def root(uid):
-#     """
-#     Идентификация пользователоей
-#
-#     :param uid:  идентификатор пользователя (chat.id)
-#     :return:     True если пользователь в списке пользователей
-#     """
-#     return True   # if str(uid) in botGyms_users.values() else False
-#
-#
-# def no_root(uid):
-#     """
-#     Идентификация пользователей
-#
-#     :param uid:   идентификатор пользователя (chat.id)
-#     :return:      сообщени еоб отсутсии прав доступа к боту
-#     """
-#     bot.send_message(uid, "У Вас нет прав доступа к этому боту")
-
-
 try:
     bot.infinity_polling(none_stop=True, timeout=180, long_polling_timeout=180)
-except Exception as e:
+except Exception as err:
     time.sleep(3)
-    print(e)
+    print(err)
     pass

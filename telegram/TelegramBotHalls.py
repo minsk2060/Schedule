@@ -143,6 +143,14 @@ def func(message):
 
 
 def sms(m, t="Выберите действие", s=0):
+    """
+    Отправка текстовых сообщений в бот
+    :param m:
+    :param t:
+    :param s:
+    :return:
+    """
+
     bot.send_message(m, t)
     time.sleep(s)
 
