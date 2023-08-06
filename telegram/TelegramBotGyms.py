@@ -123,7 +123,9 @@ def func(message):
     uid = message.chat.id
     msg = message.text
     pv = msg.index("ПВ") if "ПВ" in msg else 0
-    print(message.chat.id, message.from_user.firstname, message.from_user.lastname )
+    print(message.chat.id, message.from_user.first_name, message.from_user.last_name)
+    #(message.chat.id, "Привет, {0.first_name}! Нажми на кнопку и перейди на сайт)".format(message.from_user), reply_markup=markup)kup)
+
     # Главное меню
     if msg == "Главное меню":
         start(message)
