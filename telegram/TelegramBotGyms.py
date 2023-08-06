@@ -121,20 +121,15 @@ def func(message):
     :param message: объект "сообщение"
     """
     uid = message.chat.id
-    pv = 0
-    if "ПВ" in message.text:
-        pv = message.text.index("ПВ")
-
     msg = message.text
+    pv = msg.index("ПВ") if "ПВ" in msg else 0
+    # Главное меню
     if msg == "Главное меню":
         start(message)
-
     # Информация
     elif msg in places.keys():
-        vor = "обслуживается вентустановкой"
-        sms(uid, f"{msg}\n{vor}  {places[msg]}", 1)
+        sms(uid, f"{msg}\nобслуживается вентустановкой  {places[msg]}", 1)
         reply(message, msg)
-
     # Расписание
     elif msg in scheds:
         sms(uid, f"Ждите, сейчас узнаем ...", 4)
@@ -148,7 +143,6 @@ def func(message):
             prn = "не задано"
         sms(uid, f'{msg}\nна эти дни:\n\n{prn}', 1)
         sms(uid)
-
     # Состояние
     elif msg in curstates:
         sms(uid, f"Ждите, идет опрос ...", 2)
@@ -157,7 +151,6 @@ def func(message):
                  f"{get_alarm(msg[pv:], alrm_params(alarms_BC), 'Авария класса ВС')}"
                  f"{get_alarm(msg[pv:], alrm_params(alarms_A),  'Авария класса А')}", 2)
         sms(uid)
-
     # Запуск
     elif msg in starts:
         markup = types.InlineKeyboardMarkup()
@@ -166,13 +159,11 @@ def func(message):
         markup.add(button2, button1)
         mes = "Выберите скорость работы"
         bot.send_message(message.chat.id, f"{mes} {msg[pv:]}", reply_markup=markup)
-
     # Останов
     elif msg in stops:
         p = "0"
         sms(uid, "Останавливаемся....", 3)
         switch_plant(message, msg, p, "Останов")
-
     # Иное
     else:
         start(message)
@@ -266,10 +257,9 @@ def check_alarm(plt):
     :param plt: наименование вентустановки (например "ПВ-2.9")
     :return:    True - есть авария, False - нет аварии
     """
+    prs = alrm_params(alarms_A)
     alm = 'Авария класса А'
-    if get_alarm(plt, alrm_params(alarms_A), alm) == alm:
-        return True
-    return False
+    return True if get_alarm(plt, prs, alm) == alm else False
 
 
 def reply(message, place=""):
