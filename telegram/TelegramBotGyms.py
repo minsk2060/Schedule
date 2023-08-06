@@ -207,7 +207,7 @@ def do_switch(g, p, plt):
     if check_alarm(plt):
         stmsg = stmsg + "Авария класса А"
     else:
-        r = requests.get(url, headers=header_alarm_A, cookies=sauter_cookie)
+        r = requests.get(url, headers=header, cookies=sauter_cookie)
         time.sleep(4)
         if '"message":"Value was successfully written"' in r.text:
             stmsg = "выполнен успешно.\n "
@@ -222,7 +222,7 @@ def get_state(plt):
     :return:     полученное состояние вентустановки (работает, остановено, в аварии и т.п.)
     """
     url = f"http://192.168.250.50/svo/details/?oid={all_plants[plt]}&vid=17&mode=cached"
-    resp = requests.get(url, headers=header_alarm_A, cookies=sauter_cookie)
+    resp = requests.get(url, headers=header, cookies=sauter_cookie)
     time.sleep(3)
     rsp = resp.text
     num = rsp[rsp.index('<tr data-pid="85">')+18:]
@@ -230,6 +230,8 @@ def get_state(plt):
     stt = end[end.index("property-value")+16]
     return states[stt]
 
+class Alarms:
+    pass
 
 def get_alarm(plt, dic, txt):
     """
