@@ -123,6 +123,7 @@ def func(message):
     uid = message.chat.id
     msg = message.text
     pv = msg.index("ПВ") if "ПВ" in msg else 0
+    print(message.chat.id, message.from_user.firstname, message.from_user.lastname )
     # Главное меню
     if msg == "Главное меню":
         start(message)
