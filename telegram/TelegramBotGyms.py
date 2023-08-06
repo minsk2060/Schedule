@@ -142,7 +142,7 @@ def func(message):
         sts = []
         for i in fil.read().split("\n"):
             if msg[pv:] in i:
-                sts.append(i.replace(f"{msg[:pv]}    ", ""))
+                sts.append(i.replace(f"{msg[pv:]}    ", ""))
         prn = "\n".join(sts).replace("\n", "\n\n").replace("0   ", "0\n")
         if prn == "":
             prn = "не задано"
