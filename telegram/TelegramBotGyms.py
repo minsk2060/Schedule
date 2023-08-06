@@ -3,6 +3,7 @@ from telegramtokens import telegramtoken_ventgyms, botGyms_users
 from telebot import types
 import requests
 import time
+from datetime import datetime
 from headers import header, header_alarm_A, sauter_cookie
 from plants import alarms_A, alarms_BC
 from helpmsg import helpmsg_gyms
@@ -87,7 +88,6 @@ def start(message):
     :param message: объект "сообщение" (содержит в т.ч. текст сообщения)
     """
     uid = message.chat.id
-    # if root(uid):
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
     btn1 = types.KeyboardButton("Игровая комната")
     btn2 = types.KeyboardButton("Раздевалки залов")
@@ -97,6 +97,7 @@ def start(message):
     markup.add(btn2)
     markup.add(btn1)
     bot.send_message(uid, "Выберите помещение", reply_markup=markup)
+    user_action(message)
 
 
 @bot.callback_query_handler(func=lambda callback: callback.data in ['1', '2'])
@@ -110,6 +111,7 @@ def check_speed(callback):
     tex = callback.message.text.replace("Выберите скорость работы", "Запуск ")
     sms(uid,  "Стартуем.... ", 4)
     switch_plant(callback.message, tex, callback.data, "Запуск")
+    user_action(callback.message)
 
 
 @bot.message_handler(content_types=['text'])
@@ -123,7 +125,7 @@ def func(message):
     uid = message.chat.id
     msg = message.text
     pv = msg.index("ПВ") if "ПВ" in msg else 0
-    print(uid, message.from_user.first_name, message.from_user.last_name)
+    user_action (message)
     # Главное меню
     if msg == "Главное меню":
         start(message)
@@ -281,6 +283,15 @@ def reply(message, place=""):
     answer.add(button3, button4)
     answer.add(button5)
     bot.send_message(message.chat.id, "Выберите действие".format(message.from_user), reply_markup=answer)
+
+
+def user_action(message):
+    uid = message.chat.id
+    fst = message.from_user.first_name
+    lst = message.from_user.last_name
+    com = message.text
+    now = datetime.now().strftime("%D %H:%m")
+    print(uid, fst, lst, com, sep=" ")
 
 
 try:
