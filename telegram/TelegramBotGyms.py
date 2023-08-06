@@ -291,7 +291,7 @@ def user_action(message):
     lst = message.from_user.last_name
     com = message.text
     now = datetime.now().strftime("%D %H:%m")
-    print(uid, fst, lst, com, sep=" ")
+    print(now, uid, fst, lst, com, sep=" ")
 
 
 try:
