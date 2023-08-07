@@ -53,8 +53,8 @@ def if_root(permit):
         if uid in botGyms_users.values():
             permit(message)
         else:
-            sms(uid, "У Вас НЕТ прав доступа к этому боту")
-        return check_root
+            sms(uid, "У Вас нет прав доступа к этому боту")
+    return check_root
 
 
 def alrm_params(alrm_dict):
@@ -67,8 +67,21 @@ def alrm_params(alrm_dict):
             if v.replace(" ", "") in all_plants.keys()}
 
 
+@bot.callback_query_handler(func=lambda callback: callback.data in ['1', '2'])
+def check_speed(callback):
+    """
+    Обработчик сообщения с инлайн кнопками
+
+    :param callback: объект, содержащий в т.ч. инфо о нажатой кнопке
+    """
+    uid = callback.message.chat.id
+    tex = callback.message.text.replace("Выберите скорость работы", "Запуск ")
+    sms(uid,  "Стартуем.... ", 4)
+    switch_plant(callback.message, tex, callback.data, "Запуск")
+
+
 @bot.message_handler(commands=['help'])
-# @if_root
+@if_root
 def hepl(message):
     """
     Обработчик сообщения "help"
@@ -80,7 +93,7 @@ def hepl(message):
 
 
 @bot.message_handler(commands=['start'])
-# @if_root
+@if_root
 def start(message):
     """
     Обработчик сообщений, поступающих после команды "start"
@@ -97,25 +110,10 @@ def start(message):
     markup.add(btn2)
     markup.add(btn1)
     bot.send_message(uid, "Выберите помещение", reply_markup=markup)
-    user_action(message)
-
-
-@bot.callback_query_handler(func=lambda callback: callback.data in ['1', '2'])
-def check_speed(callback):
-    """
-    Обработчик сообщения с инлайн кнопками
-
-    :param callback: объект, содержащий в т.ч. инфо о нажатой кнопке
-    """
-    uid = callback.message.chat.id
-    tex = callback.message.text.replace("Выберите скорость работы", "Запуск ")
-    sms(uid,  "Стартуем.... ", 4)
-    switch_plant(callback.message, tex, callback.data, "Запуск")
-    user_action(callback.message)
 
 
 @bot.message_handler(content_types=['text'])
-# @if_root
+@if_root
 def func(message):
     """
     Обработчик текстовых сообщений (основная логика)
@@ -125,7 +123,7 @@ def func(message):
     uid = message.chat.id
     msg = message.text
     pv = msg.index("ПВ") if "ПВ" in msg else 0
-    user_action (message)
+    user_action (message, msg)
     # Главное меню
     if msg == "Главное меню":
         start(message)
@@ -145,14 +143,16 @@ def func(message):
         if prn == "":
             prn = "не задано"
         sms(uid, f'{msg}\nна эти дни:\n\n{prn}', 1)
+        user_action(message, tex=f'{msg} на эти дни: {prn[:9]}...')
         sms(uid)
     # Состояние
     elif msg in curstates:
-        sms(uid, f"Ждите, идет опрос ...", 2)
-        sms(uid, f"В текущий момент установка "
-                 f"{msg[pv:]}  {get_state(msg[pv:])}.\n"
-                 f"{get_alarm(msg[pv:], alrm_params(alarms_BC), 'Авария класса ВС')}"
-                 f"{get_alarm(msg[pv:], alrm_params(alarms_A),  'Авария класса А')}", 2)
+        sms(uid, f"Ждите, идет опрос ...",)
+        state = get_state(msg[pv:])
+        alarmA = get_alarm(msg[pv:], alrm_params(alarms_BC), 'Авария класса ВС')
+        alarmB = get_alarm(msg[pv:], alrm_params(alarms_A),  'Авария класса А')
+        sms(uid, f"В текущий момент установка {msg[pv:]}  {state}.\n {alarmA} {alarmB}")
+        user_action(message, tex = f"Установка {msg[pv:]} {state}")
         sms(uid)
     # Запуск
     elif msg in starts:
@@ -196,7 +196,11 @@ def switch_plant(message, msg, act, action):
     """
     cod = all_plants[msg.replace(f"{action}  ", "")]
     pv = msg.index("ПВ")
-    bot.send_message(message.chat.id, f"{msg} {do_switch(cod, act, msg[pv:])}")
+    sw = do_switch(cod, act, msg[pv:])
+    bot.send_message(message.chat.id, f"{msg} {sw}")
+    user_action(message, f"{msg} {sw}")
+
+
 
 def do_switch(g, p, plt):
     """
@@ -214,7 +218,7 @@ def do_switch(g, p, plt):
         r = requests.get(url, headers=header, cookies=sauter_cookie)
         time.sleep(4)
         if '"message":"Value was successfully written"' in r.text:
-            stmsg = "выполнен успешно.\n "
+            stmsg = "выполнен успешно.  "
     return stmsg
 
 
@@ -265,6 +269,7 @@ def check_alarm(plt):
     alm = 'Авария класса А'
     return True if get_alarm(plt, prs, alm) == alm else False
 
+
 # @if_root
 def reply(message, place=""):
     """
@@ -285,17 +290,15 @@ def reply(message, place=""):
     bot.send_message(message.chat.id, "Выберите действие".format(message.from_user), reply_markup=answer)
 
 
-def user_action(message):
+def user_action(message, tex=""):
     uid = message.chat.id
     fst = message.from_user.first_name
-    lst = message.from_user.last_name
-    com = message.text
-    now = datetime.now().strftime("%D %H:%m")
-    print(now, uid, fst, lst, com, sep=" ")
+    now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    print(now, uid, fst, tex, sep="  ")
 
 
 try:
-    bot.infinity_polling(none_stop=True, timeout=180, long_polling_timeout=180)
+    bot.infinity_polling(none_stop=True, timeout=180, long_polling_timeout=180, allowed_updates=['message', 'callback_query'])
 except Exception as err:
     time.sleep(3)
     print(err)
