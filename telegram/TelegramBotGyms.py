@@ -201,7 +201,6 @@ def switch_plant(message, msg, act, action):
     user_action(message, f"{msg} {sw}")
 
 
-
 def do_switch(g, p, plt):
     """
     Выполнение действия над вентустановкой
@@ -275,7 +274,7 @@ def reply(message, place=""):
     """
     Обработчик сообщения "выберите действие"
 
-    :param message: объект "собщение" (например "Состояние ПВ-2.9")
+    :param message: объект "сообщение" (например "Состояние ПВ-2.9")
     :param place:   наименование помещения (например "Игровая комната")
     """
     answer = types.ReplyKeyboardMarkup(resize_keyboard=True)
@@ -291,6 +290,12 @@ def reply(message, place=""):
 
 
 def user_action(message, tex=""):
+    """
+    Вывод действий пользователя и ответов в консоль
+
+    :param message:  объект "сообщение"
+    :param tex:      отображаемый текст
+    """
     uid = message.chat.id
     fst = message.from_user.first_name
     now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
