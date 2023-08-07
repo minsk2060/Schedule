@@ -211,13 +211,13 @@ def do_switch(g, p, plt):
     """
     stmsg = "не выполнен. "
     url = f"http://192.168.250.50/ajaxjson/bac/setValue?pid=85&oid={g}&vid=17&value={p}"
-    if check_alarm(plt):
-        stmsg = stmsg + "Авария класса А"
-    else:
-        r = requests.get(url, headers=header, cookies=sauter_cookie)
-        time.sleep(3)
-        if '"message":"Value was successfully written"' in r.text:
-            stmsg = "выполнен успешно."
+# if check_alarm(plt):
+#     stmsg = stmsg + "Авария класса А"
+# else:
+    r = requests.get(url, headers=header, cookies=sauter_cookie)
+    time.sleep(3)
+    if '"message":"Value was successfully written"' in r.text:
+        stmsg = "выполнен успешно."
     return stmsg
 
 
