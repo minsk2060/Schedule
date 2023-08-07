@@ -34,6 +34,6 @@ Traceback (most recent call last):
     raise TooManyRedirects(
 requests.exceptions.TooManyRedirects: Exceeded 30 redirects.
 
-выход : в models.py изменить переменную DEFAULT_REDIRECT_LIMIT = 40 (было 30)
+выход : в models.py изменить переменную DEFAULT_REDIRECT_LIMIT = 40 (было 30) (изменял до 300 - не помогает, убрал заголовок запроса 'Host', вернул REDIRECTS=30)
 расположение:
 C:\Users\BMS\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\requests\models.py

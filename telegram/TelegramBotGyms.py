@@ -210,15 +210,15 @@ def do_switch(g, p, plt):
     :param p:    параметр, определяющий действие (0-стоп, 1-запуск на низкой и т.п.)
     :param plt:  наименование установки (ПВ-2.9, ПВ-2.11 и т.п.)
     """
-    stmsg = "не выполнен.\n"
+    stmsg = "не выполнен. "
     url = f"http://192.168.250.50/ajaxjson/bac/setValue?pid=85&oid={g}&vid=17&value={p}"
     if check_alarm(plt):
         stmsg = stmsg + "Авария класса А"
     else:
         r = requests.get(url, headers=header, cookies=sauter_cookie)
-        time.sleep(4)
+        time.sleep(3)
         if '"message":"Value was successfully written"' in r.text:
-            stmsg = "выполнен успешно.  "
+            stmsg = "выполнен успешно."
     return stmsg
 
 
@@ -231,7 +231,7 @@ def get_state(plt):
     """
     url = f"http://192.168.250.50/svo/details/?oid={all_plants[plt]}&vid=17&mode=cached"
     resp = requests.get(url, headers=header, cookies=sauter_cookie)
-    time.sleep(3)
+    time.sleep(2)
     rsp = resp.text
     num = rsp[rsp.index('<tr data-pid="85">')+18:]
     end = num[:num.index('</tr>')]
@@ -250,7 +250,7 @@ def get_alarm(plt, dic, txt):
     """
     url = f"http://192.168.250.50/svo/details/update?oid={dic[plt]}&vid=17&mode=cached"
     resp = requests.get(url, headers=header, cookies=sauter_cookie)
-    time.sleep(3)
+    time.sleep(2)
     almsg = ""
     if "Alarm: true" in resp.text:
         if 'title="Fault: true"' not in resp.text:
