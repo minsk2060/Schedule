@@ -240,7 +240,7 @@ def no_root(m):
 
 
 try:
-    bot.infinity_polling(none_stop=True, timeout=180, long_polling_timeout=180)
+    bot.infinity_polling(none_stop=True, timeout=180, long_polling_timeout=180, allowed_updates=['message', 'callback_query'])
 except Exception as er:
     time.sleep(3)
     print(er)
