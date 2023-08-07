@@ -149,9 +149,9 @@ def func(message):
     elif msg in curstates:
         sms(uid, f"Ждите, идет опрос ...",)
         state = get_state(msg[pv:])
-        alarmA = get_alarm(msg[pv:], alrm_params(alarms_BC), 'Авария класса ВС')
-        alarmB = get_alarm(msg[pv:], alrm_params(alarms_A),  'Авария класса А')
-        sms(uid, f"В текущий момент установка {msg[pv:]}  {state}.\n {alarmA} {alarmB}")
+        # alarmA = get_alarm(msg[pv:], alrm_params(alarms_BC), 'Авария класса ВС')
+        # alarmB = get_alarm(msg[pv:], alrm_params(alarms_A),  'Авария класса А')
+        sms(uid, f"В текущий момент установка {msg[pv:]}  {state}.\n")# {alarmA} {alarmB}")
         user_action(message, tex = f"Установка {msg[pv:]} {state}")
         sms(uid)
     # Запуск
