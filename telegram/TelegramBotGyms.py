@@ -90,6 +90,7 @@ def hepl(message):
     """
     uid = message.chat.id
     sms(uid, helpmsg_gyms)
+    user_action(message, tex="Инструкция")
 
 
 @bot.message_handler(commands=['start'])
@@ -123,7 +124,7 @@ def func(message):
     uid = message.chat.id
     msg = message.text
     pv = msg.index("ПВ") if "ПВ" in msg else 0
-    user_action (message, msg)
+    user_action(message, msg)
     # Главное меню
     if msg == "Главное меню":
         start(message)
@@ -151,8 +152,8 @@ def func(message):
         state = get_state(msg[pv:])
         # alarmA = get_alarm(msg[pv:], alrm_params(alarms_BC), 'Авария класса ВС')
         # alarmB = get_alarm(msg[pv:], alrm_params(alarms_A),  'Авария класса А')
-        sms(uid, f"В текущий момент установка {msg[pv:]}  {state}.\n")# {alarmA} {alarmB}")
-        user_action(message, tex = f"Установка {msg[pv:]} {state}")
+        sms(uid, f"В текущий момент установка {msg[pv:]}  {state}.\n")  # {alarmA} {alarmB}")
+        user_action(message, tex=f"Установка {msg[pv:]} {state}")
         sms(uid)
     # Запуск
     elif msg in starts:
@@ -302,9 +303,15 @@ def user_action(message, tex=""):
     print(now, uid, fst, tex, sep="  ")
 
 
-try:
-    bot.infinity_polling(none_stop=True, timeout=180, long_polling_timeout=180, allowed_updates=['message', 'callback_query'])
-except Exception as err:
-    time.sleep(3)
-    print(err)
-    pass
+
+bot.infinity_polling(none_stop=True,
+                      timeout=180,
+                      long_polling_timeout=180,
+                      allowed_updates=['message', 'callback_query'])
+#
+# while True:
+#     try:
+#         bot.polling()
+#     except:
+#         print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}   ..........  сбой соединения")
+#         time.sleep(10)
