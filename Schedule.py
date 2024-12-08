@@ -6,21 +6,22 @@ from request import switch, getalarms
 from plants import alarms_A, alarms_BC
 
 
-
 print("РАБОТАЕТ УПРАВЛЕНИЕ ОБОРУДОВАНИЕМ ПО РАСПИСАНИЮ, НЕ ЗАКРЫВАЙТЕ ЭТО ОКНО")
 
 tasks = []
+
 
 def turn(get_plant, par):
     """
     turn()       - выполнение действия (включить, выключить и т.п.)
     get_plant    - параметр для формирования url, определяющий код установки
-    par          - параметр для формирования url, определяющий действие ( 0 -стоп, 1 пуск и т.п.)
+    par          - параметр для формирования url, определяющий действие (0 -стоп, 1 пуск и т.п.)
     log()        - запись отправленных команд в лог файлы
     switch()     - выполнение запроса на сервер при помощи библиотеки requests
     """
     log(get_plant, par)
     switch(get_plant, par)
+
 
 def runschedule():
     """
@@ -28,7 +29,8 @@ def runschedule():
     readschedule()   - чтение расписания из excel файла принимает пустой список tasks, возвращает заполненный список
     cleartasks       - список, где не будет пустых расписаний
     tasks            - полный список расписаний, в т.ч. пустых
-    clear('cleared') - очистка предыдущего  schedule c тегом 'cleared', т.к. периодически происходит чтение и его формирование заново
+    clear('cleared') - очистка предыдущего schedule c тегом 'cleared',
+                       т.к. периодически происходит его чтение и формирование заново
     exec()           - автоматическая компоновка задачи для функции schedule
     """
     clearlogs = readschedule(tasks)
@@ -38,7 +40,10 @@ def runschedule():
             cleartasks.remove(tasks[t])
     schedule.clear('cleared')
     for i in range(len(cleartasks)):
-        exec(f"schedule.every().{cleartasks[i][1]}.at('{cleartasks[i][2]}').do(turn,'{cleartasks[i][0]}','&vid=17&value={cleartasks[i][3]}').tag('cleared')")
+        exec(f"schedule.every().{cleartasks[i][1]}"
+             f".at('{cleartasks[i][2]}')"
+             f".do(turn,'{cleartasks[i][0]}','&vid=17&value={cleartasks[i][3]}')"
+             f".tag('cleared')")
     readlogs(cleartasks)
     cleartasks.clear()
     tasks.clear()
@@ -52,9 +57,3 @@ schedule.every(23).minutes.do(getalarms, alarms_dict=alarms_BC, column_number=5,
 while True:
     schedule.run_pending()
     time.sleep(1)
-
-
-
-
-
-
